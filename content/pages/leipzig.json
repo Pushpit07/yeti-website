@@ -1,0 +1,12 @@
+{
+  "hero": {
+    "title": "YETI Leipzig",
+    "subtitle": "Build, learn, and lead in Leipzig",
+    "cta": { "label": "Apply for Leipzig", "href": "/apply/leipzig" }
+  },
+  "intro": "Discover the Leipzig track, its community, and opportunities.",
+  "links": [
+    { "label": "Events in Leipzig", "href": "/events?city=leipzig" }
+  ]
+}
+

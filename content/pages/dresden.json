@@ -1,0 +1,12 @@
+{
+  "hero": {
+    "title": "YETI Dresden",
+    "subtitle": "Build, learn, and lead in Dresden",
+    "cta": { "label": "Apply for Dresden", "href": "/apply/dresden" }
+  },
+  "intro": "Discover the Dresden track, its community, and opportunities.",
+  "links": [
+    { "label": "Events in Dresden", "href": "/events?city=dresden" }
+  ]
+}
+
