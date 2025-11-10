@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Navigation } from '@/lib/types'
 
-export function HeaderClient({ nav, title }: { nav: Navigation; title: string }) {
+export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigation; title: string; variant?: 'default' | 'black' }) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -16,17 +17,27 @@ export function HeaderClient({ nav, title }: { nav: Navigation; title: string })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const isBlackVariant = variant === 'black'
+
   return (
     <header
       className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${
-        scrolled
+        isBlackVariant
+          ? 'border-white/10 bg-black'
+          : scrolled
           ? 'border-white/10 bg-black/95 backdrop-blur-sm'
-          : 'border-white/20 bg-white/5 backdrop-blur-md'
+          : 'border-white/5 bg-black/5 backdrop-blur-md'
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className={`font-semibold transition-colors ${scrolled ? 'text-white' : 'text-white'}`}>
-          {title}
+      <div className="mx-auto flex h-16 w-full items-center justify-between px-8 md:px-12 lg:px-16">
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/white-transparent.png"
+            alt={title}
+            width={120}
+            height={40}
+            className="h-13 w-auto"
+          />
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           {nav.main.map((item) =>

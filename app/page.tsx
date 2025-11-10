@@ -1,20 +1,19 @@
 import Link from "next/link"
-import { readJson } from "@/lib/content"
-import type { SiteSettings } from "@/lib/types"
+import Header from "@/components/Header"
+import { SponsorsStrip } from "@/components/SponsorsStrip"
 
 export const dynamic = "force-static"
 
 export default async function LandingPage() {
-  const site = await readJson<SiteSettings>("site.json")
-
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen">
+      <Header variant="black" />
       {/* Full viewport split layout */}
-      <div className="grid min-h-screen grid-cols-2">
+      <div className="group/container flex min-h-screen pt-16 pb-14">
         {/* Dresden Section */}
         <Link
           href="/dresden"
-          className="group relative flex items-end overflow-hidden bg-gradient-to-br from-blue-400 to-blue-600 p-8 transition-transform hover:scale-105 md:p-12"
+          className="group relative flex flex-1 items-end overflow-hidden bg-gradient-to-br from-blue-400 to-blue-600 p-8 transition-all duration-700 ease-in-out hover:flex-[4] md:p-12"
         >
           {/* Background Image */}
           <div
@@ -29,8 +28,8 @@ export default async function LandingPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           
           {/* Content */}
-          <div className="relative z-10 text-white">
-            <div className="mb-4 text-sm font-medium uppercase tracking-wider">
+          <div className="relative z-10 text-white transition-all duration-700 group-has-[:hover]/container:translate-y-8 group-has-[:hover]/container:opacity-0 group-hover:translate-y-0! group-hover:opacity-100!">
+            <div className="mb-4 text-xl font-medium uppercase tracking-wider">
               YETI
             </div>
             <h1 className="mb-2 text-5xl font-bold md:text-6xl lg:text-7xl">
@@ -59,10 +58,12 @@ export default async function LandingPage() {
           </div>
         </Link>
 
+        {/* Middle non-hoverable area - removed from flex */}
+
         {/* Leipzig Section */}
         <Link
           href="/leipzig"
-          className="group relative flex items-end overflow-hidden bg-gradient-to-br from-purple-400 to-purple-600 p-8 transition-transform hover:scale-105 md:p-12"
+          className="group relative flex flex-1 items-end overflow-hidden bg-gradient-to-br from-purple-400 to-purple-600 p-8 transition-all duration-700 ease-in-out hover:flex-[3] md:p-12"
         >
           {/* Background Image */}
           <div
@@ -76,8 +77,8 @@ export default async function LandingPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           
           {/* Content */}
-          <div className="relative z-10 text-white">
-            <div className="mb-4 text-sm font-medium uppercase tracking-wider">
+          <div className="relative z-10 text-white transition-all duration-700 group-has-[:hover]/container:translate-y-8 group-has-[:hover]/container:opacity-0 group-hover:translate-y-0! group-hover:opacity-100!">
+            <div className="mb-4 text-xl font-medium uppercase tracking-wider">
               YETI
             </div>
             <h1 className="mb-2 text-5xl font-bold md:text-6xl lg:text-7xl">
@@ -106,6 +107,12 @@ export default async function LandingPage() {
           </div>
         </Link>
       </div>
+
+      {/* Fixed center transparent overlay with 7.5% overlap on each side */}
+      <div className="fixed left-1/2 top-0 z-10 h-screen w-[15%] -translate-x-1/2" />
+
+      {/* Sponsors strip at bottom */}
+      <SponsorsStrip />
     </div>
   )
 }

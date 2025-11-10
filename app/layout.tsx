@@ -50,7 +50,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ConditionalLayout header={<Header />} footer={<Footer />}>
-          {children}
+        {children}
         </ConditionalLayout>
       </body>
     </html>
