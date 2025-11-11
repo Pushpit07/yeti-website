@@ -1,4 +1,3 @@
-import { Hero } from "@/components/Hero"
 import { Section } from "@/components/Section"
 
 export const dynamic = "force-static"
@@ -11,14 +10,37 @@ export const metadata = {
 export default function MakerspacePage() {
   return (
     <div className="font-sans">
-      <Hero
-        title="YETI Makerspace"
-        subtitle="Build. Prototype. Create."
-        cta={{ label: "Get access", href: "/apply/dresden" }}
-      />
+      {/* Hero Section with Image */}
+      <section className="relative bg-black text-white overflow-hidden">
+        <div className="relative w-full h-screen">
+          <div className="absolute inset-0">
+            <img
+              src="/hq.jpg"
+              alt="YETI Makerspace"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center" }}
+            />
+          </div>
+
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/50" />
+          {/* Bottom-to-top black gradient overlay */}
+          <div className="pointer-events-none absolute inset-0 z-10" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.0) 60%)" }} />
+
+          {/* Content */}
+          <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 z-20 px-4">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-center">
+              YETI Makerspace
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 text-center max-w-3xl">
+              Build. Prototype. Create.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Introduction */}
-      <section className="bg-black text-white py-16 md:py-24">
+      <section className="bg-black text-white py-16 md:py-32">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-6xl font-bold mb-8 text-center">
@@ -51,96 +73,96 @@ export default function MakerspacePage() {
 
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             {/* 3D Printing */}
-            <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl border-2 border-primary/20 p-8">
-              <div className="text-4xl mb-4">🖨️</div>
-              <h3 className="text-2xl font-bold mb-4">3D Printing</h3>
-              <ul className="space-y-2 text-lg text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+            <div className="bg-white rounded-2xl border-2 border-border p-8 hover:border-primary/50 transition-all">
+              <div className="text-5xl mb-4">🖨️</div>
+              <h3 className="text-2xl font-bold mb-6">3D Printing</h3>
+              <ul className="space-y-3 text-lg text-muted-foreground">
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Multiple FDM 3D printers</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Resin printer for high-detail parts</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Various filament types available</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Post-processing tools & materials</span>
                 </li>
               </ul>
             </div>
 
             {/* Electronics */}
-            <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl border-2 border-primary/20 p-8">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-2xl font-bold mb-4">Electronics Workshop</h3>
-              <ul className="space-y-2 text-lg text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+            <div className="bg-white rounded-2xl border-2 border-border p-8 hover:border-primary/50 transition-all">
+              <div className="text-5xl mb-4">⚡</div>
+              <h3 className="text-2xl font-bold mb-6">Electronics Workshop</h3>
+              <ul className="space-y-3 text-lg text-muted-foreground">
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Soldering stations & tools</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Arduino, Raspberry Pi & components</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Oscilloscopes & multimeters</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Power supplies & testing equipment</span>
                 </li>
               </ul>
             </div>
 
             {/* Digital Fabrication */}
-            <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl border-2 border-primary/20 p-8">
-              <div className="text-4xl mb-4">✂️</div>
-              <h3 className="text-2xl font-bold mb-4">Digital Fabrication</h3>
-              <ul className="space-y-2 text-lg text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+            <div className="bg-white rounded-2xl border-2 border-border p-8 hover:border-primary/50 transition-all">
+              <div className="text-5xl mb-4">✂️</div>
+              <h3 className="text-2xl font-bold mb-6">Digital Fabrication</h3>
+              <ul className="space-y-3 text-lg text-muted-foreground">
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Laser cutter for precision work</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Vinyl cutter for stickers & decals</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>CNC router (planned)</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>CAD software & workstations</span>
                 </li>
               </ul>
             </div>
 
             {/* Hand Tools & Workshop */}
-            <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl border-2 border-primary/20 p-8">
-              <div className="text-4xl mb-4">🔨</div>
-              <h3 className="text-2xl font-bold mb-4">Traditional Workshop</h3>
-              <ul className="space-y-2 text-lg text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+            <div className="bg-white rounded-2xl border-2 border-border p-8 hover:border-primary/50 transition-all">
+              <div className="text-5xl mb-4">🔨</div>
+              <h3 className="text-2xl font-bold mb-6">Traditional Workshop</h3>
+              <ul className="space-y-3 text-lg text-muted-foreground">
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Hand tools & power tools</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Woodworking equipment</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Assembly & testing benches</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">→</span>
+                <li className="flex items-center gap-3">
+                  <span className="text-primary">→</span>
                   <span>Safety equipment & materials</span>
                 </li>
               </ul>
@@ -289,59 +311,33 @@ export default function MakerspacePage() {
               Join YETI to get full access to the makerspace and bring your ideas to life!
             </p>
             <a
-              href="/apply/dresden"
-              className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors"
+              href="/application/dresden"
+              className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2"
+              style={{ verticalAlign: "middle" }}
             >
-              Apply to YETI →
+              <span className="flex items-center">
+                Apply to YETI
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="ml-2 inline-block"
+                  style={{ display: "inline", verticalAlign: "middle" }}
+                  aria-hidden="true"
+                >
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </span>
             </a>
           </div>
         </div>
       </Section>
-
-      {/* FAQ */}
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-              Common Questions
-            </h2>
-
-            <div className="space-y-4">
-              <div className="bg-white rounded-xl border-2 border-border p-6">
-                <h3 className="font-bold text-lg mb-2">Do I need prior experience?</h3>
-                <p className="text-muted-foreground">
-                  Not at all! We provide training for all equipment and there are always experienced
-                  makers around to help you get started.
-                </p>
-              </div>
-
-              <div className="bg-white rounded-xl border-2 border-border p-6">
-                <h3 className="font-bold text-lg mb-2">How much does it cost?</h3>
-                <p className="text-muted-foreground">
-                  Access is free for all YETI members. You only pay for materials you use,
-                  and we keep those costs as low as possible.
-                </p>
-              </div>
-
-              <div className="bg-white rounded-xl border-2 border-border p-6">
-                <h3 className="font-bold text-lg mb-2">Can I work on personal projects?</h3>
-                <p className="text-muted-foreground">
-                  Yes! While the makerspace is here to support your YETI projects, you&apos;re welcome
-                  to use it for personal learning and experimentation too.
-                </p>
-              </div>
-
-              <div className="bg-white rounded-xl border-2 border-border p-6">
-                <h3 className="font-bold text-lg mb-2">What are the opening hours?</h3>
-                <p className="text-muted-foreground">
-                  The makerspace is accessible to YETI members during HQ opening hours.
-                  Equipment that requires supervision has scheduled access times.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

@@ -19,16 +19,20 @@ export default async function LeipzigPage() {
   return (
     <div className="font-sans">
       <section className="relative min-h-screen">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://yeti-dresden.org/wp-content/uploads/2025/01/Yeti-Leipzig-Info-Event.jpg')" }}
-        />
+        <div className="absolute inset-0">
+          <img
+            src="/yeti-leipzig.jpg"
+            alt="YETI Leipzig"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center" }}
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
         <div className="relative z-10 flex min-h-screen flex-col items-start justify-end p-8 md:p-12">
           <h1 className="mb-2 text-5xl font-bold text-white md:text-6xl lg:text-7xl">YETI is now in Leipzig!</h1>
           <p className="mb-6 max-w-md text-lg text-white opacity-90 md:text-xl">Young Entrepreneurs in Tech and Innovation</p>
           <Button
-            href="/apply/leipzig"
+            href="/application/leipzig"
             variant="rounded-full"
             icon={
               <svg

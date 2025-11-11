@@ -21,7 +21,7 @@ export const CITY_INFO = {
     name: 'Leipzig',
     generation: 3,
     generationSuffix: 'rd',
-    applicationEmail: 'bewerbung@yeti-leipzig.org',
+    applicationEmail: 'application@yeti-leipzig.org',
     generalEmail: 'info@yeti-leipzig.org',
     phone: '0351 463–35638', // Update if different
     address: {

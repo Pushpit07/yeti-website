@@ -15,7 +15,7 @@ export default function WTFPage() {
       <Hero
         title="WTF is YETI?"
         subtitle="Let's break it down for you"
-        cta={{ label: "Apply now", href: "/apply/dresden" }}
+        cta={{ label: "Apply now", href: "/application/dresden" }}
       />
 
       {/* Main Explanation */}

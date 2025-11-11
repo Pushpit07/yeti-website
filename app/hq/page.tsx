@@ -1,4 +1,3 @@
-import { Hero } from "@/components/Hero"
 import { Section } from "@/components/Section"
 
 export const dynamic = "force-static"
@@ -11,14 +10,37 @@ export const metadata = {
 export default function HQPage() {
   return (
     <div className="font-sans">
-      <Hero
-        title="YETI HQ"
-        subtitle="Where innovation happens"
-        cta={{ label: "Visit us", href: "#contact" }}
-      />
+      {/* Hero Section with Image */}
+      <section className="relative bg-black text-white overflow-hidden">
+        <div className="relative w-full h-screen">
+          <div className="absolute inset-0">
+            <img
+              src="/hq.jpg"
+              alt="YETI HQ"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center" }}
+            />
+          </div>
+
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/50" />
+          {/* Bottom-to-top black gradient overlay */}
+          <div className="pointer-events-none absolute inset-0 z-10" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.0) 60%)" }} />
+
+          {/* Content */}
+          <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 z-20 px-4">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-center">
+              YETI HQ
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 text-center max-w-3xl">
+              Where innovation happens
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Introduction */}
-      <section className="bg-black text-white py-16 md:py-24">
+      <section className="bg-black text-white py-16 md:py-32">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-6xl font-bold mb-8 text-center">
@@ -162,13 +184,6 @@ export default function HQPage() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-8 border-2 border-primary/20">
-              <p className="text-center text-lg md:text-xl">
-                <strong className="text-primary">Pro tip:</strong> Even if you can&apos;t make it in person,
-                you can join remotely and stay connected with your team!
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -191,13 +206,13 @@ export default function HQPage() {
               <div className="space-y-4 text-lg">
                 <div>
                   <p className="font-bold">YETI Dresden HQ</p>
-                  <p className="text-muted-foreground">Freiberger Str. 37</p>
-                  <p className="text-muted-foreground">01067 Dresden</p>
+                  <p className="text-muted-foreground">Leubnitzer Str. 28</p>
+                  <p className="text-muted-foreground">01069 Dresden</p>
                   <p className="text-muted-foreground">Germany</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    Easily accessible by public transport (Tram lines 1, 2, 4 to Walpurgisstraße)
+                    Easily accessible by public transport (Tram lines 3, 8 to Reichenbachstraße)
                   </p>
                 </div>
               </div>
@@ -237,15 +252,34 @@ export default function HQPage() {
               Join us for a Thursday session or apply to become part of the community!
             </p>
             <a
-              href="/apply/dresden"
-              className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors"
+              href="/application/dresden"
+              className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2"
+              style={{ verticalAlign: "middle" }}
             >
-              Apply now →
+              <span className="flex items-center">
+                Apply now
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="ml-2 inline-block"
+                  style={{ display: "inline", verticalAlign: "middle" }}
+                  aria-hidden="true"
+                >
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </span>
             </a>
+            </div>
           </div>
-        </div>
         </Section>
       </div>
     </div>
-  )
+  );
 }

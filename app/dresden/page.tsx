@@ -21,7 +21,7 @@ export default async function Home() {
       <Hero
         title="We are YETI Dresden"
         subtitle="Young Entrepreneurs in Tech and Innovation"
-        cta={{ label: "Apply now", href: "/apply/dresden" }}
+        cta={{ label: "Apply now", href: "/application/dresden" }}
         backgroundVideoUrl="https://yeti-dresden.org//wp-content//uploads//2025//09//demo-day-recap.mp4"
       />
 

@@ -12,8 +12,8 @@ export default async function Header({ variant = "default" }: { variant?: "defau
         {
           label: "Apply",
           children: [
-            { label: "for Dresden", href: "/apply/dresden" },
-            { label: "for Leipzig", href: "/apply/leipzig" }
+            { label: "for Dresden", href: "/application/dresden" },
+            { label: "for Leipzig", href: "/application/leipzig" }
           ]
         },
         { label: "Projects", href: "/projects" },
@@ -21,8 +21,10 @@ export default async function Header({ variant = "default" }: { variant?: "defau
         { label: "Events", href: "/events" }
       ],
       footer: [
-        { label: "Legal Notice – Impressum", href: "/legal/impressum" },
-        { label: "Privacy Policy – Datenschutz", href: "/legal/privacy" }
+        { label: "Legal Notice", href: "/legal-notice" },
+        { label: "Privacy Policy", href: "/privacy-policy" },
+        { label: "Impressum", href: "/impressum" },
+        { label: "Datenschutz", href: "/datenschutz" }
       ]
     }}
     title="YETI"

@@ -1,6 +1,7 @@
 import { Section } from "@/components/Section"
 import { FAQAccordion } from "@/components/FAQAccordion"
 import { FAQHeader } from "@/components/FAQHeader"
+import { BookZoomCallCTA } from "@/components/BookZoomCallCTA"
 import Link from "next/link"
 import Image from "next/image"
 import { getCityInfo, getApplicationDates, getGenerationText } from "@/lib/constants"
@@ -358,6 +359,8 @@ export default function ApplicationDresdenPage() {
           applicationDates={applicationDates}
         />
       </Section>
+
+      <BookZoomCallCTA city="dresden" />
     </div>
   )
 }
