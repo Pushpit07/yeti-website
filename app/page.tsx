@@ -21,7 +21,7 @@ export default async function LandingPage() {
             className="absolute inset-0 bg-cover opacity-80 transition-opacity group-hover:opacity-100"
             style={{
               backgroundImage:
-                'url("https://visitsaxony.com/fileadmin/Mediendatenbank_EN/Bilder/Staedte/Dresden/BruehlscheTerrasse_DD__c__pixdd.jpg")',
+                'url("/dresden.webp")',
               backgroundPosition: '10% center',
             }}
           />
@@ -75,8 +75,7 @@ export default async function LandingPage() {
           <div
             className="absolute inset-0 bg-cover bg-center opacity-80 transition-opacity group-hover:opacity-100"
             style={{
-              backgroundImage:
-                'url("https://images.unsplash.com/photo-1595867818082-083862f3d630?q=80&w=2000")',
+              backgroundImage: 'url("/leipzig.jpg")',
             }}
           />
           {/* Dark overlay */}
