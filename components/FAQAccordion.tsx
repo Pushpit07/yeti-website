@@ -2,22 +2,46 @@
 
 import { useState } from "react"
 import { FadeIn } from "./FadeIn"
+import type { City } from "@/lib/constants"
 
 interface FAQItem {
   question: string
   answer: string | React.ReactNode
 }
 
-const faqs: FAQItem[] = [
+interface FAQAccordionProps {
+  city: City
+  cityInfo: {
+    name: string
+    generation: number
+    generationSuffix: string
+    applicationEmail: string
+  }
+  applicationDates: {
+    openingDate: string
+    deadline: string
+    kickoffWeekend: string
+    programStart: string
+  }
+}
+
+export function FAQAccordion({ city, cityInfo, applicationDates }: FAQAccordionProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
+
+  const faqs: FAQItem[] = [
   {
     question: "How can I apply for the educational program?",
     answer: (
       <>
         Send an email directly to{" "}
-        <a href="mailto:bewerbung@yeti-dresden.org" className="text-primary font-semibold hover:underline">
-          bewerbung@yeti-dresden.org
+        <a href={`mailto:${cityInfo.applicationEmail}`} className="text-primary font-semibold hover:underline">
+          {cityInfo.applicationEmail}
         </a>{" "}
-        to apply for the 8th generation.
+        to apply for the {cityInfo.generation}{cityInfo.generationSuffix} generation.
       </>
     )
   },
@@ -58,7 +82,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What is the timing of the educational program?",
-    answer: "The kick-off weekend will take place from September 26 to 28. The new YETI semester starts with the university semester. The first session will be on October 10. The program lasts 18 months and is based on the attendance times of the course. Accordingly, availability during the semester breaks and the examination period is not required."
+    answer: `The kick-off weekend will take place ${applicationDates.kickoffWeekend}. The new YETI semester starts with the university semester. The program lasts 18 months and is based on the attendance times of the course. Accordingly, availability during the semester breaks and the examination period is not required.`
   },
   {
     question: "What is a Kick-off weekend?",
@@ -66,7 +90,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How is the interdisciplinary exchange between the universities promoted?",
-    answer: "YETI is currently recruiting participants at every university in Dresden. As a result, completely unknown faces and fields of study will meet in the educational program and be able to exchange ideas and network."
+    answer: `YETI is currently recruiting participants at every university in ${cityInfo.name}. As a result, completely unknown faces and fields of study will meet in the educational program and be able to exchange ideas and network.`
   },
   {
     question: "What topics does the educational program cover?",
@@ -129,13 +153,6 @@ to learn from his experience during my start-up and thus make fewer mistakes.”
     answer: "Yes, after successful participation in the program you will receive an official confirmation of participation. This confirmation can be used as proof of your participation and your acquired skills."
   }
 ]
-
-export function FAQAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
 
   return (
     <div className="max-w-4xl mx-auto">

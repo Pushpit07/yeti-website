@@ -7,6 +7,8 @@ export default async function Footer() {
         { label: "WTF is YETI?", href: "/wtf" },
         { label: "Dresden", href: "/dresden" },
         { label: "Leipzig", href: "/leipzig" },
+        { label: "HQ", href: "/hq" },
+        { label: "Makerspace", href: "/makerspace" },
         {
           label: "Apply",
           children: [

@@ -3,6 +3,7 @@ import { FadeIn } from "./FadeIn"
 
 interface MissionSectionProps {
   mission: {
+    pretitle?: string
     title: string
     description: string
     buttonText?: string
@@ -16,11 +17,11 @@ interface MissionSectionProps {
 
 export function MissionSection({ mission, about }: MissionSectionProps) {
   return (
-    <section className="bg-black text-white py-12 md:py-16 px-8 md:px-12">
+    <section className="bg-black text-white py-12 md:py-32 px-8 md:px-12">
       <div className="grid md:grid-cols-2 gap-12">
         <FadeIn direction="right">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Our{" "}
+            {mission.pretitle}{" "}
             <span className="underline decoration-wavy underline-offset-4 decoration-[2.5px] decoration-primary">
               {mission.title}
             </span>

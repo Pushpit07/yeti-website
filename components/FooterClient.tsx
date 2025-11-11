@@ -8,6 +8,7 @@ const footerSections = [
   {
     title: "About",
     links: [
+      { name: "WTF is YETI?", href: "/wtf" },
       { name: "Dresden", href: "/dresden" },
       { name: "Leipzig", href: "/leipzig" },
     ],
@@ -15,14 +16,16 @@ const footerSections = [
   {
     title: "Programs",
     links: [
-      { name: "Apply to Dresden", href: "/apply/dresden" },
-      { name: "Apply to Leipzig", href: "/apply/leipzig" },
+      { name: "Apply to Dresden", href: "/application/dresden" },
+      { name: "Apply to Leipzig", href: "/application/leipzig" },
       { name: "Projects", href: "/projects" },
     ],
   },
   {
     title: "Community",
     links: [
+      { name: "HQ", href: "/hq" },
+      { name: "Makerspace", href: "/makerspace" },
       { name: "Events", href: "/events" },
       { name: "Contributors", href: "/contributors" },
     ],
@@ -30,8 +33,10 @@ const footerSections = [
   {
     title: "Legal",
     links: [
-      { name: "Legal Notice – Impressum", href: "/legal/impressum" },
-      { name: "Privacy Policy – Datenschutz", href: "/legal/privacy" },
+      { name: "Legal Notice", href: "/legal-notice" },
+      { name: "Privacy Policy", href: "/privacy-policy" },
+      { name: "Impressum", href: "/impressum" },
+      { name: "Datenschutz", href: "/datenschutz" },
     ],
   },
 ];

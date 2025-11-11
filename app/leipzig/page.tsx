@@ -1,4 +1,3 @@
-import { Hero } from "@/components/Hero"
 import { Section } from "@/components/Section"
 import { MissionSection } from "@/components/MissionSection"
 import { BenefitsSection } from "@/components/BenefitsSection"
@@ -7,25 +6,59 @@ import { CurriculumInfoSection } from "@/components/CurriculumInfoSection"
 import { FAQAccordion } from "@/components/FAQAccordion"
 import { FAQHeader } from "@/components/FAQHeader"
 import { SponsorsInline } from "@/components/SponsorsInline"
+import { ApplicationCTA } from "@/components/ApplicationCTA"
+import { Button } from "@/components/Button"
+import { getCityInfo, getApplicationDates, PROGRAM_INFO, getGenerationText } from "@/lib/constants"
 
 export const dynamic = "force-static"
+
+const cityInfo = getCityInfo('leipzig')
+const applicationDates = getApplicationDates('leipzig')
 
 export default async function LeipzigPage() {
   return (
     <div className="font-sans">
-      <Hero
-        title="We are YETI Leipzig"
-        subtitle="Young Entrepreneurs in Tech and Innovation"
-        cta={{ label: "Apply now", href: "/apply/leipzig" }}
-        backgroundVideoUrl="https://yeti-dresden.org//wp-content//uploads//2025//09//demo-day-recap.mp4"
-      />
+      <section className="relative min-h-screen">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('https://yeti-dresden.org/wp-content/uploads/2025/01/Yeti-Leipzig-Info-Event.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        <div className="relative z-10 flex min-h-screen flex-col items-start justify-end p-8 md:p-12">
+          <h1 className="mb-2 text-5xl font-bold text-white md:text-6xl lg:text-7xl">YETI is now in Leipzig!</h1>
+          <p className="mb-6 max-w-md text-lg text-white opacity-90 md:text-xl">Young Entrepreneurs in Tech and Innovation</p>
+          <Button
+            href="/apply/leipzig"
+            variant="rounded-full"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            }
+          >
+            Apply now
+          </Button>
+        </div>
+      </section>
 
       <SponsorsInline />
 
       <MissionSection
         mission={{
-          title: "Mission",
-          description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
+          pretitle: "YETI",
+          title: "Leipzig",
+          description: `Following its successful program in Dresden, the YETI program is now firmly established in Leipzig. We're launching our ${getGenerationText('leipzig')} and participants have the opportunity to explore entrepreneurship, innovation, and personal growth.`,
           buttonText: "How it started",
           buttonHref: "#"
         }}
@@ -33,8 +66,8 @@ export default async function LeipzigPage() {
           title: "What is YETI?",
           paragraphs: [
             "<strong>Y</strong>oung <strong>E</strong>ntrepreneurs, in <strong>T</strong>ech and <strong>I</strong>nnovation Leipzig is an educational initiative which aims to support the participants in becoming entrepreneurial role models and influential figures for society.",
-            "The 18-month program enables students to develop business ideas and leadership skills.",
-            "The scholarship holders are mentored by the start-up community and SpinLab, the Leipzig startup accelerator."
+            `The ${PROGRAM_INFO.duration.months}-month program enables students to develop business ideas and leadership skills.`,
+            `The scholarship holders are mentored by the start-up community and dresden|exists, the start-up service for universities and scientific institutions in Dresden.`
           ]
         }}
       />
@@ -46,7 +79,7 @@ export default async function LeipzigPage() {
           {
             emoji: "💰",
             title: "Prototyping Scholarship",
-            description: "Receive €500-1000 financial support throughout the program to help you focus on your entrepreneurial journey to develop your business ideas.",
+            description: PROGRAM_INFO.funding.description,
             variant: "primary-large",
             span: "md:col-span-7 md:row-span-2"
           },
@@ -168,20 +201,20 @@ export default async function LeipzigPage() {
         title="Curriculum"
         details={[
           {
-            title: "3 semesters",
-            description: "The educational program lasts for three semesters, followed by the Alumni network."
+            title: `${PROGRAM_INFO.duration.semesters} semesters`,
+            description: PROGRAM_INFO.duration.description
           },
           {
-            title: "10-15 hours/week",
-            description: "We expect a commitment of approximately 10-15 hours per week for the 18-month program."
+            title: `${PROGRAM_INFO.timeCommitment.hoursPerWeek} hours/week`,
+            description: PROGRAM_INFO.timeCommitment.description
           },
           {
-            title: "Thursday is YETI-Day",
-            description: "All input-sessions will be held on Thursdays. It's also the busiest day of the week at YETI HQ."
+            title: `${PROGRAM_INFO.yetiDay.day} is YETI-Day`,
+            description: PROGRAM_INFO.yetiDay.description
           },
           {
             title: "Language",
-            description: "YETI Leipzig encourages international exchange. Thus, the program is conducted in English."
+            description: PROGRAM_INFO.language.descriptionLeipzig
           }
         ]}
       />
@@ -193,8 +226,14 @@ export default async function LeipzigPage() {
           subtitle="Everything you need to know about applying to YETI Leipzig"
         />
 
-        <FAQAccordion />
+        <FAQAccordion
+          city="leipzig"
+          cityInfo={cityInfo}
+          applicationDates={applicationDates}
+        />
       </Section>
+
+      <ApplicationCTA city="leipzig" />
     </div>
   )
 }

@@ -7,8 +7,13 @@ import { CurriculumInfoSection } from "@/components/CurriculumInfoSection"
 import { FAQAccordion } from "@/components/FAQAccordion"
 import { FAQHeader } from "@/components/FAQHeader"
 import { SponsorsInline } from "@/components/SponsorsInline"
+import { ApplicationCTA } from "@/components/ApplicationCTA"
+import { getCityInfo, getApplicationDates, PROGRAM_INFO } from "@/lib/constants"
 
 export const dynamic = "force-static"
+
+const cityInfo = getCityInfo('dresden')
+const applicationDates = getApplicationDates('dresden')
 
 export default async function Home() {
   return (
@@ -24,6 +29,7 @@ export default async function Home() {
 
       <MissionSection
         mission={{
+          pretitle: "Our",
           title: "Mission",
           description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
           buttonText: "How it started",
@@ -33,8 +39,8 @@ export default async function Home() {
           title: "What is YETI?",
           paragraphs: [
             "<strong>Y</strong>oung <strong>E</strong>ntrepreneurs, in <strong>T</strong>ech and <strong>I</strong>nnovation Dresden is an educational initiative which aims to support the participants in becoming entrepreneurial role models and influential figures for society.",
-            "The 18-month program enables students to develop business ideas and leadership skills.",
-            "The scholarship holders are mentored by the start-up community and dresden|exists, the start-up service for universities and scientific institutions in Dresden."
+            `The ${PROGRAM_INFO.duration.months}-month program enables students to develop business ideas and leadership skills.`,
+            `The scholarship holders are mentored by the start-up community and ${cityInfo.mentorOrganization}.`
           ]
         }}
       />
@@ -46,7 +52,7 @@ export default async function Home() {
           {
             emoji: "💰",
             title: "Prototyping Scholarship",
-            description: "Receive €500-1000 financial support throughout the program to help you focus on your entrepreneurial journey to develop your business ideas.",
+            description: PROGRAM_INFO.funding.description,
             variant: "primary-large",
             span: "md:col-span-7 md:row-span-2"
           },
@@ -168,20 +174,20 @@ export default async function Home() {
         title="Curriculum"
         details={[
           {
-            title: "3 semesters",
-            description: "The educational program lasts for three semesters, followed by the Alumni network."
+            title: `${PROGRAM_INFO.duration.semesters} semesters`,
+            description: PROGRAM_INFO.duration.description
           },
           {
-            title: "10-15 hours/week",
-            description: "We expect a commitment of approximately 10-15 hours per week for the 18-month program."
+            title: `${PROGRAM_INFO.timeCommitment.hoursPerWeek} hours/week`,
+            description: PROGRAM_INFO.timeCommitment.description
           },
           {
-            title: "Thursday is YETI-Day",
-            description: "All input-sessions will be held on Thursdays. It's also the busiest day of the week at YETI HQ."
+            title: `${PROGRAM_INFO.yetiDay.day} is YETI-Day`,
+            description: PROGRAM_INFO.yetiDay.description
           },
           {
             title: "Language",
-            description: "YETI Dresden encourages international exchange. Thus, the program is conducted in English."
+            description: PROGRAM_INFO.language.descriptionDresden
           }
         ]}
       />
@@ -193,8 +199,14 @@ export default async function Home() {
           subtitle="Everything you need to know about applying to YETI Dresden"
         />
 
-        <FAQAccordion />
+        <FAQAccordion
+          city="dresden"
+          cityInfo={cityInfo}
+          applicationDates={applicationDates}
+        />
       </Section>
+
+      <ApplicationCTA city="dresden" />
     </div>
   )
 }
