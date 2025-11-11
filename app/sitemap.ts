@@ -1,12 +1,11 @@
-import { readJson } from "@/lib/content"
-import type { EventsIndex } from "@/lib/types"
-
 export default async function sitemap() {
-  const baseUrl = (await import("@/lib/content")).readJson<{ site: { url?: string } }>("site.json")
-    .then((s) => s.site.url)
-    .catch(() => undefined)
+  const baseUrl = "https://yeti-dresden.org"
 
-  const events = await readJson<EventsIndex>("events/index.json").catch(() => ({ items: [] }))
+  const events = [
+    { slug: "6th-dresden-demoday" },
+    { slug: "1st-leipzig-demoday" }
+  ];
+
   const staticRoutes = [
     "",
     "/dresden",
@@ -20,11 +19,11 @@ export default async function sitemap() {
     "/legal/privacy",
   ]
 
-  const eventRoutes = events.items.map((e) => `/events/${e.slug}`)
+  const eventRoutes = events.map((e) => `/events/${e.slug}`)
   const urls = [...staticRoutes, ...eventRoutes]
 
   return urls.map((route) => ({
-    url: (baseUrl ?? "") + route,
+    url: baseUrl + route,
     lastModified: new Date(),
   }))
 }

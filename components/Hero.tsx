@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { BackgroundVideo } from "./BackgroundVideo"
+import { Button } from "./Button"
 
 export function Hero({
   title,
@@ -30,26 +30,28 @@ export function Hero({
           <p className={`mb-6 max-w-md text-lg opacity-90 md:text-xl ${hasVideo ? "text-white" : "text-muted-foreground"}`}>{subtitle}</p>
         ) : null}
         {cta ? (
-          <Link
+          <Button
             href={cta.href}
-            className="inline-flex items-center gap-2 rounded-full border-2 border-white px-6 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-black"
+            variant="rounded-full"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            }
           >
             {cta.label}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </Link>
+          </Button>
         ) : null}
       </div>
     </section>

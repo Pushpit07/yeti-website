@@ -3,6 +3,26 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/**
+ * THEME CUSTOMIZATION GUIDE
+ * ========================
+ *
+ * To change your site's primary color theme:
+ *
+ * 1. Find the :root section below (around line 47)
+ * 2. Modify the --primary and --primary-hover variables
+ * 3. Use oklch color format for better color accuracy
+ *
+ * Quick color examples (in oklch format):
+ * - Blue (current):    oklch(0.55 0.24 265)
+ * - Purple:            oklch(0.55 0.24 290)
+ * - Green:             oklch(0.55 0.20 145)
+ * - Orange:            oklch(0.65 0.22 50)
+ * - Red:               oklch(0.55 0.24 25)
+ *
+ * Convert hex to oklch: https://oklch.com
+ */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -33,6 +53,7 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -51,8 +72,10 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Primary brand color - Change this to customize your theme */
+  --primary: oklch(0.55 0.24 265); /* Vibrant blue - #2563eb */
+  --primary-foreground: oklch(1 0 0); /* White text on primary */
+  --primary-hover: oklch(0.48 0.26 265); /* Darker blue for hover - #1d4ed8 */
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -70,8 +93,8 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.55 0.24 265);
+  --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
@@ -85,8 +108,10 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  /* Primary brand color for dark mode */
+  --primary: oklch(0.6 0.22 265); /* Lighter blue for dark mode */
+  --primary-foreground: oklch(1 0 0);
+  --primary-hover: oklch(0.68 0.2 265); /* Even lighter for hover in dark mode */
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -104,8 +129,8 @@
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.6 0.22 265);
+  --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
@@ -130,6 +155,19 @@
   }
 }
 
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .animate-scroll {
-  animation: scroll 30s linear infinite;
+  animation: scroll 40s linear infinite;
+}
+
+.animate-scroll-reverse {
+  animation: scroll-reverse 40s linear infinite;
 }

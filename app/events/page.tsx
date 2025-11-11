@@ -1,13 +1,26 @@
 import Link from "next/link"
-import { readJson } from "@/lib/content"
-import type { EventsIndex } from "@/lib/types"
 import { Section } from "@/components/Section"
 
 export const dynamic = "force-static"
 
+const events = [
+  {
+    slug: "6th-dresden-demoday",
+    title: "6th Dresden DemoDay",
+    date: "2025-07-17",
+    location: "Dresden",
+    excerpt: "Pitch sessions and networking."
+  },
+  {
+    slug: "1st-leipzig-demoday",
+    title: "1st Leipzig DemoDay",
+    date: "2025-07-18",
+    location: "Leipzig",
+    excerpt: "Kick-off DemoDay in Leipzig."
+  }
+];
+
 export default async function EventsPage() {
-  const data = await readJson<EventsIndex>("events/index.json")
-  const events = data.items
   return (
     <Section>
       <h1 className="text-2xl md:text-3xl font-bold">Events</h1>

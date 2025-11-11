@@ -1,14 +1,23 @@
 import Link from "next/link"
 import Image from "next/image"
-import { readJson } from "@/lib/content"
-import type { ContributorsIndex } from "@/lib/types"
 import { Section } from "@/components/Section"
 
 export const dynamic = "force-static"
 
+const contributors: Array<{
+  name: string;
+  role?: string;
+  avatar?: string;
+  links?: {
+    website?: string;
+    linkedin?: string;
+    instagram?: string;
+    youtube?: string;
+    whatsapp?: string;
+  };
+}> = [];
+
 export default async function ContributorsPage() {
-  const data = await readJson<ContributorsIndex>("contributors/index.json")
-  const contributors = data.items
   return (
     <Section>
       <h1 className="text-2xl md:text-3xl font-bold">Contributors</h1>

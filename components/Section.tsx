@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode, ElementType } from "react"
 import { Container } from "./Container"
 
 export function Section({
@@ -8,7 +8,7 @@ export function Section({
 }: {
   children: ReactNode
   className?: string
-  as?: keyof JSX.IntrinsicElements
+  as?: ElementType
 }) {
   return (
     <As className={`py-12 md:py-16 ${className ?? ""}`}>

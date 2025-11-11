@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Header from "@/components/Header"
 import { SponsorsStrip } from "@/components/SponsorsStrip"
+import { Button } from "@/components/Button"
 
 export const dynamic = "force-static"
 
@@ -38,23 +39,28 @@ export default async function LandingPage() {
             <p className="mb-6 max-w-md text-lg opacity-90 md:text-xl">
               Young Entrepreneurs in Tech and Innovation
             </p>
-            <div className="inline-flex items-center gap-2 rounded-full border-2 border-white px-6 py-3 font-semibold transition-colors group-hover:bg-white group-hover:text-black">
+            <Button
+              variant="rounded-full"
+              useGroupHover
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              }
+            >
               Explore Dresden
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </div>
+            </Button>
           </div>
         </Link>
 
@@ -87,23 +93,28 @@ export default async function LandingPage() {
             <p className="mb-6 max-w-md text-lg opacity-90 md:text-xl">
               Young Entrepreneurs in Tech and Innovation
             </p>
-            <div className="inline-flex items-center gap-2 rounded-full border-2 border-white px-6 py-3 font-semibold transition-colors group-hover:bg-white group-hover:text-black">
+            <Button
+              variant="rounded-full"
+              useGroupHover
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              }
+            >
               Explore Leipzig
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </div>
+            </Button>
           </div>
         </Link>
       </div>

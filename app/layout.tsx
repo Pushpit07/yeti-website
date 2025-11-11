@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { readJson } from "@/lib/content";
-import type { SiteSettings } from "@/lib/types";
 import { ConditionalLayout } from "@/components/ConditionalLayout";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -18,25 +16,21 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const site = await readJson<SiteSettings>("site.json")
-  const title = site.site?.title ?? "YETI"
-  const description = site.site?.description ?? "Young Entrepreneurs in Tech and Innovation"
-  const url = site.site?.url ?? ""
   return {
-    title,
-    description,
-    metadataBase: url ? new URL(url) : undefined,
+    title: "YETI",
+    description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
+    metadataBase: new URL("https://yeti-dresden.org"),
     openGraph: {
-      title,
-      description,
-      url: url || undefined,
-      siteName: title,
+      title: "YETI",
+      description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
+      url: "https://yeti-dresden.org",
+      siteName: "YETI",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: "YETI",
+      description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
     },
   }
 }

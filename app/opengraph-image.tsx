@@ -1,6 +1,4 @@
 import { ImageResponse } from "next/og"
-import { readJson } from "@/lib/content"
-import type { SiteSettings } from "@/lib/types"
 
 export const size = {
   width: 1200,
@@ -10,9 +8,8 @@ export const size = {
 export const contentType = "image/png"
 
 export default async function Image() {
-  const site = await readJson<SiteSettings>("site.json").catch(() => undefined)
-  const title = site?.site?.title ?? "YETI"
-  const desc = site?.site?.tagline ?? "Young Entrepreneurs in Tech and Innovation"
+  const title = "YETI"
+  const desc = "Young Entrepreneurs in Tech and Innovation"
 
   return new ImageResponse(
     (

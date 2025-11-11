@@ -1,9 +1,5 @@
-import { readJson } from "@/lib/content"
-import type { SiteSettings } from "@/lib/types"
-
 export default async function robots() {
-  const site = await readJson<SiteSettings>("site.json")
-  const url = site.site?.url ?? ""
+  const url = "https://yeti-dresden.org"
   return {
     rules: [
       {

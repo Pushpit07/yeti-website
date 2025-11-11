@@ -1,13 +1,16 @@
 import Link from "next/link"
-import { readJson } from "@/lib/content"
-import type { ProjectsIndex } from "@/lib/types"
 import { Section } from "@/components/Section"
 
 export const dynamic = "force-static"
 
+const projects: Array<{
+  title: string;
+  team?: string;
+  blurb?: string;
+  links?: { label: string; href: string }[];
+}> = [];
+
 export default async function ProjectsPage() {
-  const data = await readJson<ProjectsIndex>("projects/index.json")
-  const projects = data.items
   return (
     <Section>
       <h1 className="text-2xl md:text-3xl font-bold">Projects</h1>
