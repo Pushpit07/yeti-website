@@ -49,6 +49,12 @@ export const APPLICATION_DATES = {
   },
 } as const
 
+// Demo Day dates
+export const DEMO_DAY = {
+  nextDate: 'July 17, 2025',
+  description: 'The DemoDays take place every semester and are an insanely cool event to find out for yourself what YETI is all about.',
+} as const
+
 // Program details (common across cities)
 export const PROGRAM_INFO = {
   duration: {
