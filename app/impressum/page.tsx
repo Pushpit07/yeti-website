@@ -10,8 +10,10 @@ export const metadata = {
 export default function ImpressumPage() {
   return (
     <div className="font-sans">
-      <section className="bg-black py-24 md:py-32">
-        <div className="container mx-auto px-8 md:px-12">
+      <section className="relative bg-black py-24 md:py-32 overflow-hidden">
+        {/* Blue gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
+        <div className="container mx-auto px-8 md:px-12 relative z-10">
           <h1 className="text-5xl font-bold text-white md:text-6xl lg:text-7xl">Impressum</h1>
           <p className="mt-4 text-lg text-white/90 md:text-xl">Angaben gemäß § 5 TMG</p>
         </div>

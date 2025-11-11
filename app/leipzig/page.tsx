@@ -27,7 +27,7 @@ export default async function LeipzigPage() {
             style={{ objectPosition: "center" }}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" /> 
         <div className="relative z-10 flex min-h-screen flex-col items-start justify-end p-8 md:p-12">
           <h1 className="mb-2 text-5xl font-bold text-white md:text-6xl lg:text-7xl">YETI is now in Leipzig!</h1>
           <p className="mb-6 max-w-md text-lg text-white opacity-90 md:text-xl">Young Entrepreneurs in Tech and Innovation</p>
@@ -64,7 +64,7 @@ export default async function LeipzigPage() {
           title: "Leipzig",
           description: `Following its successful program in Dresden, the YETI program is now firmly established in Leipzig. We're launching our ${getGenerationText('leipzig')} and participants have the opportunity to explore entrepreneurship, innovation, and personal growth.`,
           buttonText: "How it started",
-          buttonHref: "#"
+          buttonHref: "/how-it-started"
         }}
         about={{
           title: "What is YETI?",

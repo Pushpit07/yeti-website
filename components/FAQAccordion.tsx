@@ -25,7 +25,7 @@ interface FAQAccordionProps {
   }
 }
 
-export function FAQAccordion({ city, cityInfo, applicationDates }: FAQAccordionProps) {
+export function FAQAccordion({ cityInfo, applicationDates }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   const toggleFAQ = (index: number) => {

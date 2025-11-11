@@ -2,13 +2,13 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import type { Navigation } from "@/lib/types"
 
 const footerSections = [
   {
     title: "About",
     links: [
       { name: "WTF is YETI?", href: "/wtf" },
+      { name: "How it started?", href: "/how-it-started" },
       { name: "Dresden", href: "/dresden" },
       { name: "Leipzig", href: "/leipzig" },
     ],
@@ -42,11 +42,9 @@ const footerSections = [
 ];
 
 export function FooterClient({
-  nav,
   address,
   email,
 }: {
-  nav: Navigation
   address?: string
   email?: string
 }) {

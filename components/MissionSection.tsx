@@ -29,6 +29,7 @@ export function MissionSection({ mission, about }: MissionSectionProps) {
           <p className="text-lg mb-8">{mission.description}</p>
           {mission.buttonText && mission.buttonHref && (
             <Button
+              href={mission.buttonHref}
               variant="rounded"
               icon={
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -33,7 +33,7 @@ export default async function Home() {
           title: "Mission",
           description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
           buttonText: "How it started",
-          buttonHref: "#"
+          buttonHref: "/how-it-started"
         }}
         about={{
           title: "What is YETI?",

@@ -23,7 +23,7 @@ export default function HQPage() {
           </div>
 
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/50" />    
           {/* Bottom-to-top black gradient overlay */}
           <div className="pointer-events-none absolute inset-0 z-10" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.0) 60%)" }} />
 
