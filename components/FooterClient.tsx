@@ -218,7 +218,7 @@ export function FooterClient({
           </div>
           <div className="ml-4 relative" style={{ width: "clamp(4.5rem, 18vw, 26rem)", height: "clamp(4.5rem, 18vw, 26rem)" }}>
             <Image
-              src="/happy-yeti.png"
+              src="/happy-yeti/1.png"
               alt="Happy YETI"
               fill
               className="object-contain opacity-30"

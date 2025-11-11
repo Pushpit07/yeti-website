@@ -48,7 +48,7 @@ export default function ApplicationDresdenPage() {
       </section>
 
       {/* Application Phase Info */}
-      <section className="relative bg-gradient-to-b from-black via-neutral-950 to-black py-20 md:py-28">
+      <section className="relative bg-gradient-to-b from-black via-neutral-950 to-black pt-20 md:pt-28">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
           <div className="max-w-5xl mx-auto">
             {/* Decorative top border */}
@@ -76,12 +76,16 @@ export default function ApplicationDresdenPage() {
                 Unlock your entrepreneurial potential with YETI Dresden&apos;s innovative program
               </p>
 
-              {/* Decorative bottom element */}
-              <div className="flex items-center justify-center gap-2 pt-8">
-                <div className="w-12 h-[2px] bg-gradient-to-r from-transparent to-primary"></div>
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <div className="w-12 h-[2px] bg-gradient-to-l from-transparent to-primary"></div>
+              <div className="mt-20 flex justify-center">
+              <div className="relative w-[300px] h-[150px] md:w-[700px] md:h-[360px]">
+                <Image
+                  src="/happy-yeti/3.png"
+                  alt="Happy YETI"
+                  fill
+                  className="object-contain opacity-30"
+                />
               </div>
+            </div>
             </div>
           </div>
         </div>
