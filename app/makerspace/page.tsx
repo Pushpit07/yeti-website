@@ -1,4 +1,5 @@
 import { Section } from "@/components/Section"
+import Image from "next/image"
 
 export const dynamic = "force-static"
 
@@ -40,26 +41,54 @@ export default function MakerspacePage() {
       </section>
 
       {/* Introduction */}
-      <section className="bg-black text-white py-16 md:py-32">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold mb-8 text-center">
+      <section className="relative bg-black text-white pt-16 md:pt-32 pb-32 md:pb-48 min-h-[800px] md:min-h-[900px] overflow-hidden">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0 relative z-10">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-6xl font-bold text-center leading-tight">
               From <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">idea</span> to{" "}
               <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">prototype</span>
             </h2>
 
-            <div className="space-y-6 text-lg md:text-xl text-white/90 leading-relaxed">
-              <p>
-                The YETI Makerspace is where your ideas take <strong className="text-primary">physical form</strong>.
-                Whether you&apos;re building a hardware prototype, creating a product demo, or just experimenting
-                with new technology – we&apos;ve got the tools and space you need.
+            <div className="mt-20 space-y-4 text-xl md:text-2xl text-white/85 leading-relaxed text-center max-w-3xl mx-auto">
+              <p className="font-light">
+                The YETI Makerspace is where your ideas take physical form.
+              </p>
+              <p className="font-light">
+                Whether you&apos;re building a <strong className="text-primary font-semibold">hardware prototype</strong>, creating a product demo, or just experimenting with new technology – we&apos;ve got the tools and space you need.
               </p>
 
-              <p>
-                No prior experience required! Our community includes experienced makers who are always happy to
-                help you get started and learn new skills.
+              <div className="h-px w-16 bg-primary/30 mx-auto my-8" />
+
+              <p className="font-light">
+                No prior experience required!
+              </p>
+              <p className="font-light">
+                Our community includes <strong className="text-primary font-semibold">experienced makers</strong> who are always happy to help you get started and learn new skills.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Happy YETI Images - Absolute Positioned at Bottom Corners */}
+        <div className="absolute bottom-0 left-0 pointer-events-none">
+          <div className="relative w-[200px] h-[200px] md:w-[450px] md:h-[450px]">
+            <Image
+              src="/happy-yeti/2.png"
+              alt="Happy YETI"
+              fill
+              className="object-contain object-bottom opacity-20"
+            />
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 right-0 pointer-events-none -mb-10">
+          <div className="relative w-[200px] h-[200px] md:w-[450px] md:h-[450px]">
+            <Image
+              src="/happy-yeti/1.png"
+              alt="Happy YETI"
+              fill
+              className="object-contain object-bottom opacity-20"
+            />
           </div>
         </div>
       </section>

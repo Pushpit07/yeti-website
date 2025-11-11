@@ -1,4 +1,5 @@
 import { Section } from "@/components/Section"
+import Image from "next/image"
 
 export const dynamic = "force-static"
 
@@ -40,25 +41,53 @@ export default function HQPage() {
       </section>
 
       {/* Introduction */}
-      <section className="bg-black text-white py-16 md:py-32">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold mb-8 text-center">
+      <section className="relative bg-black text-white pt-16 md:pt-32 pb-32 md:pb-48 min-h-[800px] md:min-h-[1000px] overflow-hidden">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0 relative z-10">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-6xl font-bold text-center leading-tight">
               Your <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">home base</span> for entrepreneurship
             </h2>
 
-            <div className="space-y-6 text-lg md:text-xl text-white/90 leading-relaxed">
-              <p>
-                YETI HQ is more than just an office – it&apos;s the <strong className="text-primary">beating heart</strong> of
-                our entrepreneurial community. Located in the center of Dresden, our headquarters provides the perfect
-                environment for collaboration, innovation, and growth.
+            <div className="mt-20 space-y-4 text-xl md:text-2xl text-white/85 leading-relaxed text-center max-w-3xl mx-auto">
+              <p className="font-light">
+                YETI HQ is more than just an office.
+              </p>
+              <p className="font-light">
+                It&apos;s the <strong className="text-primary font-semibold">beating heart</strong> of our entrepreneurial community. Located in the center of Dresden, our headquarters provides the perfect environment for collaboration, innovation, and growth.
               </p>
 
-              <p>
-                Every Thursday, the HQ comes alive with workshops, pitches, networking sessions, and the creative chaos
-                that comes with building the future. But it&apos;s open all week for YETIs to work, meet, and make things happen.
+              <div className="h-px w-16 bg-primary/30 mx-auto my-8" />
+
+              <p className="font-light">
+                Every Thursday, the HQ comes alive with <strong className="text-primary font-semibold">workshops, pitches, and networking sessions</strong> – the creative chaos that comes with building the future.
+              </p>
+              <p className="font-light">
+                But it&apos;s open all week for YETIs to work, meet, and make things happen.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Happy YETI Images - Absolute Positioned at Bottom Corners */}
+        <div className="absolute bottom-0 left-0 pointer-events-none">
+          <div className="relative w-[200px] h-[200px] md:w-[450px] md:h-[450px]">
+            <Image
+              src="/happy-yeti/2.png"
+              alt="Happy YETI"
+              fill
+              className="object-contain object-bottom opacity-20"
+            />
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 right-0 pointer-events-none -mb-10">
+          <div className="relative w-[200px] h-[200px] md:w-[450px] md:h-[450px]">
+            <Image
+              src="/happy-yeti/1.png"
+              alt="Happy YETI"
+              fill
+              className="object-contain object-bottom opacity-20"
+            />
           </div>
         </div>
       </section>

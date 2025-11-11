@@ -10,13 +10,18 @@ export default async function sitemap() {
     "",
     "/dresden",
     "/leipzig",
-    "/apply/dresden",
-    "/apply/leipzig",
+    "/application/dresden",
+    "/application/leipzig",
     "/projects",
     "/contributors",
     "/events",
-    "/legal/impressum",
-    "/legal/privacy",
+    "/impressum",
+    "/privacy-policy",
+    "/legal-notice",
+    "/hq",
+    "/makerspace",
+    "/wtf",
+    "/how-it-started",
   ]
 
   const eventRoutes = events.map((e) => `/events/${e.slug}`)
