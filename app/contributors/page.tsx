@@ -1,11 +1,9 @@
+"use client"
+
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 export const dynamic = "force-static"
-
-export const metadata = {
-  title: "Contributors | YETI",
-  description: "Meet the people who make YETI possible - our leadership team, board members, and mentors",
-}
 
 type Contributor = {
   name: string
@@ -130,9 +128,20 @@ const boardMembers: Contributor[] = [
   }
 ]
 
-function ContributorCard({ contributor }: { contributor: Contributor }) {
+function ContributorCard({ contributor, index }: { contributor: Contributor; index: number }) {
   return (
-    <div className="relative bg-black rounded-3xl overflow-hidden border-4 border-black group hover:border-primary/30 transition-all">
+    <motion.div
+      className="relative bg-black rounded-3xl overflow-hidden border-4 border-black group hover:border-primary/30 transition-all"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.1,
+        ease: [0.25, 0.4, 0.25, 1]
+      }}
+      whileHover={{ scale: 1.02 }}
+    >
       {/* Profile Image */}
       <div className="relative w-full aspect-square overflow-hidden bg-neutral-800">
         {contributor.image ? (
@@ -152,13 +161,13 @@ function ContributorCard({ contributor }: { contributor: Contributor }) {
       {/* Info Section */}
       <div className="relative p-6 pb-8 bg-black text-white">
         {/* Name */}
-        <h3 className="text-xl md:text-2xl font-bold mb-3">
+        <h3 className="text-xl md:text-xl font-bold mb-3">
           {contributor.name}
         </h3>
 
         <div className="grid grid-cols-12 gap-4 items-center">
           {/* Title */}
-          <p className="text-sm md:text-sm text-white/80 leading-relaxed col-span-9">
+          <p className="text-sm md:text-sm text-start self-start text-white/80 leading-relaxed col-span-9">
             {contributor.title}
           </p>
 
@@ -188,7 +197,7 @@ function ContributorCard({ contributor }: { contributor: Contributor }) {
         </div>
 
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -200,19 +209,115 @@ export default function ContributorsPage() {
         {/* Blue gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
         <div className="container mx-auto px-8 md:px-12 relative z-10">
-          <h1 className="text-5xl font-bold md:text-6xl lg:text-7xl mb-6">
+          <motion.h1
+            className="text-5xl font-bold md:text-6xl lg:text-7xl mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             YETI Contributors
-          </h1>
-          <div className="max-w-4xl text-lg md:text-xl text-white/85 space-y-6 leading-relaxed">
-            <p>
-              The YETI network is structured much like a startup itself.<br/><br/>At the core are the <strong className="text-primary">OberYetis (OYs)</strong>, who act as the program directors. They are responsible for planning the program&apos;s activities and overseeing the work of the internal teams.<br/><br/>For strategic guidance and governance, the <strong className="text-primary">YETI Board</strong> brings together entrepreneurial and academic expertise, acting as an advisory body and helping shape the long-term direction.
+          </motion.h1>
+          <motion.p
+            className="max-w-3xl text-xl md:text-[19px] text-white/90 leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          >
+            The YETI network is structured much like a startup itself, with dedicated leaders, teams, and mentors working together to create an exceptional entrepreneurial ecosystem.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Structure Section */}
+      <section className="bg-neutral-50 text-black py-16 md:py-24">
+        <div className="container mx-auto px-8 md:px-12">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">
+              How YETI Works
+            </h2>
+            <p className="text-lg md:text-xl text-neutral-600 max-w-4xl mx-auto">
+              Our organizational structure brings together leadership, internal teams, and external expertise
             </p>
-            <p>
-              Every YETI is also an active contributor within internal teams. Each team focuses on a specific area such as IT, Events, Networking or Social Media. Teams are led by <strong className="text-primary">Team Leads</strong>, who gain hands-on leadership experience while being supported by <strong className="text-primary">Semester Leads</strong>. Both Team Leads & Semester Leads are active YETIs, supervised by the OYs to ensure program coordination.
-            </p>
-            <p>
-              Beyond the internal structure, YETI connects participants with a broad network of <strong className="text-primary">entrepreneurs and experts</strong>. They host workshops and join us for Fireside Chats, where they share their entrepreneurial experiences. Many of them also serve as <strong className="text-primary">mentors</strong>, and every YETI is matched with a mentor from this network, ensuring direct and personal guidance throughout the program.
-            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {/* Leadership Card */}
+            <motion.div
+              className="bg-white p-8 rounded-2xl shadow-sm border border-neutral-200"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            >
+              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Leadership</h3>
+              <div className="space-y-4 text-neutral-600 leading-relaxed">
+                <p>
+                  At the core are the <strong className="text-black">OberYetis (OYs)</strong>, who act as program directors. They are responsible for planning the program’s activities and overseeing the work of the internal teams.
+                </p>
+                <p>
+                For strategic guidance and governance, the <strong className="text-black">YETI Board</strong> brings together entrepreneurial and academic expertise, acting as an advisory body and helping shape the long-term direction.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Internal Teams Card */}
+            <motion.div
+              className="bg-white p-8 rounded-2xl shadow-sm border border-neutral-200"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            >
+              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Internal Teams</h3>
+              <div className="space-y-4 text-neutral-600 leading-relaxed">
+                <p>
+                  Every YETI is also an active contributor within <strong className="text-black">internal teams</strong>. Each team focuses on a specific area such as IT, Events, Networking or Social Media.
+                </p>
+                <p>
+                  Teams are led by <strong className="text-black">Team Leads</strong>, who gain hands-on leadership experience while being supported by <strong className="text-black">Semester Leads</strong>. Both Team Leads and Semester Leads are active YETIs, supervised by the OYs to ensure coordination across the program.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* External Network Card */}
+            <motion.div
+              className="bg-white p-8 rounded-2xl shadow-sm border border-neutral-200"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+            >
+              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-4">External Network</h3>
+              <div className="space-y-4 text-neutral-600 leading-relaxed">
+                <p>
+                  Beyond the internal structure, YETI connects participants with a broad network of <strong className="text-black">entrepreneurs and experts</strong>. They host <strong className="text-black">workshops</strong> and join us for <strong className="text-black">Fireside Chats</strong>, where they share their entrepreneurial experiences.
+                </p>
+                <p>
+                  Many of them also serve as <strong className="text-black">mentors</strong>, and every YETI is matched with a mentor from this network, ensuring direct and personal guidance throughout the program.
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -221,18 +326,24 @@ export default function ContributorsPage() {
       <section className="bg-white text-black py-16 md:py-24">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               <h2 className="text-3xl md:text-6xl font-bold mb-4">
                 Our OberYetis
               </h2>
               <p className="text-lg md:text-xl text-neutral-600 max-w-3xl mx-auto">
                 Our program directors who lead and coordinate the YETI community
               </p>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {oberYetis.map((contributor) => (
-                <ContributorCard key={contributor.name} contributor={contributor} />
+              {oberYetis.map((contributor, index) => (
+                <ContributorCard key={contributor.name} contributor={contributor} index={index} />
               ))}
             </div>
           </div>
@@ -243,18 +354,24 @@ export default function ContributorsPage() {
       <section className="bg-white text-black py-16 md:py-20 md:pb-32">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               <h2 className="text-3xl md:text-6xl font-bold mb-4">
                 Our Board Members
               </h2>
               <p className="text-lg md:text-xl text-neutral-600 max-w-3xl mx-auto">
                 Experienced entrepreneurs and academics providing strategic guidance
               </p>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {boardMembers.map((contributor) => (
-                <ContributorCard key={contributor.name} contributor={contributor} />
+              {boardMembers.map((contributor, index) => (
+                <ContributorCard key={contributor.name} contributor={contributor} index={index} />
               ))}
             </div>
           </div>
