@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { FadeIn } from "./FadeIn"
 
 interface FAQItem {
   question: string
@@ -10,7 +11,15 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: "How can I apply for the educational program?",
-    answer: "Send an email directly to bewerbung@yeti-dresden.org to apply for the 8th generation."
+    answer: (
+      <>
+        Send an email directly to{" "}
+        <a href="mailto:bewerbung@yeti-dresden.org" className="text-primary font-semibold hover:underline">
+          bewerbung@yeti-dresden.org
+        </a>{" "}
+        to apply for the 8th generation.
+      </>
+    )
   },
   {
     question: "How does the application process work?",
@@ -132,41 +141,40 @@ export function FAQAccordion() {
     <div className="max-w-4xl mx-auto">
       <div className="space-y-4">
         {faqs.map((faq, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-2xl border border-border overflow-hidden transition-all hover:border-primary"
-          >
-            <button
-              onClick={() => toggleFAQ(index)}
-              className="w-full flex items-center justify-between p-6 md:p-8 text-left"
-            >
-              <h3 className="text-lg font-bold pr-8">{faq.question}</h3>
-              <svg
-                className={`w-6 h-6 text-primary shrink-0 transition-transform duration-300 ${
-                  openIndex === index ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+          <FadeIn key={index} delay={0.05 * index}>
+            <div className="bg-white rounded-2xl border border-border overflow-hidden transition-all hover:border-primary">
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full flex items-center justify-between p-6 md:p-8 text-left"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-300 ${
-                openIndex === index ? "max-h-124" : "max-h-0"
-              }`}
-            >
-              <div className="px-6 md:px-8 pb-6 md:pb-8 pt-0">
-                <div className="text-muted-foreground leading-relaxed">{faq.answer}</div>
+                <h3 className="text-lg font-bold pr-8">{faq.question}</h3>
+                <svg
+                  className={`w-6 h-6 text-primary shrink-0 transition-transform duration-300 ${
+                    openIndex === index ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  openIndex === index ? "max-h-124" : "max-h-0"
+                }`}
+              >
+                <div className="px-6 md:px-8 pb-6 md:pb-8 pt-0">
+                  <div className="text-muted-foreground leading-relaxed">{faq.answer}</div>
+                </div>
               </div>
             </div>
-          </div>
+          </FadeIn>
         ))}
       </div>
     </div>

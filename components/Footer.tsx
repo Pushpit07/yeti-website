@@ -4,6 +4,7 @@ export default async function Footer() {
   return <FooterClient
     nav={{
       main: [
+        { label: "WTF is YETI?", href: "/wtf" },
         { label: "Dresden", href: "/dresden" },
         { label: "Leipzig", href: "/leipzig" },
         {
