@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ConditionalLayout } from "@/components/ConditionalLayout";
-import Header from "@/components/Header";
+import { DynamicHeader } from "@/components/DynamicHeader";
 import Footer from "@/components/Footer";
 
 const geistSans = Geist({
@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ConditionalLayout header={<Header />} footer={<Footer />}>
+        <ConditionalLayout header={<DynamicHeader />} footer={<Footer />}>
         {children}
         </ConditionalLayout>
       </body>

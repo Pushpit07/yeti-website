@@ -28,7 +28,7 @@ export default function WTFPage() {
               src="/happy-yeti/2.png"
               alt="Happy YETI"
               fill
-              className="object-contain opacity-[0.08]"
+              className="object-contain opacity-30"
             />
           </div>
         </div>
@@ -38,7 +38,7 @@ export default function WTFPage() {
               src="/happy-yeti/1.png"
               alt="Happy YETI"
               fill
-              className="object-contain opacity-[0.08]"
+              className="object-contain opacity-30"
             />
           </div>
         </div>
