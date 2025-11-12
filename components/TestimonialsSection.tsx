@@ -43,13 +43,13 @@ export function TestimonialsSection({
   )
 
   return (
-    <section className="bg-neutral-50 py-12 md:py-16">
+    <section className="bg-neutral-50 py-12 md:py-24">
       {/* Header - Contained */}
       <FadeIn>
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0 mb-12 md:mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             {title.split(highlightWord)[0]}
-            <span className="underline decoration-wavy underline-offset-8 decoration-primary">{highlightWord}</span>
+            <span className="underline decoration-wavy underline-offset-10 decoration-primary">{highlightWord}</span>
             {title.split(highlightWord)[1]}
           </h2>
           {subtitle && (

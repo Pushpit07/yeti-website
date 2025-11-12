@@ -158,7 +158,7 @@ to learn from his experience during my start-up and thus make fewer mistakes.”
     <div className="max-w-4xl mx-auto">
       <div className="space-y-4">
         {faqs.map((faq, index) => (
-          <FadeIn key={index} delay={0.05 * index}>
+          <FadeIn key={index}>
             <div className="bg-white rounded-2xl border border-border overflow-hidden transition-all hover:border-primary">
               <button
                 onClick={() => toggleFAQ(index)}

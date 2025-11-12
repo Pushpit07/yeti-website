@@ -95,8 +95,8 @@ export default async function Home() {
       />
 
       <TestimonialsSection
-        title="What others say"
-        highlightWord="others"
+        title="What people say"
+        highlightWord="people"
         subtitle="Hear from our community of entrepreneurs and innovators who have been part of the YETI journey."
         row1Testimonials={[
           {

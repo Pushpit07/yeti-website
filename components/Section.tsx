@@ -11,7 +11,7 @@ export function Section({
   as?: ElementType
 }) {
   return (
-    <As className={`py-12 md:py-20 ${className ?? ""}`}>
+    <As className={`py-12 md:py-24 ${className ?? ""}`}>
       <Container>{children}</Container>
     </As>
   )
