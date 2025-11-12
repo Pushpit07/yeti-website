@@ -11,16 +11,20 @@ export const metadata = {
 export default function MakerspacePage() {
   return (
     <div className="font-sans">
-      {/* Hero Section with Image */}
+      {/* Hero Section with Video */}
       <section className="relative bg-black text-white overflow-hidden">
         <div className="relative w-full h-screen">
           <div className="absolute inset-0">
-            <img
-              src="/hq.jpg"
-              alt="YETI Makerspace"
+            <video
+              autoPlay={true}
+              loop={true}
+              muted={true}
+              playsInline={true}
               className="w-full h-full object-cover"
               style={{ objectPosition: "center" }}
-            />
+            >
+              <source src="/makerspace-without-audio.mp4" type="video/mp4" />
+            </video>
           </div>
 
           {/* Dark overlay */}
