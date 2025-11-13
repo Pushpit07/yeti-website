@@ -1,6 +1,12 @@
 // City types
 export type City = 'dresden' | 'leipzig'
 
+// Contact information
+export const CONTACT_INFO = {
+  phone: '+491722457729',
+  phoneDisplay: '+49 172 2457729',
+} as const
+
 // City-specific information
 export const CITY_INFO = {
   dresden: {
@@ -9,7 +15,7 @@ export const CITY_INFO = {
     generationSuffix: 'th',
     applicationEmail: 'bewerbung@yeti-dresden.org',
     generalEmail: 'info@yeti-dresden.org',
-    phone: '0351 463–35638',
+    phone: CONTACT_INFO.phoneDisplay,
     address: {
       street: 'Leubnitzer Str. 28',
       city: '01069 Dresden',
@@ -23,7 +29,7 @@ export const CITY_INFO = {
     generationSuffix: 'rd',
     applicationEmail: 'application@yeti-leipzig.org',
     generalEmail: 'info@yeti-leipzig.org',
-    phone: '0351 463–35638', // Update if different
+    phone: CONTACT_INFO.phoneDisplay,
     address: {
       street: 'TBD', // Update with actual Leipzig address
       city: 'Leipzig',

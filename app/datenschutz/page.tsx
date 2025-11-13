@@ -1,4 +1,5 @@
 import { Section } from "@/components/Section"
+import { CONTACT_INFO } from "@/lib/constants"
 
 export const dynamic = "force-static"
 
@@ -110,7 +111,7 @@ export default function DatenschutzPage() {
             <p className="text-neutral-700 leading-relaxed mb-2">c/o Thomas Kirchner</p>
             <p className="text-neutral-700 leading-relaxed mb-2">Zennerstr. 1</p>
             <p className="text-neutral-700 leading-relaxed mb-4">81379 München</p>
-            <p className="text-neutral-700 leading-relaxed mb-2">Telefon: 0351 463–35638</p>
+            <p className="text-neutral-700 leading-relaxed mb-2">Telefon: {CONTACT_INFO.phoneDisplay}</p>
             <p className="text-neutral-700 leading-relaxed">E-Mail: info@yeti-dresden.org</p>
           </div>
           <p className="text-neutral-700 leading-relaxed mb-6">

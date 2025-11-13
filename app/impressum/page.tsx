@@ -1,4 +1,5 @@
 import { Section } from "@/components/Section"
+import { CONTACT_INFO } from "@/lib/constants"
 
 export const dynamic = "force-static"
 
@@ -38,7 +39,7 @@ export default function ImpressumPage() {
 
           <h3 className="text-2xl font-bold mb-4 mt-8">Kontakt</h3>
           <div className="bg-neutral-50 rounded-lg p-6 mb-8">
-            <p className="text-neutral-700 leading-relaxed mb-2"><strong>Telefon:</strong> 0351 463–35638</p>
+            <p className="text-neutral-700 leading-relaxed mb-2"><strong>Telefon:</strong> {CONTACT_INFO.phoneDisplay}</p>
             <p className="text-neutral-700 leading-relaxed"><strong>E-Mail:</strong> info@yeti-dresden.org</p>
           </div>
 
