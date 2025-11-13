@@ -15,7 +15,7 @@ export default function HowItStartedPage() {
       <section className="relative bg-black text-white overflow-hidden">
         <div className="relative w-full">
           {/* Title Section */}
-          <div className="relative bg-gradient-to-br from-primary/20 to-black py-16 md:pt-32 md:pb-12">
+          <div className="relative bg-gradient-to-br from-primary/20 to-black pt-24 pb-12 md:pt-32 md:pb-12">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
               <h1 className="text-5xl md:text-7xl font-bold mb-2 text-center">
                 How it started

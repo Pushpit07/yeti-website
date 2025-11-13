@@ -13,7 +13,7 @@ export default function MakerspacePage() {
     <div className="font-sans">
       {/* Hero Section with Video */}
       <section className="relative bg-black text-white overflow-hidden">
-        <div className="relative w-full h-screen">
+        <div className="relative w-full h-[70vh] md:h-screen">
           <div className="absolute inset-0">
             <video
               autoPlay={true}
@@ -33,11 +33,11 @@ export default function MakerspacePage() {
           <div className="pointer-events-none absolute inset-0 z-10" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.0) 60%)" }} />
 
           {/* Content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 z-20 px-4">
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 md:pb-24 z-20 px-4">
+            <h1 className="text-4xl md:text-7xl font-bold mb-3 md:mb-4 text-center">
               YETI Makerspace
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 text-center max-w-3xl">
+            <p className="text-lg md:text-2xl text-white/90 text-center max-w-3xl">
               Build. Prototype. Create.
             </p>
           </div>

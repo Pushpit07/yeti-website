@@ -43,7 +43,7 @@ export function Button({
   useGroupHover = false,
   ...props
 }: ButtonProps) {
-  const baseStyles = "group inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
+  const baseStyles = "group inline-flex items-center gap-2 px-4 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer md:px-6 md:py-3 md:text-base min-h-[44px]"
   const variantStyle = useGroupHover ? groupHoverVariantStyles[variant] : variantStyles[variant]
   const combinedClassName = `${baseStyles} ${variantStyle} ${className}`.trim()
 

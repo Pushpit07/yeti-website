@@ -10,7 +10,7 @@ export default async function LandingPage() {
     <div className="relative min-h-screen">
       <Header variant="black" />
       {/* Full viewport split layout */}
-      <div className="group/container flex min-h-screen pt-16 pb-14">
+      <div className="group/container flex min-h-screen md:flex-row flex-col pt-12 md:pb-14 pb-12">
         {/* Dresden Section */}
         <Link
           href="/dresden"
@@ -29,14 +29,14 @@ export default async function LandingPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           
           {/* Content */}
-          <div className="relative z-10 text-white transition-all duration-700 group-has-[:hover]/container:translate-y-8 group-has-[:hover]/container:opacity-0 group-hover:translate-y-0! group-hover:opacity-100!">
-            <div className="mb-4 text-xl font-medium uppercase tracking-wider">
+          <div className="relative z-10 text-white md:transition-all md:duration-700 md:group-has-[:hover]/container:translate-y-8 md:group-has-[:hover]/container:opacity-0 md:group-hover:translate-y-0! md:group-hover:opacity-100!">
+            <div className="text-base font-medium uppercase tracking-wider md:mb-4 md:text-xl">
               YETI
             </div>
-            <h1 className="mb-2 text-5xl font-bold md:text-6xl lg:text-7xl">
+            <h1 className="mb-2 text-4xl font-bold md:text-6xl lg:text-7xl">
               DRESDEN
             </h1>
-            <p className="mb-6 max-w-md text-lg opacity-90 md:text-xl">
+            <p className="mb-4 max-w-md text-base opacity-90 md:mb-6 md:text-xl">
               Young Entrepreneurs in Tech and Innovation
             </p>
             <Button
@@ -45,8 +45,7 @@ export default async function LandingPage() {
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -82,14 +81,14 @@ export default async function LandingPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           
           {/* Content */}
-          <div className="relative z-10 text-white transition-all duration-700 group-has-[:hover]/container:translate-y-8 group-has-[:hover]/container:opacity-0 group-hover:translate-y-0! group-hover:opacity-100!">
-            <div className="mb-4 text-xl font-medium uppercase tracking-wider">
+          <div className="relative z-10 text-white md:transition-all md:duration-700 md:group-has-[:hover]/container:translate-y-8 md:group-has-[:hover]/container:opacity-0 md:group-hover:translate-y-0! md:group-hover:opacity-100!">
+            <div className="text-base font-medium uppercase tracking-wider md:mb-4 md:text-xl">
               YETI
             </div>
-            <h1 className="mb-2 text-5xl font-bold md:text-6xl lg:text-7xl">
+            <h1 className="mb-2 text-4xl font-bold md:text-6xl lg:text-7xl">
               LEIPZIG
             </h1>
-            <p className="mb-6 max-w-md text-lg opacity-90 md:text-xl">
+            <p className="mb-4 max-w-md text-base opacity-90 md:mb-6 md:text-xl">
               Young Entrepreneurs in Tech and Innovation
             </p>
             <Button
@@ -98,8 +97,7 @@ export default async function LandingPage() {
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -119,7 +117,7 @@ export default async function LandingPage() {
       </div>
 
       {/* Fixed center transparent overlay with 7.5% overlap on each side */}
-      <div className="fixed left-1/2 top-0 z-10 h-screen w-[15%] -translate-x-1/2" />
+      <div className="fixed left-1/2 top-0 z-10 h-screen w-[15%] -translate-x-1/2 hidden md:block" />
 
       {/* Sponsors strip at bottom */}
       <SponsorsStrip />

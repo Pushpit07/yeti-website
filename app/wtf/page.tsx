@@ -23,7 +23,7 @@ export default function WTFPage() {
 
         {/* Happy YETI Background Images */}
         <div className="absolute inset-0 flex items-end justify-start pointer-events-none overflow-hidden">
-          <div className="relative w-[450px] h-[450px] -translate-x-20 translate-y-24">
+          <div className="relative w-[250px] h-[250px] md:w-[450px] md:h-[450px] -translate-x-10 md:-translate-x-20 translate-y-16 md:translate-y-24">
             <Image
               src="/happy-yeti/2.png"
               alt="Happy YETI"
@@ -33,7 +33,7 @@ export default function WTFPage() {
           </div>
         </div>
         <div className="absolute inset-0 flex items-end justify-end pointer-events-none overflow-hidden">
-          <div className="relative w-[550px] h-[550px] translate-x-24 translate-y-24">
+          <div className="relative w-[250px] h-[250px] md:w-[550px] md:h-[550px] translate-x-16 md:translate-x-24 translate-y-16 md:translate-y-24">
             <Image
               src="/happy-yeti/1.png"
               alt="Happy YETI"

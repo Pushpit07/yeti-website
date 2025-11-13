@@ -80,15 +80,15 @@ function EventCard({ event, index }: { event: Event; index: number }) {
     >
       {/* Luma Event Embed or Event Image */}
       {event.lumaUrl ? (
-        <div className="relative w-full bg-white">
+        <div className="relative w-full bg-white h-[400px] md:h-[520px]">
           <iframe
             src={event.lumaUrl}
             width="100%"
-            height="520"
+            height="100%"
             frameBorder="0"
             style={{ border: 0 }}
             aria-label="Luma event registration"
-            className="w-full"
+            className="w-full h-full"
           />
         </div>
       ) : event.image ? (
@@ -273,7 +273,7 @@ export default function EventsPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <p className="text-lg text-neutral-600">No upcoming events planned currently. Check back soon!</p>
+                <p className="text-base md:text-lg text-neutral-600 px-4">No upcoming events planned currently. Check back soon!</p>
               </motion.div>
             )}
           </div>
