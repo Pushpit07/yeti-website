@@ -185,3 +185,120 @@ export async function getProjectsData(): Promise<Project[]> {
 
   return data
 }
+
+// --- 5. Events Parser ---
+// --- 5. Events Parser ---
+
+export type SheetEvent = {
+  slug: string
+  name: string
+  registrationStartDate?: string
+  registrationEndDate?: string
+  eventDate?: string
+  location?: string
+  googleMapsLink?: string
+  heading?: string
+  description?: string
+  image?: string
+  registrationLink?: string
+  sponsoredBy?: string
+}
+
+export async function getEventsData(): Promise<SheetEvent[]> {
+  const rows = await getRawSheetData("Events") // tab name: "Events"
+
+  const clean = (val: any) => String(val ?? "").trim()
+
+  const isUrl = (val: string) => /^https?:\/\//i.test(val)
+  const isGoogleMapsUrl = (val: string) =>
+    isUrl(val) && /google\..*maps/i.test(val)
+
+  return rows
+    .map((row) => {
+      const name = clean(row.c[0]?.v) // Event Name
+      if (!name) return null
+
+      const slug = name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+
+      const registrationStartDate = clean(row.c[1]?.v) // Registration start date
+      const registrationEndDate = clean(row.c[2]?.v)   // Registration end date
+      const eventDate = clean(row.c[3]?.v)             // Event Date
+      const location = clean(row.c[4]?.v)              // Location
+
+      // These two columns might be in either order in your sheet:
+      // - Heading
+      // - Google Maps Link
+      const col5 = clean(row.c[5]?.v)
+      const col6 = clean(row.c[6]?.v)
+
+      let heading = ""
+      let googleMapsLink = ""
+
+      if (isGoogleMapsUrl(col5) && !isGoogleMapsUrl(col6)) {
+        googleMapsLink = col5
+        heading = col6
+      } else if (isGoogleMapsUrl(col6) && !isGoogleMapsUrl(col5)) {
+        googleMapsLink = col6
+        heading = col5
+      } else {
+        // fallback: prefer non-URL as heading
+        if (!isUrl(col5) && col5) heading = col5
+        else if (!isUrl(col6) && col6) heading = col6
+        else heading = col5 || col6
+
+        if (isGoogleMapsUrl(col5)) googleMapsLink = col5
+        else if (isGoogleMapsUrl(col6)) googleMapsLink = col6
+      }
+
+      const description = clean(row.c[7]?.v)           // Event Description
+      const rawImage = clean(row.c[8]?.v)              // Image
+      const registrationLink = clean(row.c[9]?.v)      // Registration Link
+      const sponsoredBy = clean(row.c[10]?.v)          // Sponsored By
+
+      const image = rawImage ? fixDriveUrl(rawImage) : ""
+
+      return {
+        slug,
+        name,
+        registrationStartDate: registrationStartDate || undefined,
+        registrationEndDate: registrationEndDate || undefined,
+        eventDate: eventDate || undefined,
+        location: location || undefined,
+        googleMapsLink: googleMapsLink || undefined,
+        heading: heading || undefined,
+        description: description || undefined,
+        image: image || undefined,
+        registrationLink: registrationLink || undefined,
+        sponsoredBy: sponsoredBy || undefined,
+      } as SheetEvent
+    })
+    .filter((evt): evt is SheetEvent => !!evt)
+}
+
+export type MakerspaceActivity = {
+  machine: string
+  activity: string
+  about: string
+  imageLink: string
+}
+
+export async function getMakerspaceActivityData(): Promise<MakerspaceActivity[]> {
+  // Tab name: "Makerspace Activity"
+  const rows = await getRawSheetData("Makerspace Activity")
+
+  return rows
+    .map((row) => ({
+      // Column 0: Machine (e.g., "3D Printer")
+      machine: String(row.c[0]?.v || "").trim(),
+      // Column 1: Activity (e.g., "Prototyped Fokus")
+      activity: String(row.c[1]?.v || "").trim(),
+      // Column 2: About (e.g., "Prototyping done correctly...")
+      about: String(row.c[2]?.v || "").trim(),
+      // Column 3: Image Link
+      imageLink: String(row.c[3]?.v || "").trim(),
+    }))
+    .filter((item) => item.activity) // Only show if there is an activity name
+}
