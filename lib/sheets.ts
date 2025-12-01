@@ -1,0 +1,311 @@
+// lib/sheets.ts
+
+// --- 1. Type Definitions ---
+
+export type Machine = {
+  name: string
+  about: string
+  imageLink: string
+}
+
+export type Blog = {
+  author: string
+  heading: string
+  markdownContent: string
+  imageLink: string
+}
+
+function fixDriveUrl(url: string): string {
+  if (!url) return ""
+  // Handle standard Drive Viewer links
+  const match = url.match(/https?:\/\/drive\.google\.com\/file\/d\/([^/]+)/)
+  if (match) {
+    const id = match[1]
+    return `https://drive.google.com/uc?export=view&id=${id}`
+  }
+  return url
+}
+
+// Project type
+export type Project = {
+  projectType: string
+  goldenFrame: boolean
+  companyFormed: boolean
+  title: string
+  summary: string
+  teamMembers: string[]
+  linkedin: string
+  instagram: string
+  website: string
+  active: boolean
+  industryPartner: string
+  industryPartnerLogo: string
+  teamPhotos: string[]
+  logo: string
+  revenue: string
+}
+
+type SheetRow = {
+  c: ({ v: string | number | null } | null)[] | null
+}
+
+// --- 2. Generic Data Fetcher (OPTIMIZED) ---
+
+// ⚡ PERFORMANCE SETTING:
+// Revalidate every 60 seconds.
+// This prevents "Max retries exceeded" errors by not spamming Google on every reload.
+const REVALIDATE_TIME = 60
+
+async function getRawSheetData(
+  sheetName: string,
+  skipFirstRow: boolean = true
+): Promise<SheetRow[]> {
+  const sheetId = "1QYpLhGzI1rm_evuLnEGYr72OE3h83DMw9hqe2pCtU58"
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(
+    sheetName
+  )}`
+
+  try {
+    const res = await fetch(url, { next: { revalidate: REVALIDATE_TIME } })
+
+    if (!res.ok) {
+      // Log a warning but don't crash the app
+      console.warn(
+        `[Sheets API] Failed to fetch "${sheetName}". Status: ${res.status}`
+      )
+      return []
+    }
+
+    let text = await res.text()
+
+    // Parse Google's weird JSONP response format
+    const jsonStart = text.indexOf("(") + 1
+    const jsonEnd = text.lastIndexOf(")")
+
+    if (jsonStart === 0 || jsonEnd === -1) {
+      // Only log this if we actually got text back but it was wrong
+      if (text.length > 0) console.warn(`[Sheets API] JSONP format error in "${sheetName}"`)
+      return []
+    }
+
+    text = text.substring(jsonStart, jsonEnd)
+    const json = JSON.parse(text)
+
+    if (!json.table || !json.table.rows) {
+      return []
+    }
+
+    const rows: SheetRow[] = json.table.rows
+
+    // Return sliced or full rows
+    return skipFirstRow ? rows.slice(1) : rows
+
+  } catch (err) {
+    // 🛡️ CRASH PROTECTION:
+    // If network fails, return [] so the page still renders (just without data)
+    console.error(`[Sheets API] Network/Parse Error for "${sheetName}":`, err)
+    return []
+  }
+}
+
+// --- 3. Specific Data Parsers ---
+
+export async function getMakerspaceData(): Promise<Machine[]> {
+  const rows = await getRawSheetData("Makerspace")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      about: String(row.c?.[1]?.v || "").trim(),
+      imageLink: String(row.c?.[2]?.v || "").trim(),
+    }))
+    .filter((machine) => machine.name)
+}
+
+export async function getBlogData(): Promise<Blog[]> {
+  const rows = await getRawSheetData("blog")
+  return rows
+    .map((row) => ({
+      author: String(row.c?.[0]?.v || "YETI Team").trim(),
+      heading: String(row.c?.[1]?.v || "Untitled Post").trim(),
+      markdownContent: String(row.c?.[2]?.v || "").trim(),
+      imageLink: String(row.c?.[3]?.v || "").trim(),
+    }))
+    .filter((post) => post.heading)
+    .reverse()
+}
+
+// --- 4. Projects Parser ---
+
+export async function getProjectsData(): Promise<Project[]> {
+  // We explicitly request ALL rows, do NOT slice the first one
+  const rows = await getRawSheetData("Projects", false)
+
+  const data: Project[] = rows
+    .map((row) => {
+      // Helper to avoid null checks everywhere
+      const getVal = (idx: number) => String(row.c?.[idx]?.v || "").trim()
+      const isTrue = (idx: number) => getVal(idx) === "1"
+      const cleanStr = (idx: number) => {
+        const s = getVal(idx)
+        return s === "0" ? "" : s
+      }
+
+      const projectType = cleanStr(0)
+      const goldenFrame = isTrue(1)
+      const companyFormed = isTrue(2)
+      const title = cleanStr(3)
+      const summary = cleanStr(4)
+
+      const rawMembers = cleanStr(5)
+      const teamMembers = rawMembers
+        ? rawMembers.split(/[\n,:]+/).map((m) => m.trim()).filter(Boolean)
+        : []
+
+      const linkedin = cleanStr(6)
+      const instagram = cleanStr(7)
+      const website = cleanStr(8)
+      const active = isTrue(9)
+
+      const industryPartner = cleanStr(10)
+      const industryPartnerLogo = cleanStr(11)
+
+      const rawPhotos = cleanStr(12)
+      const teamPhotos = rawPhotos
+        ? rawPhotos.split(/[\n,]+/).map((p) => p.trim()).filter(Boolean)
+        : []
+
+      const logo = cleanStr(13)
+      const revenue = cleanStr(14)
+
+      return {
+        projectType,
+        goldenFrame,
+        companyFormed,
+        title,
+        summary,
+        teamMembers,
+        linkedin,
+        instagram,
+        website,
+        active,
+        industryPartner,
+        industryPartnerLogo,
+        teamPhotos,
+        logo,
+        revenue,
+      }
+    })
+    .filter((project) => project.title)
+
+  return data
+}
+
+// --- 5. Events Parser ---
+
+export type SheetEvent = {
+  slug: string
+  name: string
+  registrationStartDate?: string
+  registrationEndDate?: string
+  eventDate?: string
+  location?: string
+  googleMapsLink?: string
+  heading?: string
+  description?: string
+  image?: string
+  registrationLink?: string
+  sponsoredBy?: string
+}
+
+export async function getEventsData(): Promise<SheetEvent[]> {
+  const rows = await getRawSheetData("Events")
+
+  const clean = (val: any) => String(val ?? "").trim()
+  const isUrl = (val: string) => /^https?:\/\//i.test(val)
+  const isGoogleMapsUrl = (val: string) =>
+    isUrl(val) && /google\..*maps/i.test(val)
+
+  return rows
+    .map((row) => {
+      // Safe access using optional chaining row.c?.[0]
+      const name = clean(row.c?.[0]?.v)
+      if (!name) return null
+
+      const slug = name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+
+      const registrationStartDate = clean(row.c?.[1]?.v)
+      const registrationEndDate = clean(row.c?.[2]?.v)
+      const eventDate = clean(row.c?.[3]?.v)
+      const location = clean(row.c?.[4]?.v)
+
+      const col5 = clean(row.c?.[5]?.v)
+      const col6 = clean(row.c?.[6]?.v)
+
+      let heading = ""
+      let googleMapsLink = ""
+
+      // Smart detection for Google Maps vs Heading
+      if (isGoogleMapsUrl(col5) && !isGoogleMapsUrl(col6)) {
+        googleMapsLink = col5
+        heading = col6
+      } else if (isGoogleMapsUrl(col6) && !isGoogleMapsUrl(col5)) {
+        googleMapsLink = col6
+        heading = col5
+      } else {
+        if (!isUrl(col5) && col5) heading = col5
+        else if (!isUrl(col6) && col6) heading = col6
+        else heading = col5 || col6
+
+        if (isGoogleMapsUrl(col5)) googleMapsLink = col5
+        else if (isGoogleMapsUrl(col6)) googleMapsLink = col6
+      }
+
+      const description = clean(row.c?.[7]?.v)
+      const rawImage = clean(row.c?.[8]?.v)
+      const registrationLink = clean(row.c?.[9]?.v)
+      const sponsoredBy = clean(row.c?.[10]?.v)
+
+      const image = rawImage ? fixDriveUrl(rawImage) : ""
+
+      return {
+        slug,
+        name,
+        registrationStartDate: registrationStartDate || undefined,
+        registrationEndDate: registrationEndDate || undefined,
+        eventDate: eventDate || undefined,
+        location: location || undefined,
+        googleMapsLink: googleMapsLink || undefined,
+        heading: heading || undefined,
+        description: description || undefined,
+        image: image || undefined,
+        registrationLink: registrationLink || undefined,
+        sponsoredBy: sponsoredBy || undefined,
+      } as SheetEvent
+    })
+    .filter((evt): evt is SheetEvent => !!evt)
+}
+
+// --- 6. Makerspace Activity Parser ---
+
+export type MakerspaceActivity = {
+  machine: string
+  activity: string
+  about: string
+  imageLink: string
+}
+
+export async function getMakerspaceActivityData(): Promise<MakerspaceActivity[]> {
+  const rows = await getRawSheetData("Makerspace Activity")
+
+  return rows
+    .map((row) => ({
+      machine: String(row.c?.[0]?.v || "").trim(),
+      activity: String(row.c?.[1]?.v || "").trim(),
+      about: String(row.c?.[2]?.v || "").trim(),
+      imageLink: String(row.c?.[3]?.v || "").trim(),
+    }))
+    .filter((item) => item.activity)
+}
