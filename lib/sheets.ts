@@ -15,6 +15,47 @@ export type Blog = {
   imageLink: string
 }
 
+export type OberYeti = {
+  name: string
+  role: string
+  description: string
+  linkedin: string
+  photo: string
+}
+
+export type YetiBoard = {
+  name: string
+  title: string
+  company: string
+  photo: string
+  linkedin: string
+}
+
+export type Sponsor = {
+  company: string
+  description: string
+  type: string
+  photo: string
+  linkedin: string
+}
+
+export type Mentor = {
+  name: string
+  title: string
+  company: string
+  description: string
+  linkedin: string
+  photo: string
+}
+
+export type FiresideChat = {
+  name: string
+  title: string
+  description: string
+  photo: string
+  linkedin: string
+}
+
 function fixDriveUrl(url: string): string {
   if (!url) return ""
   // Handle standard Drive Viewer links
@@ -308,4 +349,72 @@ export async function getMakerspaceActivityData(): Promise<MakerspaceActivity[]>
       imageLink: String(row.c?.[3]?.v || "").trim(),
     }))
     .filter((item) => item.activity)
+}
+
+// --- 7. Contributors Parsers ---
+
+export async function getOberYetisData(): Promise<OberYeti[]> {
+  const rows = await getRawSheetData("OberYeti")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      role: String(row.c?.[1]?.v || "").trim(),
+      description: String(row.c?.[2]?.v || "").trim(),
+      linkedin: String(row.c?.[3]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[4]?.v || "").trim()),
+    }))
+    .filter((item) => item.name)
+}
+
+export async function getYetiBoardData(): Promise<YetiBoard[]> {
+  const rows = await getRawSheetData("Yeti Board")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      title: String(row.c?.[1]?.v || "").trim(),
+      company: String(row.c?.[2]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      linkedin: String(row.c?.[4]?.v || "").trim(),
+    }))
+    .filter((item) => item.name)
+}
+
+export async function getSponsorsData(): Promise<Sponsor[]> {
+  const rows = await getRawSheetData("Sponsors")
+  return rows
+    .map((row) => ({
+      company: String(row.c?.[0]?.v || "").trim(),
+      description: String(row.c?.[1]?.v || "").trim(),
+      type: String(row.c?.[2]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      linkedin: String(row.c?.[4]?.v || "").trim(),
+    }))
+    .filter((item) => item.company)
+}
+
+export async function getMentorsData(): Promise<Mentor[]> {
+  const rows = await getRawSheetData("Mentors")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      title: String(row.c?.[1]?.v || "").trim(),
+      company: String(row.c?.[2]?.v || "").trim(),
+      description: String(row.c?.[3]?.v || "").trim(),
+      linkedin: String(row.c?.[4]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[5]?.v || "").trim()),
+    }))
+    .filter((item) => item.name)
+}
+
+export async function getFiresideChatsData(): Promise<FiresideChat[]> {
+  const rows = await getRawSheetData("Fireside chat")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      title: String(row.c?.[1]?.v || "").trim(),
+      description: String(row.c?.[2]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      linkedin: String(row.c?.[4]?.v || "").trim(),
+    }))
+    .filter((item) => item.name)
 }

@@ -54,17 +54,15 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 border-b ${
-        mobileMenuOpen ? '' : 'transition-all duration-300'
-      } ${
-        mobileMenuOpen
+      className={`fixed left-0 right-0 top-0 z-50 border-b ${mobileMenuOpen ? '' : 'transition-all duration-300'
+        } ${mobileMenuOpen
           ? 'border-white/10 bg-black'
           : isBlackVariant
-          ? 'border-white/10 bg-black'
-          : scrolled
-          ? 'border-white/10 bg-black/95 backdrop-blur-sm'
-          : 'border-white/5 bg-black/5 backdrop-blur-md'
-      }`}
+            ? 'border-white/10 bg-black'
+            : scrolled
+              ? 'border-white/10 bg-black/95 backdrop-blur-sm'
+              : 'border-white/5 bg-black/5 backdrop-blur-md'
+        }`}
     >
       <div className="mx-auto flex h-16 w-full items-center justify-between px-4 md:px-12 lg:px-16">
         <Link href="/" className="flex items-center">
@@ -82,13 +80,21 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
           {nav.main.map((item) =>
             item.children ? (
               <div key={item.label} className="group relative flex items-center">
-                <button className={`text-sm hover:underline ${scrolled ? 'text-white' : 'text-white'}`}>
-                  {item.label}
-                </button>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    className={`text-sm hover:underline ${scrolled ? 'text-white' : 'text-white'}`}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button className={`text-sm hover:underline ${scrolled ? 'text-white' : 'text-white'}`}>
+                    {item.label}
+                  </button>
+                )}
                 <div
-                  className={`invisible absolute right-0 top-full z-10 mt-2 min-w-40 rounded-md border p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 ${
-                    scrolled ? 'border-white/10 bg-black' : 'border-white/20 bg-black'
-                  }`}
+                  className={`invisible absolute right-0 top-full z-10 mt-2 min-w-40 rounded-md border p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 ${scrolled ? 'border-white/10 bg-black' : 'border-white/20 bg-black'
+                    }`}
                 >
                   {item.children.map((child) => (
                     <Link
@@ -122,19 +128,16 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
         >
           <div className="flex h-6 w-7 flex-col justify-between">
             <span
-              className={`block h-0.5 w-full bg-white ${
-                mobileMenuOpen ? 'translate-y-[11px] rotate-45' : ''
-              }`}
+              className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? 'translate-y-[11px] rotate-45' : ''
+                }`}
             />
             <span
-              className={`block h-0.5 w-full bg-white ${
-                mobileMenuOpen ? 'opacity-0' : ''
-              }`}
+              className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? 'opacity-0' : ''
+                }`}
             />
             <span
-              className={`block h-0.5 w-full bg-white ${
-                mobileMenuOpen ? '-translate-y-[11px] -rotate-45' : ''
-              }`}
+              className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? '-translate-y-[11px] -rotate-45' : ''
+                }`}
             />
           </div>
         </button>
@@ -156,9 +159,8 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
                     >
                       {item.label}
                       <svg
-                        className={`h-5 w-5 transition-transform duration-200 ${
-                          openDropdown === item.label ? 'rotate-180' : ''
-                        }`}
+                        className={`h-5 w-5 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180' : ''
+                          }`}
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
