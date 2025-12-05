@@ -351,8 +351,6 @@ export async function getMakerspaceActivityData(): Promise<MakerspaceActivity[]>
     .filter((item) => item.activity)
 }
 
-// --- 7. Contributors Parsers ---
-
 export async function getOberYetisData(): Promise<OberYeti[]> {
   const rows = await getRawSheetData("OberYeti")
   return rows
@@ -373,8 +371,8 @@ export async function getYetiBoardData(): Promise<YetiBoard[]> {
       name: String(row.c?.[0]?.v || "").trim(),
       title: String(row.c?.[1]?.v || "").trim(),
       company: String(row.c?.[2]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
-      linkedin: String(row.c?.[4]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[4]?.v || "").trim()),
+      linkedin: String(row.c?.[3]?.v || "").trim(),
     }))
     .filter((item) => item.name)
 }
@@ -417,4 +415,31 @@ export async function getFiresideChatsData(): Promise<FiresideChat[]> {
       linkedin: String(row.c?.[4]?.v || "").trim(),
     }))
     .filter((item) => item.name)
+}
+
+// --- 7. Application Data Parser ---
+
+export type ApplicationData = {
+  city: string
+  status: boolean // true = Open (1), false = Closed (0)
+  openDate: string
+  endDate: string
+  generation: string
+  intake: string
+  year: string
+}
+
+export async function getApplicationData(): Promise<ApplicationData[]> {
+  const rows = await getRawSheetData("Application", false)
+  return rows
+    .map((row) => ({
+      city: String(row.c?.[0]?.v || "").trim(),
+      status: String(row.c?.[1]?.v || "") === "1",
+      openDate: String(row.c?.[2]?.v || "").trim(),
+      endDate: String(row.c?.[3]?.v || "").trim(),
+      generation: String(row.c?.[4]?.v || "").trim(),
+      intake: String(row.c?.[5]?.v || "").trim(),
+      year: String(row.c?.[6]?.v || "").trim(),
+    }))
+    .filter((item) => item.city)
 }

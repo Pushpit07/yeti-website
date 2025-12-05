@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Header from "@/components/Header"
+import { DynamicHeader } from "@/components/DynamicHeader"
 import { SponsorsStrip } from "@/components/SponsorsStrip"
 import { Button } from "@/components/Button"
 
@@ -8,7 +8,7 @@ export const dynamic = "force-static"
 export default async function LandingPage() {
   return (
     <div className="relative min-h-screen">
-      <Header variant="black" />
+      <DynamicHeader />
       {/* Full viewport split layout */}
       <div className="group/container flex min-h-screen md:flex-row flex-col pt-12 md:pb-14 pb-12">
         {/* Dresden Section */}
@@ -27,7 +27,7 @@ export default async function LandingPage() {
           />
           {/* Dark overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-          
+
           {/* Content */}
           <div className="relative z-10 text-white md:transition-all md:duration-700 md:group-has-[:hover]/container:translate-y-8 md:group-has-[:hover]/container:opacity-0 md:group-hover:translate-y-0! md:group-hover:opacity-100!">
             <div className="text-base font-medium uppercase tracking-wider md:mb-4 md:text-xl">
@@ -79,7 +79,7 @@ export default async function LandingPage() {
           />
           {/* Dark overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-          
+
           {/* Content */}
           <div className="relative z-10 text-white md:transition-all md:duration-700 md:group-has-[:hover]/container:translate-y-8 md:group-has-[:hover]/container:opacity-0 md:group-hover:translate-y-0! md:group-hover:opacity-100!">
             <div className="text-base font-medium uppercase tracking-wider md:mb-4 md:text-xl">
