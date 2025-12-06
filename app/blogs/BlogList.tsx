@@ -1,9 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
+import { motion } from "framer-motion"
 import Image from "next/image"
-import { BlogContentClient } from "@/components/BlogContentClient"
 import { convertGoogleDriveLink } from "@/lib/utils"
 import type { Blog } from "@/lib/sheets"
 
@@ -31,8 +30,6 @@ function calculateReadingTime(text: string): string {
 }
 
 function SingleBlogCard({ blog }: { blog: Blog }) {
-    const [isOpen, setIsOpen] = useState(false)
-
     const validatedImageLink = blog.imageLink
         ? convertGoogleDriveLink(blog.imageLink)
         : null
@@ -43,16 +40,9 @@ function SingleBlogCard({ blog }: { blog: Blog }) {
     return (
         <motion.div
             layout="position"
-            className={`group relative overflow-hidden rounded-2xl border bg-white transition-all duration-300 ${isOpen
-                    ? "border-neutral-300 shadow-xl ring-1 ring-neutral-200 my-8"
-                    : "border-neutral-200 shadow-sm hover:shadow-md hover:border-neutral-300 my-4"
-                }`}
+            className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 hover:border-neutral-300 hover:shadow-md my-4"
         >
-            {/* --- CLICKABLE HEADER --- */}
-            <div
-                onClick={() => setIsOpen(!isOpen)}
-                className="cursor-pointer select-none"
-            >
+            <Link href={`/blogs/${blog.slug}`} className="block">
                 <div className="flex flex-col md:flex-row md:items-stretch">
 
                     {/* IMAGE SECTION */}
@@ -73,7 +63,7 @@ function SingleBlogCard({ blog }: { blog: Blog }) {
                             </div>
                         )}
 
-                        <div className={`absolute inset-0 bg-black/10 transition-opacity duration-300 ${isOpen ? "opacity-0" : "opacity-0 group-hover:opacity-100"}`} />
+                        <div className="absolute inset-0 bg-black/10 transition-opacity duration-300 opacity-0 group-hover:opacity-100" />
                     </div>
 
                     {/* CONTENT PREVIEW SECTION */}
@@ -87,51 +77,17 @@ function SingleBlogCard({ blog }: { blog: Blog }) {
                             <span>{readTime}</span>
                         </div>
 
-                        <h3 className={`text-xl md:text-2xl font-bold leading-snug transition-colors duration-200 ${isOpen ? "text-primary" : "text-neutral-900 group-hover:text-primary"
-                            }`}>
+                        <h3 className="text-xl md:text-2xl font-bold leading-snug transition-colors duration-200 text-neutral-900 group-hover:text-primary">
                             {blog.heading}
                         </h3>
 
-                        <div className={`mt-4 flex items-center gap-2 text-sm font-semibold transition-all duration-300 ${isOpen ? "opacity-0 h-0 overflow-hidden mt-0" : "opacity-100 text-neutral-400 group-hover:text-neutral-800"
-                            }`}>
+                        <div className="mt-4 flex items-center gap-2 text-sm font-semibold transition-all duration-300 opacity-100 text-neutral-400 group-hover:text-neutral-800">
                             <span>Read article</span>
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/* --- EXPANDED CONTENT (ANIMATED) --- */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                        <div className="border-t border-neutral-100 bg-neutral-50/50 p-6 md:p-12">
-                            <div className="prose prose-neutral prose-lg max-w-none mx-auto">
-                                <BlogContentClient markdownContent={blog.markdownContent} />
-                            </div>
-
-                            {/* CLOSE BUTTON */}
-                            <div className="mt-12 flex justify-center pt-8 border-t border-neutral-200/60">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        setIsOpen(false)
-                                    }}
-                                    className="group/btn flex items-center gap-2 px-8 py-3 rounded-full bg-white border border-neutral-200 shadow-sm hover:shadow-md hover:border-neutral-300 transition-all text-sm font-bold text-neutral-800"
-                                >
-                                    <span>Close Article</span>
-                                    <svg className="w-4 h-4 transition-transform group-hover/btn:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
-                                </button>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            </Link>
         </motion.div>
     )
 }

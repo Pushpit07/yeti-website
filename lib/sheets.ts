@@ -9,11 +9,13 @@ export type Machine = {
 }
 
 export type Blog = {
+  slug: string
   author: string
   heading: string
   markdownContent: string
   imageLink: string
 }
+
 
 export type OberYeti = {
   name: string
@@ -165,12 +167,21 @@ export async function getMakerspaceData(): Promise<Machine[]> {
 export async function getBlogData(): Promise<Blog[]> {
   const rows = await getRawSheetData("blog")
   return rows
-    .map((row) => ({
-      author: String(row.c?.[0]?.v || "YETI Team").trim(),
-      heading: String(row.c?.[1]?.v || "Untitled Post").trim(),
-      markdownContent: String(row.c?.[2]?.v || "").trim(),
-      imageLink: String(row.c?.[3]?.v || "").trim(),
-    }))
+    .map((row) => {
+      const heading = String(row.c?.[1]?.v || "Untitled Post").trim()
+      const slug = heading
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+
+      return {
+        slug,
+        author: String(row.c?.[0]?.v || "YETI Team").trim(),
+        heading,
+        markdownContent: String(row.c?.[2]?.v || "").trim(),
+        imageLink: String(row.c?.[3]?.v || "").trim(),
+      }
+    })
     .filter((post) => post.heading)
     .reverse()
 }
