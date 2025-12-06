@@ -80,6 +80,7 @@ function mapSheetEventToEvent(e: SheetEvent): Event {
     registrationEndDate: e.registrationEndDate,
     registrationLink: e.registrationLink,
     sponsoredBy: e.sponsoredBy,
+    googleMapsLink: e.googleMapsLink,
   }
 }
 

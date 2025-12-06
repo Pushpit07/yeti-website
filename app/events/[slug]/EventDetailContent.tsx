@@ -35,11 +35,8 @@ type Event = {
 
 function isValidImageUrl(url?: string): boolean {
   if (!url) return false
-  const trimmed = url.trim()
-  if (!trimmed) return false
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return true
-  if (trimmed.startsWith("/")) return true
-  return false
+  if (url.length < 5) return false
+  return true
 }
 
 function handleDetailMapsClick(googleMapsLink: string) {
@@ -51,7 +48,7 @@ function handleDetailMapsClick(googleMapsLink: string) {
     window.open(googleMapsLink, "_blank")
   } else {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(googleMapsLink).catch(() => {})
+      navigator.clipboard.writeText(googleMapsLink).catch(() => { })
     }
     window.open(googleMapsLink, "_blank")
   }
@@ -124,11 +121,10 @@ export function EventDetailContent({ event }: { event: Event }) {
                           ? handleDetailMapsClick(event.googleMapsLink)
                           : undefined
                       }
-                      className={`flex items-center gap-1.5 ${
-                        event.googleMapsLink
-                          ? "cursor-pointer hover:underline"
-                          : "cursor-default"
-                      }`}
+                      className={`flex items-center gap-1.5 ${event.googleMapsLink
+                        ? "cursor-pointer hover:underline"
+                        : "cursor-default"
+                        }`}
                     >
                       <svg
                         className="w-4 h-4 text-primary"
@@ -149,10 +145,7 @@ export function EventDetailContent({ event }: { event: Event }) {
                           d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                       </svg>
-                      <span className="font-medium">
-                        {event.location}
-                        {event.googleMapsLink && " · Open in Maps"}
-                      </span>
+                      <span className="font-medium">{event.location}</span>
                     </button>
                   )}
                 </div>

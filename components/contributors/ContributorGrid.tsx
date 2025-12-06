@@ -7,9 +7,9 @@ import { X, Linkedin } from 'lucide-react'
 
 export type ContributorItem = {
     id: string
-    name: string // or Company Name
-    role?: string // Title, Role, or Type
-    company?: string // For those who have a separate company field
+    name: string
+    role?: string
+    company?: string
     description?: string
     image: string
     linkedin?: string
@@ -24,7 +24,6 @@ export function ContributorGrid({ items }: { items: ContributorItem[] }) {
                 {items.map((item, index) => (
                     <motion.div
                         key={item.id}
-                        layoutId={`card-${item.id}`}
                         onClick={() => setSelectedItem(item)}
                         className="group relative bg-neutral-900/40 backdrop-blur-md rounded-2xl overflow-hidden cursor-pointer border border-white/10 hover:border-primary/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(var(--primary-rgb),0.15)] hover:-translate-y-2"
                         initial={{ opacity: 0, y: 20 }}
@@ -47,7 +46,7 @@ export function ContributorGrid({ items }: { items: ContributorItem[] }) {
                                 </div>
                             )}
 
-                            {/* Gradient Overlay - Stronger at bottom for text readability */}
+                            {/* Gradient Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
 
                             {/* Content */}
@@ -60,14 +59,14 @@ export function ContributorGrid({ items }: { items: ContributorItem[] }) {
                                         {item.company}
                                     </p>
                                 )}
-                                {/* LinkedIn Icon - Always Visible */}
+                                {/* LinkedIn Icon */}
                                 {item.linkedin && (
                                     <div className="flex">
                                         <a
                                             href={item.linkedin}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            onClick={(e) => e.stopPropagation()} // Prevent card click
+                                            onClick={(e) => e.stopPropagation()}
                                             className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-[#0A66C2] hover:text-white text-white transition-all duration-300 backdrop-blur-md border border-white/20 hover:border-transparent hover:scale-110 shadow-lg"
                                         >
                                             <Linkedin size={16} />
@@ -84,18 +83,22 @@ export function ContributorGrid({ items }: { items: ContributorItem[] }) {
             <AnimatePresence>
                 {selectedItem && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+                        {/* Backdrop - INSTANT CLOSE */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            exit={{ opacity: 0, transition: { duration: 0 } }} // Duration 0 = Instant
                             onClick={() => setSelectedItem(null)}
                             className="absolute inset-0 bg-black/80 backdrop-blur-md"
                         />
 
+                        {/* Modal Content - INSTANT CLOSE */}
                         <motion.div
-                            layoutId={`card-${selectedItem.id}`}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95, transition: { duration: 0 } }} // Duration 0 = Instant
+                            transition={{ duration: 0.2 }} // Only applies to opening
                             className="relative w-full max-w-5xl bg-neutral-900/95 backdrop-blur-2xl rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col md:flex-row max-h-[90vh]"
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
                         >
                             <button
                                 onClick={() => setSelectedItem(null)}

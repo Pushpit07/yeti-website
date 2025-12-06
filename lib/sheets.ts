@@ -62,7 +62,7 @@ function fixDriveUrl(url: string): string {
   const match = url.match(/https?:\/\/drive\.google\.com\/file\/d\/([^/]+)/)
   if (match) {
     const id = match[1]
-    return `https://drive.google.com/uc?export=view&id=${id}`
+    return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
   }
   return url
 }
@@ -237,6 +237,8 @@ export async function getProjectsData(): Promise<Project[]> {
       }
     })
     .filter((project) => project.title)
+
+
 
   return data
 }

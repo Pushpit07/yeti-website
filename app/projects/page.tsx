@@ -2,8 +2,10 @@
 import { getProjectsData } from "@/lib/sheets"
 import { ProjectsClient } from "./ProjectsClient"
 
-export const dynamic = "force-dynamic"
-export const revalidate = 0
+// export const dynamic = "force-dynamic" // REMOVED: Incompatible with output: 'export'
+// export const revalidate = 0 // REMOVED: Incompatible with output: 'export'
+// Note: In static export mode, this data fetches ONCE at build time.
+// To update data, you must rebuild the application.
 
 export const metadata = {
   title: "Projects | YETI",
