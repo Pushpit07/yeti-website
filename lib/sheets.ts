@@ -9,10 +9,53 @@ export type Machine = {
 }
 
 export type Blog = {
+  slug: string
   author: string
   heading: string
   markdownContent: string
   imageLink: string
+}
+
+
+export type OberYeti = {
+  name: string
+  role: string
+  description: string
+  linkedin: string
+  photo: string
+}
+
+export type YetiBoard = {
+  name: string
+  title: string
+  company: string
+  photo: string
+  linkedin: string
+}
+
+export type Sponsor = {
+  company: string
+  description: string
+  type: string
+  photo: string
+  linkedin: string
+}
+
+export type Mentor = {
+  name: string
+  title: string
+  company: string
+  description: string
+  linkedin: string
+  photo: string
+}
+
+export type FiresideChat = {
+  name: string
+  title: string
+  description: string
+  photo: string
+  linkedin: string
 }
 
 function fixDriveUrl(url: string): string {
@@ -21,7 +64,7 @@ function fixDriveUrl(url: string): string {
   const match = url.match(/https?:\/\/drive\.google\.com\/file\/d\/([^/]+)/)
   if (match) {
     const id = match[1]
-    return `https://drive.google.com/uc?export=view&id=${id}`
+    return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
   }
   return url
 }
@@ -124,12 +167,21 @@ export async function getMakerspaceData(): Promise<Machine[]> {
 export async function getBlogData(): Promise<Blog[]> {
   const rows = await getRawSheetData("blog")
   return rows
-    .map((row) => ({
-      author: String(row.c?.[0]?.v || "YETI Team").trim(),
-      heading: String(row.c?.[1]?.v || "Untitled Post").trim(),
-      markdownContent: String(row.c?.[2]?.v || "").trim(),
-      imageLink: String(row.c?.[3]?.v || "").trim(),
-    }))
+    .map((row) => {
+      const heading = String(row.c?.[1]?.v || "Untitled Post").trim()
+      const slug = heading
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+
+      return {
+        slug,
+        author: String(row.c?.[0]?.v || "YETI Team").trim(),
+        heading,
+        markdownContent: String(row.c?.[2]?.v || "").trim(),
+        imageLink: String(row.c?.[3]?.v || "").trim(),
+      }
+    })
     .filter((post) => post.heading)
     .reverse()
 }
@@ -196,6 +248,8 @@ export async function getProjectsData(): Promise<Project[]> {
       }
     })
     .filter((project) => project.title)
+
+
 
   return data
 }
@@ -308,4 +362,97 @@ export async function getMakerspaceActivityData(): Promise<MakerspaceActivity[]>
       imageLink: String(row.c?.[3]?.v || "").trim(),
     }))
     .filter((item) => item.activity)
+}
+
+export async function getOberYetisData(): Promise<OberYeti[]> {
+  const rows = await getRawSheetData("OberYeti")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      role: String(row.c?.[1]?.v || "").trim(),
+      description: String(row.c?.[2]?.v || "").trim(),
+      linkedin: String(row.c?.[3]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[4]?.v || "").trim()),
+    }))
+    .filter((item) => item.name)
+}
+
+export async function getYetiBoardData(): Promise<YetiBoard[]> {
+  const rows = await getRawSheetData("Yeti Board")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      title: String(row.c?.[1]?.v || "").trim(),
+      company: String(row.c?.[2]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[4]?.v || "").trim()),
+      linkedin: String(row.c?.[3]?.v || "").trim(),
+    }))
+    .filter((item) => item.name)
+}
+
+export async function getSponsorsData(): Promise<Sponsor[]> {
+  const rows = await getRawSheetData("Sponsors")
+  return rows
+    .map((row) => ({
+      company: String(row.c?.[0]?.v || "").trim(),
+      description: String(row.c?.[1]?.v || "").trim(),
+      type: String(row.c?.[2]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      linkedin: String(row.c?.[4]?.v || "").trim(),
+    }))
+    .filter((item) => item.company)
+}
+
+export async function getMentorsData(): Promise<Mentor[]> {
+  const rows = await getRawSheetData("Mentors")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      title: String(row.c?.[1]?.v || "").trim(),
+      company: String(row.c?.[2]?.v || "").trim(),
+      description: String(row.c?.[3]?.v || "").trim(),
+      linkedin: String(row.c?.[4]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[5]?.v || "").trim()),
+    }))
+    .filter((item) => item.name)
+}
+
+export async function getFiresideChatsData(): Promise<FiresideChat[]> {
+  const rows = await getRawSheetData("Fireside chat")
+  return rows
+    .map((row) => ({
+      name: String(row.c?.[0]?.v || "").trim(),
+      title: String(row.c?.[1]?.v || "").trim(),
+      description: String(row.c?.[2]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      linkedin: String(row.c?.[4]?.v || "").trim(),
+    }))
+    .filter((item) => item.name)
+}
+
+// --- 7. Application Data Parser ---
+
+export type ApplicationData = {
+  city: string
+  status: boolean // true = Open (1), false = Closed (0)
+  openDate: string
+  endDate: string
+  generation: string
+  intake: string
+  year: string
+}
+
+export async function getApplicationData(): Promise<ApplicationData[]> {
+  const rows = await getRawSheetData("Application", false)
+  return rows
+    .map((row) => ({
+      city: String(row.c?.[0]?.v || "").trim(),
+      status: String(row.c?.[1]?.v || "") === "1",
+      openDate: String(row.c?.[2]?.v || "").trim(),
+      endDate: String(row.c?.[3]?.v || "").trim(),
+      generation: String(row.c?.[4]?.v || "").trim(),
+      intake: String(row.c?.[5]?.v || "").trim(),
+      year: String(row.c?.[6]?.v || "").trim(),
+    }))
+    .filter((item) => item.city)
 }

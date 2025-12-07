@@ -174,18 +174,18 @@ function EventCard({ event, index }: { event: Event; index: number }) {
   const hasMapsLink = !!event.googleMapsLink
   return (
     <motion.article
-      className="bg-white rounded-2xl overflow-hidden shadow-md border border-neutral-200 hover:shadow-lg transition-shadow"
+      className="bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-200 hover:shadow-md transition-shadow"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
     >
       {isValidImageUrl(event.image) && (
-        <div className="relative w-full h-52 md:h-56 bg-neutral-200">
+        <div className="relative w-full h-32 md:h-36 bg-neutral-200">
           <Image src={event.image as string} alt={event.title} fill className="object-cover" />
         </div>
       )}
-      <div className="p-6 md:p-7 space-y-3">
+      <div className="p-4 space-y-2">
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-600">
           {event.dateFormatted && (
             <div className="flex items-center gap-1.5">

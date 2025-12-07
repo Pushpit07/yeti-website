@@ -1,10 +1,12 @@
 import { Section } from "@/components/Section"
-import Image from "next/image"
 import { FAQAccordion } from "@/components/FAQAccordion"
 import { FAQHeader } from "@/components/FAQHeader"
 import { BookZoomCallCTA } from "@/components/BookZoomCallCTA"
 import Link from "next/link"
-import { getCityInfo, getApplicationDates, getGenerationText } from "@/lib/constants"
+import Image from "next/image"
+import { getCityInfo, getApplicationDates } from "@/lib/constants"
+import { getApplicationData } from "@/lib/sheets"
+import { Mail, ArrowRight, CheckCircle2, Sparkles, Target, Clock, MapPin } from "lucide-react"
 
 export const dynamic = "force-static"
 
@@ -16,342 +18,201 @@ export const metadata = {
   description: "Everything you need to know about applying to YETI Leipzig - FAQs, Timeline, Tips & Tricks",
 }
 
-export default function ApplicationLeipzigPage() {
+export default async function ApplicationLeipzigPage() {
+  const appData = await getApplicationData()
+  const data = appData.find(d => d.city.toLowerCase() === 'leipzig')
+
+  const isApplicationOpen = data?.status
+  const applicationEmail = "bewerbung@yeti-leipzig.org"
+
+  // Helper to format Generation text (e.g., "G8" -> "Generation 8")
+  const formatGeneration = (gen: string) => {
+    if (!gen) return ""
+    if (gen.toUpperCase().startsWith("G") && !isNaN(Number(gen.substring(1)))) {
+      return `Generation ${gen.substring(1)}`
+    }
+    return gen
+  }
+
+  const generationText = data?.generation ? formatGeneration(data.generation) : ""
+
   return (
     <div className="font-sans">
       {/* Hero Section with Image */}
-      <section className="relative bg-black text-white overflow-hidden">
-        <div className="relative w-full h-screen">
-          <div className="absolute inset-0">
-            <img
-              src="/yeti-leipzig.jpg"
-              alt="YETI Leipzig"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center" }}
-            />
-          </div>
-
+      <section className="relative bg-black text-white overflow-hidden min-h-[90vh] flex flex-col justify-center items-center text-center pt-32 pb-20">
+        <div className="absolute inset-0">
+          <Image
+            src="/yeti-leipzig.jpg"
+            alt="YETI Leipzig Application"
+            fill
+            className="object-cover opacity-60"
+            priority
+          />
           {/* Dark overlay */}
           <div className="absolute inset-0 bg-black/50" />
-          {/* Bottom-to-top black gradient overlay */}
-          <div className="pointer-events-none absolute inset-0 z-10" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.0) 60%)" }} />
-
-          {/* Content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 z-20 px-4">
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-center">
-              Apply for YETI Leipzig
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 text-center max-w-3xl">
-              Your journey to YETI Leipzig starts here
-            </p>
-          </div>
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
         </div>
-      </section>
 
-      {/* Application Phase Info */}
-      <section className="relative bg-gradient-to-b from-black via-neutral-950 to-black pt-20 md:pt-28">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
-          <div className="max-w-5xl mx-auto">
-            {/* Decorative top border */}
-            <div className="w-24 h-1 bg-primary mx-auto mb-12"></div>
+        {/* Content */}
+        <div className="relative z-20 container mx-auto px-4">
 
-            <div className="text-center space-y-8">
-              <div className="inline-block bg-primary/10 border-2 border-primary/30 rounded-full px-6 py-3">
-                <p className="text-primary font-bold text-sm md:text-base uppercase tracking-wider">
-                  📅 Application Opening Soon
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-12 tracking-tight">
+            Apply for <span className="text-primary">YETI Leipzig</span>
+          </h1>
+
+          <div className="max-w-3xl mx-auto space-y-8 backdrop-blur-md bg-black/40 p-10 rounded-[2.5rem] border border-white/10 shadow-2xl">
+            {/* Dynamic Status Text */}
+            {isApplicationOpen ? (
+              <div className="space-y-4">
+                <div className="inline-block bg-green-500/20 text-green-400 px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider mb-2">
+                  Applications Open
+                </div>
+
+                {(data?.intake && data?.year) && (
+                  <p className="text-2xl md:text-4xl font-bold text-white leading-tight">
+                    Application for <span className="text-primary">{data.intake} {data.year}</span>
+                  </p>
+                )}
+
+                {generationText && (
+                  <p className="text-xl md:text-2xl font-medium text-white/80">
+                    {generationText}
+                  </p>
+                )}
+
+                <p className="text-lg text-white/60 pt-2">
+                  Applications close on <span className="text-white font-bold">{data?.endDate}</span>
                 </p>
               </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="inline-block bg-yellow-500/20 text-yellow-400 px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider mb-2">
+                  Applications Opening Soon
+                </div>
 
-              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-                Next Application Phase<br />
-                <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
-                  {applicationDates.openingDate}
-                </span>
-              </h2>
+                <p className="text-2xl md:text-3xl font-bold text-white/90">
+                  {generationText ? `Applications for ${generationText} are currently closed` : "Applications are currently closed"}
+                </p>
+                <p className="text-lg text-white/60">
+                  Opening soon on <span className="text-white font-bold">{data?.openDate || applicationDates.openingDate}</span>
+                </p>
+              </div>
+            )}
 
-              <p className="text-2xl md:text-4xl font-bold text-white">
-                Don&apos;t miss your chance - become a YETI!
+            <div className="pt-8 border-t border-white/10">
+              <p className="text-white/80 mb-6 text-lg">
+                Please send your <span className="font-bold text-white border-b-2 border-primary/50">Resume</span> and <span className="font-bold text-white border-b-2 border-primary/50">Motivation Letter</span> to:
               </p>
 
-              <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
-                Unlock your entrepreneurial potential with YETI Leipzig&apos;s innovative program
-              </p>
-
-              <div className="mt-20 flex justify-center">
-              <div className="relative w-[300px] h-[150px] md:w-[700px] md:h-[360px]">
-                <Image
-                  src="/happy-yeti/3.png"
-                  alt="Happy YETI"
-                  fill
-                  className="object-contain opacity-30"
-                />
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Application Requirements and Documents */}
-      <Section className="bg-gradient-to-b from-white via-neutral-50 to-white mt-16">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-center">
-            Application <span className="underline decoration-wavy underline-offset-8 decoration-primary">Requirements and Documents</span>
-          </h2>
-
-          {/* Requirements Card */}
-          <div className="bg-white rounded-3xl border border-neutral-200 p-8 md:p-12 shadow-sm mb-12 mt-16">
-            <h3 className="text-2xl font-bold text-neutral-900 mb-6 pb-4 border-b border-neutral-200">
-              What You Need
-            </h3>
-
-            <p className="text-base text-neutral-700 leading-relaxed mb-8">
-              To apply for the <span className="font-bold text-neutral-900">YETI Leipzig</span> program, you will need to meet the following personal requirements:
-            </p>
-
-            <div className="grid sm:grid-cols-2 gap-6 mb-8">
-              <div className="border-l-4 border-primary pl-4">
-                <h4 className="font-bold text-base mb-1.5 text-neutral-900">Entrepreneurial Spirit</h4>
-                <p className="text-neutral-600 text-sm leading-relaxed">
-                  You want to take on leadership roles, become self-employed, or drive innovation in organizations
-                </p>
-              </div>
-
-              <div className="border-l-4 border-primary pl-4">
-                <h4 className="font-bold text-base mb-1.5 text-neutral-900">Action-Oriented</h4>
-                <p className="text-neutral-600 text-sm leading-relaxed">
-                  You like taking responsibility, acting in a solution-oriented manner, and thinking innovatively
-                </p>
-              </div>
-
-              <div className="border-l-4 border-primary pl-4">
-                <h4 className="font-bold text-base mb-1.5 text-neutral-900">Time Commitment</h4>
-                <p className="text-neutral-600 text-sm leading-relaxed">
-                  You can dedicate 10-15 hours per week to the 18-month program
-                </p>
-              </div>
-
-              <div className="border-l-4 border-primary pl-4">
-                <h4 className="font-bold text-base mb-1.5 text-neutral-900">Physical Presence</h4>
-                <p className="text-neutral-600 text-sm leading-relaxed">
-                  You&apos;re available one day per week for on-site sessions at YETI Leipzig HQ (typically Thursdays)
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-primary/5 rounded-xl p-6">
-              <h4 className="font-bold text-base mb-2 text-neutral-900">Student or Graduate?</h4>
-              <p className="text-neutral-700 text-sm leading-relaxed">
-                We primarily seek students, but university graduates or people with start-up experience can also apply.
-                What matters most is your motivation and commitment to entrepreneurship!
-              </p>
+              <a
+                href={`mailto:${applicationEmail}`}
+                className="group inline-flex items-center gap-3 px-8 py-5 bg-white text-black rounded-full font-bold text-xl transition-all hover:bg-primary hover:text-white hover:scale-105 active:scale-95 shadow-lg shadow-white/10"
+              >
+                <Mail className="w-6 h-6" />
+                <span>{applicationEmail}</span>
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </a>
             </div>
           </div>
 
-          {/* Application Steps Card */}
-          <div className="bg-white rounded-3xl border border-neutral-200 p-8 md:p-12 shadow-sm mb-12">
-            <h3 className="text-2xl font-bold text-neutral-900 mb-6 pb-4 border-b border-neutral-200">
-              Application Steps
-            </h3>
-
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">
-                  1
-                </div>
-                <div className="flex-1">
-                  <p className="text-base text-neutral-700 leading-relaxed">
-                    <span className="font-semibold">Send us your application documents</span> (short CV + letter of motivation) after the application start of {applicationDates.openingDate}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">
-                  2
-                </div>
-                <div className="flex-1">
-                  <p className="text-base text-neutral-700 leading-relaxed">
-                    Your documents will be reviewed by us, and you will be called for a <span className="font-semibold">personal interview</span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">
-                  3
-                </div>
-                <div className="flex-1">
-                  <p className="text-base text-neutral-700 leading-relaxed">
-                    If we are convinced of you and your application, you will receive your <span className="font-semibold">acceptance</span> and all the other important information
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Email CTA */}
-          <div className="text-center bg-white rounded-3xl border border-neutral-200 p-10 md:p-12 shadow-sm">
-            <p className="text-base text-neutral-600 mb-6">Send your application to</p>
-            <a
-              href={`mailto:${cityInfo.applicationEmail}`}
-              className="inline-block bg-neutral-900 hover:bg-black text-white text-xl md:text-2xl font-bold px-12 py-5 rounded-xl transition-all hover:shadow-lg"
+          <div className="mt-16">
+            <Link
+              href="#details"
+              className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm uppercase tracking-widest font-bold group"
             >
-              {cityInfo.applicationEmail}
-            </a>
-            <div className="mt-8 pt-6 border-t border-neutral-200">
-              <p className="text-neutral-600 text-sm">
-                If you want to apply for Dresden instead, please{" "}
-                <Link href="/application/dresden" className="text-primary font-bold hover:underline">
-                  click here →
-                </Link>
-              </p>
-            </div>
+              Learn more about the process <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-y-1 rotate-90" />
+            </Link>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Tips for Applying */}
-      <Section>
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">
-            Tips & <span className="underline decoration-wavy underline-offset-8 decoration-primary">Tricks</span>
-          </h2>
+      {/* Main Content Grid (Side-by-Side) */}
+      <section className="py-20 md:py-32 bg-neutral-50" id="details">
+        <div className="container mx-auto px-4 max-w-7xl">
 
-          <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl border-2 border-primary/20 p-8 mb-8">
-            <h3 className="text-2xl font-bold mb-6 text-primary">Make Your Application Stand Out</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">Be Authentic</strong>
-                  <p className="text-muted-foreground">Show us who you really are. We value genuine passion over perfect presentations.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">Know Your Why</strong>
-                  <p className="text-muted-foreground">Clearly articulate why you want to join THIS particular program and what drives you.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">Show Your Vision</strong>
-                  <p className="text-muted-foreground">Share your motivation, vision, and what you want to achieve through the program.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">What You Bring</strong>
-                  <p className="text-muted-foreground">Discuss your unique skills, experiences, and what you&apos;ll contribute to the Leipzig community.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">Share Your Journey</strong>
-                  <p className="text-muted-foreground">What have you experienced? What have you learned? Where do you want to go?</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">Entrepreneurship Connection</strong>
-                  <p className="text-muted-foreground">Describe any previous touchpoints with entrepreneurship or intrapreneurship.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">Personal Development</strong>
-                  <p className="text-muted-foreground">Explain why personal development is important to you.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl mt-1">✓</span>
-                <div>
-                  <strong className="text-lg">Team Values</strong>
-                  <p className="text-muted-foreground">Share what&apos;s important to you in a team or community setting.</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </Section>
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
 
-        {/* Application Process */}
-        <Section>
-        <div className="max-w-4xl mx-auto pb-8">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center">
-            Application <span className="underline decoration-wavy underline-offset-8 decoration-primary">Process</span>
-          </h2>
-          <p className="text-center text-xl text-muted-foreground mb-12">
-            A simple three-step process to join the YETI Leipzig community
-          </p>
+            {/* Left Column: Requirements */}
+            <div className="space-y-10">
+              <div>
+                <h2 className="text-4xl font-bold mb-6 text-neutral-900">What we're looking for</h2>
+                <p className="text-lg text-neutral-600 leading-relaxed">
+                  We don't care about your grades. We care about your drive, your vision, and your willingness to take action.
+                </p>
+              </div>
 
-          <div className="space-y-6">
-            {/* Step 1 */}
-            <div className="bg-white rounded-2xl border-2 border-border p-8 hover:border-primary/50 transition-all">
-              <div className="flex items-start gap-6">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
-                  1
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-3">Submit Your Application</h3>
-                  <p className="text-lg text-muted-foreground mb-4">
-                    Send your CV and motivation letter to <a href={`mailto:${cityInfo.applicationEmail}`} className="text-primary font-semibold hover:underline">{cityInfo.applicationEmail}</a>.
-                    This puts you in our application pool for the upcoming {getGenerationText('leipzig')}.
-                  </p>
-                  <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
-                    <p className="text-sm font-semibold text-primary">
-                      📅 Next application phase opens: {applicationDates.openingDate}
-                    </p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  { title: "Entrepreneurial Spirit", desc: "You want to build, lead, and drive innovation." },
+                  { title: "Action Oriented", desc: "You prefer doing over talking. You find solutions." },
+                  { title: "Commitment", desc: "Ready to dedicate 10-15 hours/week for 18 months." },
+                  { title: "Presence", desc: "Available for weekly on-site sessions in Leipzig." }
+                ].map((req, i) => (
+                  <div key={i} className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex-shrink-0 mb-4">
+                      <CheckCircle2 className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="font-bold text-neutral-900 mb-2">{req.title}</h3>
+                    <p className="text-neutral-600 text-sm leading-relaxed">{req.desc}</p>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="bg-white rounded-2xl border-2 border-border p-8 hover:border-primary/50 transition-all">
-              <div className="flex items-start gap-6">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
-                  2
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-3">Personal Interview</h3>
-                  <p className="text-lg text-muted-foreground">
-                    Selected candidates receive an invitation to a 30-minute Zoom interview with the Ober Yetis (founders of YETI)
-                    and at least one Yeti from an older generation. This is your chance to shine and show us who you really are!
-                  </p>
-                </div>
+            {/* Right Column: Process & CTA */}
+            <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-neutral-100 lg:sticky lg:top-8">
+              <h3 className="text-2xl font-bold mb-8">Application Process</h3>
+
+              <div className="space-y-10 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-neutral-100">
+                {[
+                  { step: "1", title: "Apply via Email", desc: `Send your CV and motivation letter to ${applicationEmail}` },
+                  { step: "2", title: "Personal Interview", desc: "30-minute chat with our founders and team members." },
+                  { step: "3", title: "Welcome to YETI", desc: "Receive your acceptance and join the kick-off weekend." }
+                ].map((item, i) => (
+                  <div key={i} className="relative flex gap-6">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold z-10 ring-4 ring-white">
+                      {item.step}
+                    </div>
+                    <div className="pt-1">
+                      <h4 className="font-bold text-lg mb-2">{item.title}</h4>
+                      <p className="text-neutral-600 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-12 pt-8 border-t border-neutral-100">
+                <a
+                  href={`mailto:${applicationEmail}`}
+                  className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-hover text-white font-bold text-lg py-4 rounded-xl transition-colors shadow-lg shadow-primary/25"
+                >
+                  <Mail className="w-5 h-5" />
+                  Send Application
+                </a>
               </div>
             </div>
 
-            {/* Step 3 */}
-            <div className="bg-white rounded-2xl border-2 border-border p-8 hover:border-primary/50 transition-all">
-              <div className="flex items-start gap-6">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
-                  3
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-3">Acceptance & Onboarding</h3>
-                  <p className="text-lg text-muted-foreground">
-                    If we&apos;re convinced by your application and interview, you&apos;ll receive your acceptance to the YETI Leipzig program
-                    along with all important information about the kick-off weekend and semester start.
-                  </p>
-                </div>
-              </div>
+          </div>
+
+          {/* Navigation Link Below */}
+          <div className="mt-24 text-center">
+            <div className="inline-block bg-neutral-900 text-white p-1 rounded-full">
+              <Link href="/application/dresden" className="flex items-center gap-4 px-8 py-4 rounded-full hover:bg-white/10 transition-colors group">
+                <span className="text-white/60">Applying for Dresden?</span>
+                <span className="font-bold flex items-center gap-2">
+                  Go to YETI Dresden
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
             </div>
           </div>
-        </div>
-      </Section>
 
+        </div>
+      </section>
 
       {/* FAQs */}
-      <Section className="bg-neutral-50">
+      <Section className="bg-white border-t border-neutral-100">
         <FAQHeader
           title="Frequently Asked Questions"
           highlightWord="Questions"

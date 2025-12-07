@@ -11,11 +11,21 @@ export function DynamicHeader() {
     <HeaderClient
       nav={{
         main: [
-          { label: "WTF is YETI?", href: "/wtf" },
-          { label: "Dresden", href: "/dresden" },
-          { label: "Leipzig", href: "/leipzig" },
-          { label: "HQ", href: "/hq" },
-          { label: "Makerspace", href: "/makerspace" },
+          { label: "What is YETI?", href: "/wtf" },
+          {
+            label: "Location",
+            children: [
+              { label: "Dresden", href: "/dresden" },
+              { label: "Leipzig", href: "/leipzig" }
+            ]
+          },
+          {
+            label: "Headquarters",
+            children: [
+              { label: "HQ", href: "/hq" },
+              { label: "Makerspace", href: "/makerspace" }
+            ]
+          },
           { label: "Blog", href: "/blogs" },
           {
             label: "Apply",
@@ -25,7 +35,17 @@ export function DynamicHeader() {
             ]
           },
           { label: "Projects", href: "/projects" },
-          { label: "Contributors", href: "/contributors" },
+          {
+            label: "Contributors",
+            href: "/contributors",
+            children: [
+              { label: "Ober Yetis", href: "/contributors/ober-yetis" },
+              { label: "Yeti Board", href: "/contributors/board" },
+              { label: "Sponsors", href: "/contributors/sponsors" },
+              { label: "Mentors", href: "/contributors/mentors" },
+              { label: "Fireside Chats", href: "/contributors/fireside-chats" }
+            ]
+          },
           { label: "Events", href: "/events" }
         ],
         footer: [
