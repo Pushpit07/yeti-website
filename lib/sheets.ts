@@ -274,7 +274,7 @@ export type SheetEvent = {
 export async function getEventsData(): Promise<SheetEvent[]> {
   const rows = await getRawSheetData("Events")
 
-  const clean = (val: any) => String(val ?? "").trim()
+  const clean = (val: string | number | null | undefined) => String(val ?? "").trim()
   const isUrl = (val: string) => /^https?:\/\//i.test(val)
   const isGoogleMapsUrl = (val: string) =>
     isUrl(val) && /google\..*maps/i.test(val)

@@ -8,26 +8,26 @@ import rehypeRaw from 'rehype-raw'
 
 const MAX_PREVIEW_HEIGHT = 160 
 
-export function BlogContentClient({ 
-  markdownContent, 
+export function BlogContentClient({
+  markdownContent,
   isInitiallyCollapsed = true
-}: { 
-  markdownContent: string, 
-  isInitiallyCollapsed?: boolean 
+}: {
+  markdownContent: string,
+  isInitiallyCollapsed?: boolean
 }) {
   const [isExpanded, setIsExpanded] = useState(!isInitiallyCollapsed)
-  
+
+  // Use a transition height large enough for expanded blogs
+  const maxHeightStyle = useMemo(() => ({
+    maxHeight: isExpanded ? '5000px' : `${MAX_PREVIEW_HEIGHT}px`
+  }), [isExpanded])
+
   const handleToggle = () => {
     setIsExpanded(prev => !prev)
   }
 
-  const isContentAvailable = markdownContent && markdownContent.length > 0; 
-  if (!isContentAvailable) return null;
-
-  // Use a transition height large enough for expanded blogs
-  const maxHeightStyle = useMemo(() => ({ 
-    maxHeight: isExpanded ? '5000px' : `${MAX_PREVIEW_HEIGHT}px` 
-  }), [isExpanded]);
+  const isContentAvailable = markdownContent && markdownContent.length > 0
+  if (!isContentAvailable) return null
 
   return (
     <div className="flex flex-col">

@@ -6,7 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { getCityInfo, getApplicationDates } from "@/lib/constants"
 import { getApplicationData } from "@/lib/sheets"
-import { Mail, ArrowRight, CheckCircle2, Sparkles, Target, Clock, MapPin } from "lucide-react"
+import { Mail, ArrowRight, CheckCircle2 } from "lucide-react"
 
 export const dynamic = "force-static"
 

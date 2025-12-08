@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { getApplicationPhase, type ApplicationPhase } from '@/lib/application-phase'
+import { getApplicationPhase } from '@/lib/application-phase'
 import type { City } from '@/lib/constants'
 
 interface ApplyNowButtonProps {
