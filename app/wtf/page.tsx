@@ -2,7 +2,8 @@ import { Section } from "@/components/Section"
 import Link from "next/link"
 import Image from "next/image"
 import { CurriculumInfoSection } from "@/components/CurriculumInfoSection"
-import { PROGRAM_INFO } from "@/lib/constants"
+import { TestimonialsSection } from "@/components/TestimonialsSection"
+import { PROGRAM_INFO, TESTIMONIALS } from "@/lib/constants"
 
 export const dynamic = "force-static"
 
@@ -241,6 +242,14 @@ export default function WTFPage() {
             description: "YETI encourages international exchange. Thus, the program is conducted in English."
           }
         ]}
+      />
+
+<TestimonialsSection
+        title={TESTIMONIALS.title}
+        highlightWord={TESTIMONIALS.highlightWord}
+        subtitle={TESTIMONIALS.subtitle}
+        row1Testimonials={TESTIMONIALS.row1}
+        row2Testimonials={TESTIMONIALS.row2}
       />
 
       {/* Who should apply */}

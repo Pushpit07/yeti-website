@@ -15,25 +15,25 @@ export function DynamicHeader() {
           {
             label: "Location",
             children: [
-              { label: "Dresden", href: "/dresden" },
-              { label: "Leipzig", href: "/leipzig" }
-            ]
-          },
-          {
-            label: "Headquarters",
-            children: [
-              { label: "HQ", href: "/hq" },
-              { label: "Makerspace", href: "/makerspace" }
+              {
+                label: "Dresden",
+                children: [
+                  { label: "Overview", href: "/dresden" },
+                  { label: "HQ", href: "/hq" },
+                  { label: "Makerspace", href: "/makerspace" },
+                  { label: "Apply", href: "/application/dresden" },
+                ]
+              },
+              {
+                label: "Leipzig",
+                children: [
+                  { label: "Overview", href: "/leipzig" },
+                  { label: "Apply", href: "/application/leipzig" },
+                ]
+              },
             ]
           },
           { label: "Blog", href: "/blogs" },
-          {
-            label: "Apply",
-            children: [
-              { label: "for Dresden", href: "/application/dresden" },
-              { label: "for Leipzig", href: "/application/leipzig" }
-            ]
-          },
           { label: "Projects", href: "/projects" },
           {
             label: "Contributors",
