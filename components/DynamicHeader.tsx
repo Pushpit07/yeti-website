@@ -41,7 +41,7 @@ export function DynamicHeader() {
             children: [
               { label: "Ober Yetis", href: "/contributors/ober-yetis" },
               { label: "Yeti Board", href: "/contributors/board" },
-              { label: "Sponsors", href: "/contributors/sponsors" },
+              { label: "Our Partners", href: "/contributors/sponsors" },
               { label: "Mentors", href: "/contributors/mentors" },
               { label: "Fireside Chats", href: "/contributors/fireside-chats" }
             ]

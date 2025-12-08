@@ -35,6 +35,7 @@ export type YetiBoard = {
 
 export type Sponsor = {
   company: string
+  category: string
   description: string
   type: string
   photo: string
@@ -395,10 +396,11 @@ export async function getSponsorsData(): Promise<Sponsor[]> {
   return rows
     .map((row) => ({
       company: String(row.c?.[0]?.v || "").trim(),
-      description: String(row.c?.[1]?.v || "").trim(),
-      type: String(row.c?.[2]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      category: String(row.c?.[1]?.v || "").trim(),
+      description: String(row.c?.[2]?.v || "").trim(),
+      type: String(row.c?.[3]?.v || "").trim(),
       linkedin: String(row.c?.[4]?.v || "").trim(),
+      photo: fixDriveUrl(String(row.c?.[5]?.v || "").trim()),
     }))
     .filter((item) => item.company)
 }
