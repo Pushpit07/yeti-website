@@ -1,6 +1,8 @@
 import { Section } from "@/components/Section"
 import Link from "next/link"
 import Image from "next/image"
+import { CurriculumInfoSection } from "@/components/CurriculumInfoSection"
+import { PROGRAM_INFO } from "@/lib/constants"
 
 export const dynamic = "force-static"
 
@@ -13,7 +15,7 @@ export default function WTFPage() {
   return (
     <div className="font-sans">
       {/* Hero Section */}
-      <section className="relative bg-black text-white py-32 md:py-40 lg:py-56 overflow-hidden">
+      <section className="relative bg-black text-white py-24 md:py-32 lg:py-40 overflow-hidden">
         {/* Animated gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
         <div className="absolute inset-0">
@@ -21,30 +23,8 @@ export default function WTFPage() {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
         </div>
 
-        {/* Happy YETI Background Images */}
-        <div className="absolute inset-0 flex items-end justify-start pointer-events-none overflow-hidden">
-          <div className="relative w-[250px] h-[250px] md:w-[450px] md:h-[450px] -translate-x-10 md:-translate-x-20 translate-y-16 md:translate-y-24">
-            <Image
-              src="/happy-yeti/2.png"
-              alt="Happy YETI"
-              fill
-              className="object-contain opacity-30"
-            />
-          </div>
-        </div>
-        <div className="absolute inset-0 flex items-end justify-end pointer-events-none overflow-hidden">
-          <div className="relative w-[250px] h-[250px] md:w-[550px] md:h-[550px] translate-x-16 md:translate-x-24 translate-y-16 md:translate-y-24">
-            <Image
-              src="/happy-yeti/1.png"
-              alt="Happy YETI"
-              fill
-              className="object-contain opacity-30"
-            />
-          </div>
-        </div>
-
         <div className="container mx-auto px-8 md:px-12 relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
+          <div className="max-w-5xl mx-auto text-center mb-12">
             <div className="inline-block mb-6">
               <span className="px-4 py-2 bg-primary/20 backdrop-blur-sm border border-primary/40 rounded-full text-primary font-bold text-sm uppercase tracking-wider">
                 The Real Question
@@ -57,32 +37,47 @@ export default function WTFPage() {
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl lg:text-[28px] text-white/75 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
-              No fluff. No BS.
-              <br className="hidden md:block" />
-              Just the honest answer to what we&apos;re all about.
+            <p className="text-xl md:text-2xl lg:text-[28px] text-white/75 mb-8 max-w-3xl mx-auto leading-relaxed font-light">
+              No fluff. No BS. Just the honest answer.
             </p>
+          </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/application/dresden"
-                className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2"
-              >
-                Apply for Dresden
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-              <Link
-                href="/application/leipzig"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-full transition-colors gap-2 border border-white/20"
-              >
-                Apply for Leipzig
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
+          {/* Video Container at Start */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
+              <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none z-10" />
+              <iframe
+                className="absolute top-0 left-0 w-full h-full"
+                src="https://www.youtube.com/embed/M7lc1UVf-VE?si=__P_Kj5s7N4R1m_"
+                title="WTF is YETI?"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
+            <p className="text-center text-white/50 mt-4 text-sm font-light">
+              Watch the video to understand what YETI is all about.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/application/dresden"
+              className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2"
+            >
+              Apply for Dresden
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+            <Link
+              href="/application/leipzig"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-full transition-colors gap-2 border border-white/20"
+            >
+              Apply for Leipzig
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
@@ -142,99 +137,81 @@ export default function WTFPage() {
       {/* The Real Deal */}
       <Section>
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+          <div className="text-center mb-10 md:mb-12">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 tracking-tight">
               So, what&apos;s the <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">real deal</span>?
             </h2>
             <div className="h-1 w-20 bg-gradient-to-r from-primary to-primary-hover mx-auto rounded-full" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
             {/* What it is */}
-            <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 rounded-3xl p-8 border-2 border-primary/20 hover:border-primary/40 transition-all group overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-6 border-2 border-primary/20 hover:border-primary/40 transition-all group overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-150 transition-transform duration-500" />
               <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white text-2xl">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white text-xl">
                     ✓
                   </div>
-                  <h3 className="text-2xl font-bold text-primary">What YETI IS</h3>
+                  <h3 className="text-xl font-bold text-primary">What YETI IS</h3>
                 </div>
-                <ul className="space-y-5 text-base md:text-lg">
+                <ul className="space-y-3 text-sm md:text-base">
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="leading-relaxed">An 18-month hands-on program</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="leading-relaxed">A community of 100+ ambitious founders</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span className="leading-relaxed">Real mentorship from successful entrepreneurs</span>
+                    <span className="leading-relaxed">Real mentorship</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span className="leading-relaxed">€500-1000 to prototype your ideas</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span className="leading-relaxed">Your launchpad for the next big thing</span>
+                    <span className="leading-relaxed">€500-1000 prototyping budget</span>
                   </li>
                 </ul>
               </div>
             </div>
 
             {/* What it's not */}
-            <div className="relative bg-gradient-to-br from-neutral-50 to-neutral-100 rounded-3xl p-8 border-2 border-neutral-200 hover:border-neutral-300 transition-all group overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-neutral-200/50 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative bg-gradient-to-br from-neutral-50 to-neutral-100 rounded-2xl p-6 border-2 border-neutral-200 hover:border-neutral-300 transition-all group overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-neutral-200/50 rounded-full -translate-y-12 translate-x-12 group-hover:scale-150 transition-transform duration-500" />
               <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-700 text-white text-2xl">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-700 text-white text-xl">
                     ✗
                   </div>
-                  <h3 className="text-2xl font-bold text-neutral-700">What YETI is NOT</h3>
+                  <h3 className="text-xl font-bold text-neutral-700">What YETI is NOT</h3>
                 </div>
-                <ul className="space-y-5 text-base md:text-lg text-muted-foreground">
+                <ul className="space-y-3 text-sm md:text-base text-muted-foreground">
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg className="w-5 h-5 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="leading-relaxed">Just another lecture series</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg className="w-5 h-5 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="leading-relaxed">A get-rich-quick scheme</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg className="w-5 h-5 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span className="leading-relaxed">Only for business students</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span className="leading-relaxed">Something you can do half-heartedly</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span className="leading-relaxed">Limited to one city or university</span>
+                    <span className="leading-relaxed">Something to do half-heartedly</span>
                   </li>
                 </ul>
               </div>
@@ -244,85 +221,27 @@ export default function WTFPage() {
       </Section>
 
       {/* The Journey */}
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-16 text-center tracking-tight">
-              Your <span className="underline decoration-wavy underline-offset-8 decoration-primary">18-month journey</span>
-            </h2>
-
-            <div className="space-y-6">
-              {/* Semester 1 */}
-              <div className="bg-white rounded-2xl border-2 border-border p-6 md:p-8 relative overflow-hidden group hover:border-primary/50 transition-all">
-                <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white font-bold">
-                  1
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 pr-16 tracking-tight">Semester 1: Foundation</h3>
-                <p className="text-base md:text-lg text-muted-foreground mb-6 leading-relaxed">
-                  Build your innovation mindset. Learn design thinking, validate ideas, and start your first project.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Design Thinking</span>
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Ideation</span>
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">MVP Building</span>
-                </div>
-              </div>
-
-              {/* Semester 2 */}
-              <div className="bg-white rounded-2xl border-2 border-border p-6 md:p-8 relative overflow-hidden group hover:border-primary/50 transition-all">
-                <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white font-bold">
-                  2
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 pr-16 tracking-tight">Semester 2: Growth</h3>
-                <p className="text-base md:text-lg text-muted-foreground mb-6 leading-relaxed">
-                  Get real-world experience with industry partners. Learn to pitch, sell, and scale your solutions.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Industry Projects</span>
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Pitching</span>
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Networking</span>
-                </div>
-              </div>
-
-              {/* Semester 3 */}
-              <div className="bg-white rounded-2xl border-2 border-border p-6 md:p-8 relative overflow-hidden group hover:border-primary/50 transition-all">
-                <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white font-bold">
-                  3
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 pr-16 tracking-tight">Semester 3: Launch</h3>
-                <p className="text-base md:text-lg text-muted-foreground mb-6 leading-relaxed">
-                  Go all-in on your startup or social innovation. Get funding, build your team, and make it happen.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Start-up</span>
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Social Impact</span>
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">Demo Day</span>
-                </div>
-              </div>
-
-              {/* Alumni */}
-              <div className="bg-gradient-to-br from-primary to-primary-hover text-white rounded-2xl border-2 border-primary-hover p-6 md:p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-                <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full translate-y-20 -translate-x-20"></div>
-                <div className="relative z-10">
-                  <div className="absolute top-0 right-0 flex h-10 w-10 items-center justify-center rounded-full bg-white text-primary font-bold">
-                    ∞
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-4 pr-16 tracking-tight">Alumni Network</h3>
-                  <p className="text-base md:text-lg text-white/90 mb-6 leading-relaxed">
-                    You&apos;re never alone. Stay connected with the YETI community, access mentorship, and collaborate on new ventures.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-medium">Lifetime Access</span>
-                    <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-medium">Mentoring</span>
-                    <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-medium">Network</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CurriculumInfoSection
+        title="Your 18-month journey"
+        details={[
+          {
+            title: `${PROGRAM_INFO.duration.semesters} semesters`,
+            description: PROGRAM_INFO.duration.description
+          },
+          {
+            title: `${PROGRAM_INFO.timeCommitment.hoursPerWeek} hours/week`,
+            description: PROGRAM_INFO.timeCommitment.description
+          },
+          {
+            title: `${PROGRAM_INFO.yetiDay.day} is YETI-Day`,
+            description: PROGRAM_INFO.yetiDay.description
+          },
+          {
+            title: "Language",
+            description: "YETI encourages international exchange. Thus, the program is conducted in English."
+          }
+        ]}
+      />
 
       {/* Who should apply */}
       <Section>
@@ -373,7 +292,7 @@ export default function WTFPage() {
                 >
                   Apply for Dresden
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
                 <Link
@@ -382,7 +301,7 @@ export default function WTFPage() {
                 >
                   Apply for Leipzig
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
               </div>
@@ -414,8 +333,8 @@ export default function WTFPage() {
               <div className="text-white/80 font-medium">Active Members</div>
             </div>
             <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
-              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">€500</div>
-              <div className="text-white/80 font-medium">Prototyping Budget</div>
+              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">€1M+</div>
+              <div className="text-white/80 font-medium">Revenue by YETI Teams</div>
             </div>
             <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
               <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">2</div>
