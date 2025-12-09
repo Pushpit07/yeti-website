@@ -10,7 +10,7 @@ export default async function LandingPage() {
     <div className="relative min-h-screen bg-black">
       <DynamicHeader />
       {/* Full viewport split layout */}
-      <div className="group/container flex min-h-screen md:flex-row flex-col pt-12 md:pb-14 pb-12">
+      <div className="group/container flex min-h-screen md:flex-row flex-col pt-16 md:pb-14 pb-12">
         {/* Dresden Section */}
         <Link
           href="/dresden"

@@ -12,6 +12,18 @@ type MachineSliderProps = {
 export function MachineSlider({ machines }: MachineSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
 
+  // --- Autoplay and Navigation ---
+  const nextSlide = useCallback(() => {
+    if (!machines || machines.length === 0) return
+    setCurrentSlide((prev) => (prev === machines.length - 1 ? 0 : prev + 1))
+  }, [machines])
+
+  useEffect(() => {
+    if (!machines || machines.length === 0) return
+    const timer = setInterval(nextSlide, 7000)
+    return () => clearInterval(timer)
+  }, [nextSlide, machines])
+
   // Fallback if no machines are loaded
   if (!machines || machines.length === 0) {
     return (
@@ -25,16 +37,6 @@ export function MachineSlider({ machines }: MachineSliderProps) {
       </div>
     )
   }
-
-  // --- Autoplay and Navigation ---
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev === machines.length - 1 ? 0 : prev + 1))
-  }, [machines.length])
-
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 7000)
-    return () => clearInterval(timer)
-  }, [nextSlide])
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? machines.length - 1 : prev - 1))

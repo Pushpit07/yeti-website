@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from "react"
 import { FadeIn } from "./FadeIn"
 
 interface Testimonial {
@@ -22,25 +25,60 @@ export function TestimonialsSection({
   row1Testimonials,
   row2Testimonials
 }: TestimonialsSectionProps) {
-  const renderTestimonialCard = (testimonial: Testimonial, index: number) => (
-    <div key={index} className="w-[min(340px,85vw)] md:w-[400px] bg-white rounded-2xl p-6 md:p-8 border border-border hover:border-primary transition-all hover:shadow-lg group shrink-0">
-      <div className="mb-6">
-        <svg className="w-10 h-10 text-primary opacity-50" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-        </svg>
-      </div>
-      <p className="text-base md:text-lg mb-6 leading-relaxed">&quot;{testimonial.quote}&quot;</p>
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center text-white font-bold text-lg">
-          {testimonial.initials}
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set())
+
+  const toggleExpanded = (id: string) => {
+    setExpandedCards(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
+  }
+
+  const renderTestimonialCard = (testimonial: Testimonial, index: number, rowId: string) => {
+    const cardId = `${rowId}-${index}`
+    const isExpanded = expandedCards.has(cardId)
+    const shouldTruncate = testimonial.quote.length > 140
+    const displayQuote = shouldTruncate && !isExpanded
+      ? testimonial.quote.slice(0, 140) + '...'
+      : testimonial.quote
+
+    return (
+      <div key={index} className="w-[min(340px,85vw)] md:w-[400px] bg-white rounded-2xl p-6 md:p-8 border border-border hover:border-primary transition-all hover:shadow-lg group shrink-0 flex flex-col">
+        <div className="mb-6">
+          <svg className="w-10 h-10 text-primary opacity-50" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+          </svg>
         </div>
-        <div>
-          <div className="font-bold">{testimonial.name}</div>
-          <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+
+        <div className="grow">
+          <p className="text-base md:text-lg leading-relaxed whitespace-pre-wrap">{displayQuote}</p>
+          {shouldTruncate && (
+            <button
+              onClick={() => toggleExpanded(cardId)}
+              className="text-primary hover:text-primary-hover font-medium text-sm mt-2 transition-colors"
+            >
+              {isExpanded ? 'Read less' : 'Read more'}
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3 mt-6">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center text-white font-bold text-lg">
+            {testimonial.initials}
+          </div>
+          <div>
+            <div className="font-bold">{testimonial.name}</div>
+            <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <section className="bg-neutral-50 py-12 md:py-24">
@@ -72,7 +110,7 @@ export function TestimonialsSection({
             {/* Duplicate the set twice for seamless loop */}
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="flex gap-4 md:gap-6 shrink-0">
-                {row1Testimonials.map((testimonial, index) => renderTestimonialCard(testimonial, index))}
+                {row1Testimonials.map((testimonial, index) => renderTestimonialCard(testimonial, index, 'row1'))}
               </div>
             ))}
           </div>
@@ -82,7 +120,7 @@ export function TestimonialsSection({
             {/* Duplicate the set twice for seamless loop */}
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="flex gap-4 md:gap-6 shrink-0">
-                {row2Testimonials.map((testimonial, index) => renderTestimonialCard(testimonial, index))}
+                {row2Testimonials.map((testimonial, index) => renderTestimonialCard(testimonial, index, 'row2'))}
               </div>
             ))}
           </div>

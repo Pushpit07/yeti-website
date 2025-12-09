@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react"
 import Link from "next/link"
-import { motion } from "framer-motion"
 
 // --- Types ---
 type CalendarEvent = {
@@ -100,7 +99,7 @@ export function EventsCalendar({ events }: { events: CalendarEvent[] }) {
                     <div className="space-y-2">
                         <span className="text-primary font-bold uppercase tracking-widest text-xs">Your Schedule</span>
                         <h2 className="text-4xl md:text-5xl font-extrabold text-black leading-tight">
-                            Don't Miss a <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-black">Moment.</span>
+                            Don&apos;t Miss a <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-black">Moment.</span>
                         </h2>
                     </div>
 

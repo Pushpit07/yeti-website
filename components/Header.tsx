@@ -5,10 +5,15 @@ export default async function Header({ variant = "default" }: { variant?: "defau
     nav={{
       main: [
         { label: "WTF is YETI?", href: "/wtf" },
-        { label: "Dresden", href: "/dresden" },
+        {
+          label: "Dresden",
+          children: [
+            { label: "Overview", href: "/dresden" },
+            { label: "HQ", href: "/hq" },
+            { label: "Makerspace", href: "/makerspace" }
+          ]
+        },
         { label: "Leipzig", href: "/leipzig" },
-        { label: "HQ", href: "/hq" },
-        { label: "Makerspace", href: "/makerspace" },
         { label: "Blog", href: "/blogs" },
         { label: "Projects", href: "/projects" },
         { label: "Contributors", href: "/contributors" },

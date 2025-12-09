@@ -62,7 +62,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
         <div className="font-sans min-h-screen bg-neutral-50 text-neutral-900">
 
             {/* --- HERO SECTION (Redesigned) --- */}
-            <section className="relative min-h-[85vh] flex flex-col justify-center overflow-hidden">
+            <section className="relative min-h-[80vh] flex flex-col justify-center overflow-hidden">
 
                 {/* 1. Background Image with Overlay */}
                 <div className="absolute inset-0 z-0">
@@ -76,7 +76,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                     />
                     {/* Gradient Overlay for Readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-50 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent" />
                 </div>
 
                 {/* 2. Hero Content */}
@@ -111,7 +111,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                             </div>
                             <h3 className="text-white font-bold text-lg mb-2">Radical Collaboration</h3>
                             <p className="text-neutral-300 text-sm leading-relaxed">
-                                Silos don't exist here. Engineers, designers, and business minds work together to solve complex problems from day one.
+                                Silos don&apos;t exist here. Engineers, designers, and business minds work together to solve complex problems from day one.
                             </p>
                         </div>
 
@@ -122,7 +122,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                             </div>
                             <h3 className="text-white font-bold text-lg mb-2">Ownership & Impact</h3>
                             <p className="text-neutral-300 text-sm leading-relaxed">
-                                You don't just "learn" — you build. Whether it's a prototype or a start-up, you own the outcome and the success.
+                                You don&apos;t just &quot;learn&quot; — you build. Whether it&apos;s a prototype or a start-up, you own the outcome and the success.
                             </p>
                         </div>
                     </div>

@@ -6,7 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { getCityInfo, getApplicationDates } from "@/lib/constants"
 import { getApplicationData } from "@/lib/sheets"
-import { Mail, ArrowRight, CheckCircle2, Sparkles, Target, Clock, MapPin } from "lucide-react"
+import { Mail, ArrowRight, CheckCircle2 } from "lucide-react"
 
 export const dynamic = "force-static"
 
@@ -23,7 +23,7 @@ export default async function ApplicationDresdenPage() {
   const data = appData.find(d => d.city.toLowerCase() === 'dresden')
 
   const isApplicationOpen = data?.status
-  const applicationEmail = "bewerbung@yeti-dresden.org"
+  const applicationEmail = "application@yeti-dresden.org"
 
   // Helper to format Generation text (e.g., "G8" -> "Generation 8")
   const formatGeneration = (gen: string) => {
@@ -39,7 +39,7 @@ export default async function ApplicationDresdenPage() {
   return (
     <div className="font-sans">
       {/* Hero Section with Image */}
-      <section className="relative bg-black text-white overflow-hidden min-h-[90vh] flex flex-col justify-center items-center text-center pt-32 pb-20">
+      <section className="relative bg-black text-white overflow-hidden min-h-screen flex flex-col justify-center items-center text-center pt-32 pb-20">
         <div className="absolute inset-0">
           <Image
             src="/application.jpg"
@@ -58,7 +58,7 @@ export default async function ApplicationDresdenPage() {
         <div className="relative z-20 container mx-auto px-4">
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-12 tracking-tight">
-            Apply for <span className="text-primary">YETI Dresden</span>
+            Apply for <span className="text-primary drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">YETI Dresden</span>
           </h1>
 
           <div className="max-w-3xl mx-auto space-y-8 backdrop-blur-md bg-black/40 p-10 rounded-[2.5rem] border border-white/10 shadow-2xl">
@@ -131,14 +131,14 @@ export default async function ApplicationDresdenPage() {
       <section className="py-20 md:py-32 bg-neutral-50" id="details">
         <div className="container mx-auto px-4 max-w-7xl">
 
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-stretch">
 
             {/* Left Column: Requirements */}
-            <div className="space-y-10">
+            <div className="space-y-10 flex flex-col justify-between">
               <div>
-                <h2 className="text-4xl font-bold mb-6 text-neutral-900">What we're looking for</h2>
+                <h2 className="text-4xl font-bold mb-6 text-neutral-900">What we&apos;re looking for</h2>
                 <p className="text-lg text-neutral-600 leading-relaxed">
-                  We don't care about your grades. We care about your drive, your vision, and your willingness to take action.
+                  We don&apos;t care about your grades. We care about your drive, your vision, and your willingness to take action.
                 </p>
               </div>
 
