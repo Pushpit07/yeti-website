@@ -32,14 +32,16 @@ export function ContributorGrid({ items }: { items: ContributorItem[] }) {
                         transition={{ duration: 0.5, delay: index * 0.05 }}
                     >
                         {/* Image Aspect Ratio Container */}
-                        <div className="relative aspect-[3/4] w-full overflow-hidden">
+                        <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-800/50">
                             {item.image ? (
-                                <Image
-                                    src={item.image}
-                                    alt={item.name}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                />
+                                <div className="absolute inset-0 p-4 flex items-center justify-center">
+                                    <Image
+                                        src={item.image}
+                                        alt={item.name}
+                                        fill
+                                        className="object-contain transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                </div>
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-neutral-800 text-neutral-600">
                                     No Image

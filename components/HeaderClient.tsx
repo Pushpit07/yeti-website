@@ -119,32 +119,32 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
             )
           )}
           {/* Apply Now Button */}
-          <ApplyNowButton city="dresden" className="ml-2" />
+          <ApplyNowButton className="ml-2" />
         </nav>
 
         {/* Mobile: Apply Now Button and Hamburger */}
         <div className="flex items-center gap-2 md:hidden">
-          <ApplyNowButton city="dresden" />
+          <ApplyNowButton />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="flex h-11 w-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10"
             aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
           >
-          <div className="flex h-6 w-7 flex-col justify-between">
-            <span
-              className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? 'translate-y-[11px] rotate-45' : ''
-                }`}
-            />
-            <span
-              className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? 'opacity-0' : ''
-                }`}
-            />
-            <span
-              className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? '-translate-y-[11px] -rotate-45' : ''
-                }`}
-            />
-          </div>
+            <div className="flex h-6 w-7 flex-col justify-between">
+              <span
+                className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? 'translate-y-[11px] rotate-45' : ''
+                  }`}
+              />
+              <span
+                className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? 'opacity-0' : ''
+                  }`}
+              />
+              <span
+                className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? '-translate-y-[11px] -rotate-45' : ''
+                  }`}
+              />
+            </div>
           </button>
         </div>
       </div>
@@ -157,7 +157,7 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
             <div className="px-4 py-6">
               {/* Mobile Apply Now Button */}
               <div className="mb-4 pb-4 border-b border-white/20">
-                <ApplyNowButton city="dresden" className="w-full justify-center" />
+                <ApplyNowButton className="w-full justify-center" />
               </div>
               {nav.main.map((item) =>
                 item.children ? (

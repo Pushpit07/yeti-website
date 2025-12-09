@@ -27,13 +27,6 @@ export function DynamicHeader() {
             ]
           },
           { label: "Blog", href: "/blogs" },
-          {
-            label: "Apply",
-            children: [
-              { label: "for Dresden", href: "/application/dresden" },
-              { label: "for Leipzig", href: "/application/leipzig" }
-            ]
-          },
           { label: "Projects", href: "/projects" },
           {
             label: "Contributors",

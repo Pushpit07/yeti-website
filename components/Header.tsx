@@ -10,13 +10,6 @@ export default async function Header({ variant = "default" }: { variant?: "defau
         { label: "HQ", href: "/hq" },
         { label: "Makerspace", href: "/makerspace" },
         { label: "Blog", href: "/blogs" },
-        {
-          label: "Apply",
-          children: [
-            { label: "for Dresden", href: "/application/dresden" },
-            { label: "for Leipzig", href: "/application/leipzig" }
-          ]
-        },
         { label: "Projects", href: "/projects" },
         { label: "Contributors", href: "/contributors" },
         { label: "Events", href: "/events" }
