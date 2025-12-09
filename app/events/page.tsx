@@ -170,11 +170,19 @@ function EventCardSkeleton() {
   )
 }
 
-function EventCard({ event, index }: { event: Event; index: number }) {
+// ... imports ...
+
+function EventCard({ event, index, isPast = false }: { event: Event; index: number; isPast?: boolean }) {
   const hasMapsLink = !!event.googleMapsLink
+
+  // Filter links: if isPast, remove 'Register' links
+  const visibleLinks = isPast
+    ? event.links?.filter(l => l.label !== "Register")
+    : event.links
+
   return (
     <motion.article
-      className="bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-200 hover:shadow-md transition-shadow"
+      className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-200 transition-shadow ${isPast ? 'opacity-75 hover:opacity-100' : 'hover:shadow-md'}`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -182,7 +190,14 @@ function EventCard({ event, index }: { event: Event; index: number }) {
     >
       {isValidImageUrl(event.image) && (
         <div className="relative w-full h-32 md:h-36 bg-neutral-200">
-          <Image src={event.image as string} alt={event.title} fill className="object-cover" />
+          <Image src={event.image as string} alt={event.title} fill className={`object-cover ${isPast ? 'grayscale' : ''}`} />
+          {isPast && (
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+              <span className="bg-black/80 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-white/20">
+                Event Finished
+              </span>
+            </div>
+          )}
         </div>
       )}
       <div className="p-4 space-y-2">
@@ -211,13 +226,16 @@ function EventCard({ event, index }: { event: Event; index: number }) {
           )}
         </div>
         <h2 className="text-xl md:text-2xl font-bold text-black">{event.title}</h2>
-        {(event.registrationStartDate || event.registrationEndDate) && (
+
+        {/* Only show registration details if NOT past */}
+        {!isPast && (event.registrationStartDate || event.registrationEndDate) && (
           <div className="text-xs text-neutral-600">
             <span className="font-semibold">Registration:</span>{" "}
             {event.registrationStartDate && <span>from {event.registrationStartDate}</span>}
             {event.registrationEndDate && <span> {event.registrationStartDate ? " until " : "until "} {event.registrationEndDate}</span>}
           </div>
         )}
+
         {event.excerpt && <p className="text-sm text-neutral-700 leading-relaxed">{event.excerpt}</p>}
         {event.sponsoredBy && (
           <p className="text-xs text-neutral-500">
@@ -231,7 +249,8 @@ function EventCard({ event, index }: { event: Event; index: number }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
-          {event.links && event.links.map((link, idx) => (
+
+          {visibleLinks && visibleLinks.map((link, idx) => (
             <Link key={idx} href={link.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-black text-white text-sm rounded-full hover:bg-primary transition-colors font-medium">
               {link.label}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,6 +267,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [loading, setLoading] = useState(true)
+  const [showPastEvents, setShowPastEvents] = useState(false)
 
   useEffect(() => {
     ; (async () => {
@@ -274,9 +294,23 @@ export default function EventsPage() {
     return parsed ? parsed >= today : false
   })
 
+  // Sort upcoming events: soonest first
+  upcomingEvents.sort((a, b) => {
+    const dateA = a.date ? parseFlexibleDate(a.date)?.getTime() || 0 : 0
+    const dateB = b.date ? parseFlexibleDate(b.date)?.getTime() || 0 : 0
+    return dateA - dateB
+  })
+
   const pastEvents = withDate.filter((event) => {
     const parsed = parseFlexibleDate(event.date)
     return parsed ? parsed < today : false
+  })
+
+  // Sort past events: most recent past event first (descending)
+  pastEvents.sort((a, b) => {
+    const dateA = a.date ? parseFlexibleDate(a.date)?.getTime() || 0 : 0
+    const dateB = b.date ? parseFlexibleDate(b.date)?.getTime() || 0 : 0
+    return dateB - dateA
   })
 
   return (
@@ -316,7 +350,7 @@ export default function EventsPage() {
           {/* Upcoming Events List */}
           <div className="max-w-5xl mx-auto mb-20">
             <motion.h2 className="text-3xl md:text-4xl font-bold mb-6 text-black" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              ALl Events
+              Our Events
             </motion.h2>
 
             {/* CONDITIONAL RENDERING: Skeletons vs Real Data */}
@@ -347,16 +381,31 @@ export default function EventsPage() {
             )}
           </div>
 
-          {/* Past Events */}
+          {/* Past Events Section */}
           {!loading && pastEvents.length > 0 && (
-            <div className="max-w-5xl mx-auto">
-              <motion.h2 className="text-3xl md:text-4xl font-bold mb-6 text-black" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                Past Events
-              </motion.h2>
-              <div className="space-y-8">
-                {pastEvents.map((event, index) => (
-                  <EventCard key={event.slug} event={event} index={index} />
-                ))}
+            <div className="max-w-5xl mx-auto border-t border-neutral-200 pt-16">
+              <button
+                onClick={() => setShowPastEvents(!showPastEvents)}
+                className="flex items-center justify-between w-full group"
+              >
+                <motion.h2 className="text-3xl md:text-4xl font-bold text-neutral-400 group-hover:text-black transition-colors" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+                  Past Events
+                </motion.h2>
+                <div className={`p-2 rounded-full border transition-all duration-300 ${showPastEvents ? 'bg-primary text-white border-primary rotate-180' : 'bg-white text-neutral-400 border-neutral-300 group-hover:border-black group-hover:text-black'}`}>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </button>
+
+              <div className={`grid transition-[grid-template-rows] duration-500 ease-in-out ${showPastEvents ? 'grid-rows-[1fr] mt-8' : 'grid-rows-[0fr]'}`}>
+                <div className="overflow-hidden">
+                  <div className="space-y-8">
+                    {pastEvents.map((event, index) => (
+                      <EventCard key={event.slug} event={event} index={index} isPast={true} />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           )}

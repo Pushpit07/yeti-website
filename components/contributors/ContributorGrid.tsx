@@ -32,14 +32,16 @@ export function ContributorGrid({ items }: { items: ContributorItem[] }) {
                         transition={{ duration: 0.5, delay: index * 0.05 }}
                     >
                         {/* Image Aspect Ratio Container */}
-                        <div className="relative aspect-[3/4] w-full overflow-hidden">
+                        <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-800/50">
                             {item.image ? (
-                                <Image
-                                    src={item.image}
-                                    alt={item.name}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                />
+                                <div className="absolute inset-0 p-4 flex items-center justify-center">
+                                    <Image
+                                        src={item.image}
+                                        alt={item.name}
+                                        fill
+                                        className="object-contain transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                </div>
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-neutral-800 text-neutral-600">
                                     No Image
@@ -53,11 +55,18 @@ export function ContributorGrid({ items }: { items: ContributorItem[] }) {
                             <div className="absolute bottom-0 left-0 right-0 p-5 transform transition-transform duration-500">
                                 <h3 className="text-xl font-bold text-white mb-1 leading-tight drop-shadow-md">{item.name}</h3>
                                 {(item.role || item.company) && (
-                                    <p className="text-white/80 text-sm font-medium line-clamp-2 drop-shadow-sm mb-3">
-                                        {item.role}
-                                        {item.role && item.company && ' • '}
-                                        {item.company}
-                                    </p>
+                                    <div className="flex flex-wrap gap-2 mb-3">
+                                        {item.role && (
+                                            <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md border border-white/10 text-xs font-medium text-white shadow-sm">
+                                                {item.role}
+                                            </span>
+                                        )}
+                                        {item.company && !item.role && (
+                                            <span className="text-white/80 text-sm font-medium line-clamp-2 drop-shadow-sm">
+                                                {item.company}
+                                            </span>
+                                        )}
+                                    </div>
                                 )}
                                 {/* LinkedIn Icon */}
                                 {item.linkedin && (
