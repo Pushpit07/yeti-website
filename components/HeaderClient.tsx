@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Navigation } from '@/lib/types'
+import { ApplyNowButton } from './ApplyNowButton'
 
 export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigation; title: string; variant?: 'default' | 'black' }) {
   const [scrolled, setScrolled] = useState(false)
@@ -117,15 +118,19 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
               </Link>
             )
           )}
+          {/* Apply Now Button */}
+          <ApplyNowButton city="dresden" className="ml-2" />
         </nav>
 
-        {/* Mobile Hamburger Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex h-11 w-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10 md:hidden"
-          aria-label="Toggle mobile menu"
-          aria-expanded={mobileMenuOpen}
-        >
+        {/* Mobile: Apply Now Button and Hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <ApplyNowButton city="dresden" />
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10"
+            aria-label="Toggle mobile menu"
+            aria-expanded={mobileMenuOpen}
+          >
           <div className="flex h-6 w-7 flex-col justify-between">
             <span
               className={`block h-0.5 w-full bg-white ${mobileMenuOpen ? 'translate-y-[11px] rotate-45' : ''
@@ -140,7 +145,8 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
                 }`}
             />
           </div>
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -149,6 +155,10 @@ export function HeaderClient({ nav, title, variant = 'default' }: { nav: Navigat
           {/* Mobile Navigation Drawer - Full Screen */}
           <nav className="fixed inset-x-0 bottom-0 top-16 z-100 overflow-y-auto bg-black md:hidden">
             <div className="px-4 py-6">
+              {/* Mobile Apply Now Button */}
+              <div className="mb-4 pb-4 border-b border-white/20">
+                <ApplyNowButton city="dresden" className="w-full justify-center" />
+              </div>
               {nav.main.map((item) =>
                 item.children ? (
                   <div key={item.label} className="mb-2">
