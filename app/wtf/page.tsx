@@ -1,18 +1,71 @@
+'use client'
+
 import { Section } from "@/components/Section"
 import Link from "next/link"
-import Image from "next/image"
 import { CurriculumInfoSection } from "@/components/CurriculumInfoSection"
 import { TestimonialsSection } from "@/components/TestimonialsSection"
-import { PROGRAM_INFO, TESTIMONIALS } from "@/lib/constants"
+import { MissionSection } from "@/components/MissionSection"
+import { getCityInfo, PROGRAM_INFO, TESTIMONIALS } from "@/lib/constants"
+import { useState } from "react"
 
-export const dynamic = "force-static"
+const cityInfo = getCityInfo('dresden')
 
-export const metadata = {
-  title: "WTF is YETI? | YETI",
-  description: "Learn what YETI is all about - Young Entrepreneurs in Tech and Innovation",
+type OfferingType = {
+  emoji: string
+  title: string
+  shortDescription: string
+  detailedContent: string
+  color: 'primary' | 'black' | 'white'
 }
 
+const offerings: OfferingType[] = [
+  {
+    emoji: '🚀',
+    title: 'Prototyping Resources',
+    shortDescription: 'Access to HQ and Makerspace to build your ideas.',
+    detailedContent: 'Each project gets a budget of €300 to bring your ideas to life. You can develop and test your prototypes risk-free with our full support. Build, iterate, and experiment without worrying about costs.',
+    color: 'primary'
+  },
+  {
+    emoji: '👥',
+    title: 'Expert Mentorship',
+    shortDescription: 'Guidance from successful entrepreneurs.',
+    detailedContent: 'Every YETI gets paired with a personal mentor—successful entrepreneurs and CEOs who share their real-world experience. Get guidance from people who have been there and done it.',
+    color: 'black'
+  },
+  {
+    emoji: '🎓',
+    title: 'Skills Training',
+    shortDescription: 'Workshops on business and leadership.',
+    detailedContent: 'We offer free workshops on everything you need to know about founding a company—from business strategy to leadership skills. Learn the practical knowledge that will help you throughout your entrepreneurial journey.',
+    color: 'white'
+  },
+  {
+    emoji: '🌐',
+    title: 'Network',
+    shortDescription: 'Alumni, partners, and investors.',
+    detailedContent: 'Join a powerful startup network. Connect with investors, successful founders, and CEOs who can help fast-track your growth. Your YETI network becomes a lifelong asset.',
+    color: 'black'
+  },
+  {
+    emoji: '💡',
+    title: 'Project Support',
+    shortDescription: 'Help from ideation to launch.',
+    detailedContent: 'Every Thursday, our coaches work with you on your project\'s next steps and provide valuable feedback. Plus, you have constant support from your mentors whenever you get stuck.',
+    color: 'white'
+  },
+  {
+    emoji: '🏢',
+    title: 'Workspace',
+    shortDescription: 'Co-working space at YETI HQ.',
+    detailedContent: 'Get 24/7 access to our headquarters and makerspace. Work anytime in a cozy, inspiring environment designed to boost your productivity and creativity.',
+    color: 'primary'
+  }
+]
+
 export default function WTFPage() {
+  const [selectedOffering, setSelectedOffering] = useState<OfferingType | null>(null)
+
   return (
     <div className="font-sans">
       {/* Hero Section */}
@@ -83,143 +136,104 @@ export default function WTFPage() {
         </div>
       </section>
 
-      {/* Main Explanation */}
-      <section className="bg-black text-white pt-16 md:pt-32 border-t border-white/10">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-4 2xl:px-0">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold text-center leading-tight">
-              <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
-                Y
-              </span>oung{" "}
-              <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
-                E
-              </span>ntrepreneurs in{" "}
-              <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
-                T
-              </span>ech and{" "}
-              <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
-                I
-              </span>nnovation
-            </h2>
+      {/* Mission Section */}
+      <MissionSection
+        mission={{
+          pretitle: "Our",
+          title: "Mission",
+          description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
+          buttonText: "How it started",
+          buttonHref: "/how-it-started"
+        }}
+        about={{
+          title: "What is YETI?",
+          paragraphs: [
+            "<strong>Y</strong>oung <strong>E</strong>ntrepreneurs, in <strong>T</strong>ech and <strong>I</strong>nnovation Dresden is an educational initiative which aims to support the participants in becoming entrepreneurial role models and influential figures for society.",
+            `The ${PROGRAM_INFO.duration.months}-month program enables students to develop business ideas and leadership skills.`,
+            `Participants are mentored by the start-up community and ${cityInfo.mentorOrganization}.`
+          ]
+        }}
+      />
 
-            <div className="mt-20 space-y-4 text-xl md:text-2xl text-white/85 leading-relaxed text-center max-w-3xl mx-auto">
-              <p className="font-light">
-                YETI is not just another entrepreneurship program.
-              </p>
-              <p className="font-light">
-                It&apos;s a <strong className="text-primary font-semibold">movement</strong> for ambitious students who want to make real impact.
-              </p>
-
-              <div className="h-px w-16 bg-primary/30 mx-auto my-8" />
-
-              <p className="font-light">
-                We believe that the best way to learn entrepreneurship is by <strong className="text-primary font-semibold">doing it</strong>.
-              </p>
-              <p className="font-light">
-                That&apos;s why we don&apos;t just teach theory – we give you the tools, network, and resources to build real ventures while you study.
-              </p>
-            </div>
-
-            {/* Happy YETI Image */}
-            <div className="mt-20 flex justify-center">
-              <div className="relative w-[300px] h-[150px] md:w-[700px] md:h-[360px]">
-                <Image
-                  src="/happy-yeti/3.png"
-                  alt="Happy YETI"
-                  fill
-                  className="object-contain opacity-30"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Real Deal */}
+      {/* What We Provide Section - Compact but Stylish */}
       <Section>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10 md:mb-12">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 tracking-tight">
-              So, what&apos;s the <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">real deal</span>?
-            </h2>
-            <div className="h-1 w-20 bg-gradient-to-r from-primary to-primary-hover mx-auto rounded-full" />
-          </div>
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-4xl font-bold">
+            <span className="underline decoration-wavy underline-offset-8 decoration-primary">What</span> we provide
+          </h2>
+        </div>
 
-          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-            {/* What it is */}
-            <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-6 border-2 border-primary/20 hover:border-primary/40 transition-all group overflow-hidden">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-150 transition-transform duration-500" />
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white text-xl">
-                    ✓
-                  </div>
-                  <h3 className="text-xl font-bold text-primary">What YETI IS</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 max-w-5xl mx-auto">
+          {offerings.map((offering, index) => {
+            const cardClasses = offering.color === 'primary'
+              ? "bg-gradient-to-br from-primary to-primary-hover text-white"
+              : offering.color === 'black'
+                ? "bg-black text-white"
+                : "bg-white border border-border";
+
+            return (
+              <div
+                key={index}
+                onClick={() => setSelectedOffering(offering)}
+                className={`${cardClasses} rounded-xl p-4 md:p-5 relative overflow-hidden group cursor-pointer transition-transform hover:scale-105`}
+              >
+                {offering.color === 'primary' && (
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500" />
+                )}
+                {offering.color === 'black' && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-black to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                )}
+                <div className="relative z-10">
+                  <span className="text-2xl">{offering.emoji}</span>
+                  <h3 className={`font-bold text-sm md:text-base mt-2 mb-1 ${offering.color === 'white' ? '' : ''}`}>
+                    {offering.title}
+                  </h3>
+                  <p className={`text-xs md:text-sm leading-relaxed ${offering.color === 'primary' ? 'text-white/90' :
+                    offering.color === 'black' ? 'text-white/80' :
+                      'text-muted-foreground'
+                    }`}>
+                    {offering.shortDescription}
+                  </p>
                 </div>
-                <ul className="space-y-3 text-sm md:text-base">
-                  <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="leading-relaxed">An 18-month hands-on program</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="leading-relaxed">A community of 100+ ambitious founders</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="leading-relaxed">Real mentorship</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10 7l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="leading-relaxed">€500-1000 prototyping budget</span>
-                  </li>
-                </ul>
               </div>
+            );
+          })}
+        </div>
+
+      </Section>
+
+      {/* Modal */}
+      {selectedOffering && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedOffering(null)}
+        >
+          <div
+            className="bg-white rounded-2xl max-w-lg w-full p-8 relative animate-in fade-in zoom-in duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedOffering(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Content */}
+            <div className="text-center mb-6">
+              <span className="text-5xl mb-4 block">{selectedOffering.emoji}</span>
+              <h3 className="text-2xl font-bold mb-2">{selectedOffering.title}</h3>
             </div>
 
-            {/* What it's not */}
-            <div className="relative bg-gradient-to-br from-neutral-50 to-neutral-100 rounded-2xl p-6 border-2 border-neutral-200 hover:border-neutral-300 transition-all group overflow-hidden">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-neutral-200/50 rounded-full -translate-y-12 translate-x-12 group-hover:scale-150 transition-transform duration-500" />
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-700 text-white text-xl">
-                    ✗
-                  </div>
-                  <h3 className="text-xl font-bold text-neutral-700">What YETI is NOT</h3>
-                </div>
-                <ul className="space-y-3 text-sm md:text-base text-muted-foreground">
-                  <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="leading-relaxed">Just another lecture series</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="leading-relaxed">A get-rich-quick scheme</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-neutral-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="leading-relaxed">Something to do half-heartedly</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <p className="text-gray-700 leading-relaxed text-base">
+              {selectedOffering.detailedContent}
+            </p>
           </div>
         </div>
-      </Section>
+      )}
 
       {/* The Journey */}
       <CurriculumInfoSection
@@ -244,7 +258,7 @@ export default function WTFPage() {
         ]}
       />
 
-<TestimonialsSection
+      <TestimonialsSection
         title={TESTIMONIALS.title}
         highlightWord={TESTIMONIALS.highlightWord}
         subtitle={TESTIMONIALS.subtitle}

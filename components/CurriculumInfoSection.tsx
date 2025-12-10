@@ -14,26 +14,26 @@ interface CurriculumInfoSectionProps {
 
 export function CurriculumInfoSection({ title, details }: CurriculumInfoSectionProps) {
   return (
-    <Section>
-      <div className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-12">
-        {/* Left side - Text content */}
-        <div className="space-y-6">
-          <FadeIn direction="right">
-            <div className="mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">{title}</h2>
-              <div className="h-1 w-20 bg-gradient-to-r from-primary to-primary-hover rounded-full"></div>
-            </div>
-          </FadeIn>
+    <Section className="py-12 md:py-16">
+      {/* Full-width heading */}
+      <FadeIn>
+        <div className="text-center mb-8 md:mb-10">
+          <h2 className="text-2xl md:text-4xl font-bold mb-3">{title}</h2>
+          <div className="h-1 w-20 bg-gradient-to-r from-primary to-primary-hover rounded-full mx-auto"></div>
+        </div>
+      </FadeIn>
 
-          <div className="space-y-4">
-            {details.map((detail, index) => (
-              <FadeIn key={index} delay={0.1 + index * 0.1} direction="right">
-                <div className="group relative bg-white rounded-xl border border-border p-5 hover:border-primary/50 transition-all hover:shadow-md"
+      <div className="grid md:grid-cols-[1fr_2fr] gap-6 md:gap-8 items-stretch">
+        {/* Left side - Details list */}
+        <div className="flex flex-col justify-between gap-2">
+          {details.map((detail, index) => (
+            <FadeIn key={index} delay={0.1 + index * 0.1} direction="right" className="flex-1">
+              <div className="group relative bg-white rounded-lg border border-border p-3 md:p-4 hover:border-primary/50 transition-all hover:shadow-sm h-full"
               >
                 {/* Checkmark icon */}
-                <div className="absolute -left-3 top-6 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white shadow-md group-hover:scale-110 transition-transform">
+                <div className="absolute -left-2.5 top-4 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white shadow-sm group-hover:scale-110 transition-transform">
                   <svg
-                    className="w-3.5 h-3.5"
+                    className="w-3 h-3"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -47,35 +47,24 @@ export function CurriculumInfoSection({ title, details }: CurriculumInfoSectionP
                   </svg>
                 </div>
 
-                <div className="pl-4">
-                  <h3 className="text-lg md:text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                <div className="pl-3">
+                  <h3 className="text-sm md:text-base font-bold mb-1 text-foreground group-hover:text-primary transition-colors">
                     {detail.title}
                   </h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                     {detail.description}
                   </p>
                 </div>
 
                 {/* Decorative gradient on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-
-          {/* Bottom decoration */}
-          <FadeIn delay={0.5} direction="right">
-            <div className="pt-6 flex items-center gap-2">
-              <div className="h-1.5 w-1.5 rounded-full bg-primary/40"></div>
-              <div className="h-1.5 w-1.5 rounded-full bg-primary/60"></div>
-              <div className="h-1.5 w-1.5 rounded-full bg-primary/80"></div>
-              <div className="h-1.5 w-1.5 rounded-full bg-primary"></div>
-            </div>
-          </FadeIn>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              </div>
+            </FadeIn>
+          ))}
         </div>
 
         {/* Right side - Curriculum grid */}
-        <FadeIn direction="left" delay={0.2}>
+        <FadeIn direction="left" delay={0.2} className="h-full">
           <Curriculum />
         </FadeIn>
       </div>
