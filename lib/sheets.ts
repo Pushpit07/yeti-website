@@ -444,6 +444,21 @@ export type ApplicationData = {
   year: string
 }
 
+// --- 8. Location Data Parser ---
+
+export type LocationData = {
+  location: string
+  yearStarted: string
+  yetiCounts: string
+  yetiGenerations: string
+  innovationProjects: string
+  industryProjects: string
+  foundingProjects: string
+  hqAddress: string
+  emailId: string
+  contentFolder: string
+}
+
 export async function getApplicationData(): Promise<ApplicationData[]> {
   const rows = await getRawSheetData("Application", false)
   return rows
@@ -457,4 +472,32 @@ export async function getApplicationData(): Promise<ApplicationData[]> {
       year: String(row.c?.[6]?.v || "").trim(),
     }))
     .filter((item) => item.city)
+}
+
+export async function getLocationData(city?: string): Promise<LocationData[]> {
+  const rows = await getRawSheetData("Yeti", false)
+
+  const allData = rows
+    .map((row) => ({
+      location: String(row.c?.[0]?.v || "").trim(),
+      yearStarted: String(row.c?.[1]?.v || "").trim(),
+      yetiCounts: String(row.c?.[2]?.v || "").trim(),
+      yetiGenerations: String(row.c?.[3]?.v || "").trim(),
+      innovationProjects: String(row.c?.[4]?.v || "").trim(),
+      industryProjects: String(row.c?.[5]?.v || "").trim(),
+      foundingProjects: String(row.c?.[6]?.v || "").trim(),
+      hqAddress: String(row.c?.[7]?.v || "").trim(),
+      emailId: String(row.c?.[8]?.v || "").trim(),
+      contentFolder: String(row.c?.[9]?.v || "").trim(),
+    }))
+    .filter((item) => item.location)
+
+  // Filter by city if provided
+  if (city) {
+    return allData.filter((item) =>
+      item.location.toLowerCase() === city.toLowerCase()
+    )
+  }
+
+  return allData
 }
