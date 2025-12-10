@@ -52,7 +52,7 @@ export function HeadquartersSection({ hqAddress, city }: HeadquartersSectionProp
                                 </svg>
                             </a>
                             <a
-                                href="/hq"
+                                href={`/${city.toLowerCase()}/hq`}
                                 className="inline-flex items-center justify-center px-6 py-3 bg-neutral-100 hover:bg-neutral-200 text-black font-bold rounded-full transition-colors gap-2"
                             >
                                 Explore More

@@ -47,7 +47,7 @@ export function DynamicHeader() {
               { label: "Yeti Board", href: "/contributors/board" },
               { label: "Our Partners", href: "/contributors/sponsors" },
               { label: "Mentors", href: "/contributors/mentors" },
-              { label: "Fireside Chats", href: "/contributors/fireside-chats" }
+              { label: "Our Speakers", href: "/contributors/fireside-chats" }
             ]
           },
           { label: "Events", href: "/events" }

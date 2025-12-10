@@ -44,7 +44,7 @@ export default async function DresdenPage() {
       />
 
       {/* Makerspace Section */}
-      <MakerspaceSummarySection />
+      <MakerspaceSummarySection location="Dresden" />
 
       {/* Gallery Section */}
       <GallerySection

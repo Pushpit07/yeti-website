@@ -75,7 +75,7 @@ export default async function LeipzigPage() {
       />
 
       {/* Makerspace Section */}
-      <MakerspaceSummarySection />
+      <MakerspaceSummarySection location="Leipzig" />
 
       {/* Gallery Section */}
       <GallerySection

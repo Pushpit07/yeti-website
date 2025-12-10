@@ -3,6 +3,7 @@
 // --- 1. Type Definitions ---
 
 export type Machine = {
+  location: string
   name: string
   about: string
   imageLink: string
@@ -154,15 +155,25 @@ async function getRawSheetData(
 
 // --- 3. Specific Data Parsers ---
 
-export async function getMakerspaceData(): Promise<Machine[]> {
+export async function getMakerspaceData(city?: string): Promise<Machine[]> {
   const rows = await getRawSheetData("Makerspace")
-  return rows
+  const allData = rows
     .map((row) => ({
-      name: String(row.c?.[0]?.v || "").trim(),
-      about: String(row.c?.[1]?.v || "").trim(),
-      imageLink: String(row.c?.[2]?.v || "").trim(),
+      location: String(row.c?.[0]?.v || "").trim(),
+      name: String(row.c?.[1]?.v || "").trim(),
+      about: String(row.c?.[2]?.v || "").trim(),
+      imageLink: String(row.c?.[3]?.v || "").trim(),
     }))
     .filter((machine) => machine.name)
+
+  // Filter by city if provided
+  if (city) {
+    return allData.filter((machine) =>
+      machine.location.toLowerCase() === city.toLowerCase()
+    )
+  }
+
+  return allData
 }
 
 export async function getBlogData(): Promise<Blog[]> {
@@ -346,23 +357,34 @@ export async function getEventsData(): Promise<SheetEvent[]> {
 // --- 6. Makerspace Activity Parser ---
 
 export type MakerspaceActivity = {
+  location: string
   machine: string
   activity: string
   about: string
   imageLink: string
 }
 
-export async function getMakerspaceActivityData(): Promise<MakerspaceActivity[]> {
+export async function getMakerspaceActivityData(city?: string): Promise<MakerspaceActivity[]> {
   const rows = await getRawSheetData("Makerspace Activity")
 
-  return rows
+  const allData = rows
     .map((row) => ({
-      machine: String(row.c?.[0]?.v || "").trim(),
-      activity: String(row.c?.[1]?.v || "").trim(),
-      about: String(row.c?.[2]?.v || "").trim(),
-      imageLink: String(row.c?.[3]?.v || "").trim(),
+      location: String(row.c?.[0]?.v || "").trim(),
+      machine: String(row.c?.[1]?.v || "").trim(),
+      activity: String(row.c?.[2]?.v || "").trim(),
+      about: String(row.c?.[3]?.v || "").trim(),
+      imageLink: String(row.c?.[4]?.v || "").trim(),
     }))
     .filter((item) => item.activity)
+
+  // Filter by city if provided
+  if (city) {
+    return allData.filter((item) =>
+      item.location.toLowerCase() === city.toLowerCase()
+    )
+  }
+
+  return allData
 }
 
 export async function getOberYetisData(): Promise<OberYeti[]> {
@@ -457,6 +479,7 @@ export type LocationData = {
   hqAddress: string
   emailId: string
   contentFolder: string
+  hqContent: string
 }
 
 export async function getApplicationData(): Promise<ApplicationData[]> {
@@ -489,6 +512,7 @@ export async function getLocationData(city?: string): Promise<LocationData[]> {
       hqAddress: String(row.c?.[7]?.v || "").trim(),
       emailId: String(row.c?.[8]?.v || "").trim(),
       contentFolder: String(row.c?.[9]?.v || "").trim(),
+      hqContent: String(row.c?.[10]?.v || "").trim(),
     }))
     .filter((item) => item.location)
 

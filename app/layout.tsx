@@ -42,9 +42,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <ConditionalLayout header={<DynamicHeader />} footer={<Footer />}>
-        {children}
+          {children}
         </ConditionalLayout>
       </body>
     </html>
