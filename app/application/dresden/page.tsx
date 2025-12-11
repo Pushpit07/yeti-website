@@ -1,3 +1,5 @@
+"use client"
+
 import { Section } from "@/components/Section"
 import { FAQAccordion } from "@/components/FAQAccordion"
 import { FAQHeader } from "@/components/FAQHeader"
@@ -7,19 +9,13 @@ import Image from "next/image"
 import { getCityInfo, getApplicationDates } from "@/lib/constants"
 import { getApplicationData } from "@/lib/sheets"
 import { Mail, ArrowRight, CheckCircle2 } from "lucide-react"
-
-export const dynamic = "force-static"
+import { useSheetData } from "@/hooks/useSheetData"
 
 const cityInfo = getCityInfo('dresden')
 const applicationDates = getApplicationDates('dresden')
 
-export const metadata = {
-  title: "Application Dresden | YETI",
-  description: "Everything you need to know about applying to YETI Dresden - FAQs, Timeline, Tips & Tricks",
-}
-
-export default async function ApplicationDresdenPage() {
-  const appData = await getApplicationData()
+export default function ApplicationDresdenPage() {
+  const { data: appData, isLoading } = useSheetData(getApplicationData)
   const data = appData.find(d => d.city.toLowerCase() === 'dresden')
 
   const isApplicationOpen = data?.status
@@ -35,6 +31,14 @@ export default async function ApplicationDresdenPage() {
   }
 
   const generationText = data?.generation ? formatGeneration(data.generation) : ""
+
+  if (isLoading) {
+    return (
+      <div className="bg-black min-h-screen text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="font-sans">

@@ -1,18 +1,17 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Button } from "@/components/Button"
 import { OverviewSection } from "@/components/OverviewSection"
 import { HeadquartersSection } from "@/components/HeadquartersSection"
 import { MakerspaceSummarySection } from "@/components/MakerspaceSummarySection"
 import { GallerySection } from "@/components/GallerySection"
 import { ContactSection } from "@/components/ContactSection"
-import { getLocationData, getMediaContent } from "@/lib/sheets"
+import { getLocationData, getMediaContent, type LocationData, type MediaContent } from "@/lib/sheets"
 
-export const revalidate = 60
-
-export default async function LeipzigPage() {
-  // Fetch location-specific data from Google Sheets
-  const locationDataArray = await getLocationData("Leipzig")
-  const mediaContent = await getMediaContent()
-  const locationData = locationDataArray[0] || {
+export default function LeipzigPage() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [locationData, setLocationData] = useState<LocationData>({
     location: "Leipzig",
     yearStarted: "2023",
     yetiCounts: "30+",
@@ -22,7 +21,45 @@ export default async function LeipzigPage() {
     foundingProjects: "3+",
     hqAddress: "SpinLab, Spinnereistraße 7, 04179 Leipzig",
     emailId: "info@yeti-leipzig.org",
-    contentFolder: ""
+    contentFolder: "",
+    hqContent: ""
+  })
+  const [mediaContent, setMediaContent] = useState<MediaContent>({
+    dresdenHQ: [],
+    leipzigHQ: [],
+    dresdenGeneral: [],
+    leipzigGeneral: []
+  })
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [locData, medData] = await Promise.all([
+          getLocationData("Leipzig"),
+          getMediaContent()
+        ])
+
+        if (locData && locData[0]) {
+          setLocationData(locData[0])
+        }
+        if (medData) {
+          setMediaContent(medData)
+        }
+      } catch (err) {
+        console.error("Failed to fetch Leipzig data:", err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="bg-black min-h-screen text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   return (

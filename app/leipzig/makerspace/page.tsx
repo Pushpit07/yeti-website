@@ -1,19 +1,24 @@
+"use client"
+
 import { getMakerspaceData, getMakerspaceActivityData } from "@/lib/sheets"
 import { ActivityFeed } from "@/app/makerspace/ActivityFeed"
 import { EquipmentGrid } from "@/app/makerspace/EquipmentGrid"
+import { useSheetData } from "@/hooks/useSheetData"
 
-export const revalidate = 60
+const fetchMachines = () => getMakerspaceData("Leipzig")
+const fetchActivities = () => getMakerspaceActivityData("Leipzig")
 
-export const metadata = {
-    title: "Leipzig Makerspace | YETI",
-    description: "Where ideas turn into prototypes. Explore the YETI Leipzig Makerspace.",
-}
+export default function LeipzigMakerspacePage() {
+    const { data: machines, isLoading: loadingMachines } = useSheetData(fetchMachines)
+    const { data: activities, isLoading: loadingActivities } = useSheetData(fetchActivities)
 
-export default async function LeipzigMakerspacePage() {
-    const [machines, activities] = await Promise.all([
-        getMakerspaceData("Leipzig"),
-        getMakerspaceActivityData("Leipzig")
-    ])
+    if (loadingMachines || loadingActivities) {
+        return (
+            <div className="bg-black min-h-screen text-white flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+        )
+    }
 
     return (
         <div className="font-sans bg-black text-white selection:bg-primary selection:text-white">

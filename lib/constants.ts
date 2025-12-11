@@ -149,7 +149,7 @@ export const TESTIMONIALS = {
       initials: "J"
     },
     {
-      quote: "The world is your oyster. You’ve only got to ask the right people and be crazy enough to do it.",
+      quote: "The world is your oyster. You've only got to ask the right people and be crazy enough to do it.",
       name: "Francis Kigotho",
       role: "G7 Team Lead Infrastructure",
       initials: "FK"
@@ -157,7 +157,7 @@ export const TESTIMONIALS = {
   ],
   row2: [
     {
-      quote: "YETI is way more than inputs and workshops to me. It’s about the community that inspires me to be innovative and work hard.",
+      quote: "YETI is way more than inputs and workshops to me. It's about the community that inspires me to be innovative and work hard.",
       name: "Hanna",
       role: "Teamlead Recruiting / G1 Leipzig",
       initials: "H"
@@ -187,4 +187,24 @@ export const TESTIMONIALS = {
       initials: "DE"
     },
   ]
+}
+
+// Helper function to get testimonials from Google Sheets
+// Returns the same structure as TESTIMONIALS constant
+export async function getTestimonialsConfig() {
+  const { getTestimonialsData } = await import('./sheets')
+  const testimonials = await getTestimonialsData()
+
+  // Split testimonials into two rows (roughly equal)
+  const midPoint = Math.ceil(testimonials.length / 2)
+  const row1 = testimonials.slice(0, midPoint)
+  const row2 = testimonials.slice(midPoint)
+
+  return {
+    title: "What YETIs say",
+    highlightWord: "YETIs",
+    subtitle: "Hear from our community of entrepreneurs and innovators who have been part of the YETI journey.",
+    row1,
+    row2
+  }
 }

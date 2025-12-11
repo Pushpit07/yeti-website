@@ -1,4 +1,7 @@
-import { getMakerspaceActivityData } from "@/lib/sheets"
+"use client"
+
+import { useState, useEffect } from "react"
+import { getMakerspaceActivityData, type MakerspaceActivity } from "@/lib/sheets"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -15,9 +18,23 @@ interface MakerspaceSummarySectionProps {
     location: string
 }
 
-export async function MakerspaceSummarySection({ location }: MakerspaceSummarySectionProps) {
-    // Fetch activities filtered by location (Dresden or Leipzig)
-    const activities = await getMakerspaceActivityData(location)
+export function MakerspaceSummarySection({ location }: MakerspaceSummarySectionProps) {
+    const [activities, setActivities] = useState<MakerspaceActivity[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        async function fetchActivities() {
+            try {
+                const data = await getMakerspaceActivityData(location)
+                setActivities(data)
+            } catch (err) {
+                console.error("Failed to fetch makerspace activities:", err)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        fetchActivities()
+    }, [location])
 
     // Show only first 3 activities as preview
     const previewActivities = activities.slice(0, 3)
@@ -48,7 +65,11 @@ export async function MakerspaceSummarySection({ location }: MakerspaceSummarySe
                         See what our community builds with these tools. Real projects, from initial sketches to functional prototypes.
                     </p>
 
-                    {previewActivities.length > 0 ? (
+                    {isLoading ? (
+                        <div className="flex justify-center py-12">
+                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                        </div>
+                    ) : previewActivities.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {previewActivities.map((item, idx) => (
                                 <div

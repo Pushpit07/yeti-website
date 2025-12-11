@@ -1,18 +1,17 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Hero } from "@/components/Hero"
 import { OverviewSection } from "@/components/OverviewSection"
 import { HeadquartersSection } from "@/components/HeadquartersSection"
 import { MakerspaceSummarySection } from "@/components/MakerspaceSummarySection"
 import { GallerySection } from "@/components/GallerySection"
 import { ContactSection } from "@/components/ContactSection"
-import { getLocationData, getMediaContent } from "@/lib/sheets"
+import { getLocationData, getMediaContent, type LocationData, type MediaContent } from "@/lib/sheets"
 
-export const revalidate = 60
-
-export default async function DresdenPage() {
-  // Fetch location-specific data from Google Sheets
-  const locationDataArray = await getLocationData("Dresden")
-  const mediaContent = await getMediaContent()
-  const locationData = locationDataArray[0] || {
+export default function DresdenPage() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [locationData, setLocationData] = useState<LocationData>({
     location: "Dresden",
     yearStarted: "2019",
     yetiCounts: "200+",
@@ -22,7 +21,45 @@ export default async function DresdenPage() {
     foundingProjects: "15+",
     hqAddress: "Leubnitzer Str. 28, 01069 Dresden",
     emailId: "info@yeti-dresden.org",
-    contentFolder: ""
+    contentFolder: "",
+    hqContent: ""
+  })
+  const [mediaContent, setMediaContent] = useState<MediaContent>({
+    dresdenHQ: [],
+    leipzigHQ: [],
+    dresdenGeneral: [],
+    leipzigGeneral: []
+  })
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [locData, medData] = await Promise.all([
+          getLocationData("Dresden"),
+          getMediaContent()
+        ])
+
+        if (locData && locData[0]) {
+          setLocationData(locData[0])
+        }
+        if (medData) {
+          setMediaContent(medData)
+        }
+      } catch (err) {
+        console.error("Failed to fetch Dresden data:", err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="bg-black min-h-screen text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   return (

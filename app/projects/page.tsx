@@ -1,19 +1,20 @@
-// app/projects/page.tsx
+"use client"
+
 import { getProjectsData } from "@/lib/sheets"
 import { ProjectsClient } from "./ProjectsClient"
+import { useSheetData } from "@/hooks/useSheetData"
 
-// export const dynamic = "force-dynamic" // REMOVED: Incompatible with output: 'export'
-// export const revalidate = 0 // REMOVED: Incompatible with output: 'export'
-// Note: In static export mode, this data fetches ONCE at build time.
-// To update data, you must rebuild the application.
+export default function ProjectsPage() {
+  const { data: projects, isLoading } = useSheetData(getProjectsData)
 
-export const metadata = {
-  title: "Projects | YETI",
-  description:
-    "Discover successful projects from YETI participants across different semesters - from innovation to industry and start-up projects",
-}
+  if (isLoading) {
+    return (
+      <div className="bg-white min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
 
-export default async function ProjectsPage() {
-  const projects = await getProjectsData()
   return <ProjectsClient projects={projects} />
 }
+

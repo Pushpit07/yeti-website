@@ -1,14 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { PastProjectsSection } from "@/components/PastProjectsSection"
 import { getEventsData, type SheetEvent } from "@/lib/sheets"
 import { EventsCalendar } from "@/components/EventsCalendar"
+import { useSheetData } from "@/hooks/useSheetData"
 
-export const dynamic = "force-static"
+
 
 // --- Types (Same as before) ---
 type Event = {
@@ -265,49 +266,40 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
 }
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<Event[]>([])
-  const [loading, setLoading] = useState(true)
+  const { data: sheetEvents, isLoading: loading } = useSheetData(getEventsData)
   const [showPastEvents, setShowPastEvents] = useState(false)
 
-  useEffect(() => {
-    ; (async () => {
-      try {
-        const sheetEvents = await getEventsData()
-        const mapped = sheetEvents.map(mapSheetEventToEvent)
-        setEvents(mapped)
-      } catch (e) {
-        console.error("Failed to load events", e)
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [])
+  // Memoize mapped events to prevent recalculation on every render
+  const events = useMemo(() => {
+    return sheetEvents.map(mapSheetEventToEvent)
+  }, [sheetEvents])
+
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
-  const withDate = events.filter((e) => e.date)
-  const withoutDate = events.filter((e) => !e.date)
+  const withDate = events.filter((e: Event) => e.date)
+  const withoutDate = events.filter((e: Event) => !e.date)
 
-  const upcomingEvents = withDate.filter((event) => {
+  const upcomingEvents = withDate.filter((event: Event) => {
     const parsed = parseFlexibleDate(event.date)
     return parsed ? parsed >= today : false
   })
 
   // Sort upcoming events: soonest first
-  upcomingEvents.sort((a, b) => {
+  upcomingEvents.sort((a: Event, b: Event) => {
     const dateA = a.date ? parseFlexibleDate(a.date)?.getTime() || 0 : 0
     const dateB = b.date ? parseFlexibleDate(b.date)?.getTime() || 0 : 0
     return dateA - dateB
   })
 
-  const pastEvents = withDate.filter((event) => {
+  const pastEvents = withDate.filter((event: Event) => {
     const parsed = parseFlexibleDate(event.date)
     return parsed ? parsed < today : false
   })
 
   // Sort past events: most recent past event first (descending)
-  pastEvents.sort((a, b) => {
+  pastEvents.sort((a: Event, b: Event) => {
     const dateA = a.date ? parseFlexibleDate(a.date)?.getTime() || 0 : 0
     const dateB = b.date ? parseFlexibleDate(b.date)?.getTime() || 0 : 0
     return dateB - dateA

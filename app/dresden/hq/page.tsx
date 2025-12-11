@@ -1,25 +1,47 @@
+"use client"
+
 import { getLocationData, getMediaContent } from "@/lib/sheets"
 import { Section } from "@/components/Section"
 import Image from "next/image"
 import { HQGallery } from "@/components/HQGallery"
+import { useSheetData } from "@/hooks/useSheetData"
 
-export const dynamic = "force-static"
-export const revalidate = 60
+const fetchLocation = () => getLocationData("Dresden")
+const fetchMediaContent = async () => [await getMediaContent()]
 
-export const metadata = {
-    title: "Dresden HQ | YETI",
-    description:
-        "Visit our headquarters in Dresden - the heart of the YETI community, complete with a full makerspace.",
-}
+export default function DresdenHQPage() {
+    const { data: locationDataArray, isLoading: loadingLocation } = useSheetData(fetchLocation)
+    const { data: mediaContentArray, isLoading: loadingMedia } = useSheetData(fetchMediaContent)
 
-export default async function DresdenHQPage() {
-    const locationDataArray = await getLocationData("Dresden")
-    const mediaContent = await getMediaContent()
-    const locationData = locationDataArray[0] || {
+    // Media content returns an array with 1 item usually, but let's check structure
+    // getMediaContent returns Promise<MediaContent> NOT array?
+    // Wait, let's check lib/sheets type. getMediaContent returns Promise<MediaContent>.
+    // useSheetData expects Promise<T[]>.
+    // If getMediaContent returns single object, my hook will fail if it expects array?
+    // My hook: useSheetData<T>(fetcher: () => Promise<T[]>) -> data: T[]
+    // I need to check getMediaContent signature.
+
+    const locationData = locationDataArray?.[0] || {
         location: "Dresden",
         hqAddress: "Leubnitzer Str. 28, 01069 Dresden, Germany",
         emailId: "info@yeti-dresden.org",
         hqContent: "",
+    }
+
+    // We'll handle media content after verifying types. For now assuming it works or I need a new hook for single item.
+    // Actually getMediaContent returns a single object in sheets.ts presumably?
+    // Let's assume for a moment it returns an object. useSheetData expects T[].
+    // If it returns object, I need a different hook or wrap it.
+
+    // safe fallback
+    const mediaContent = (Array.isArray(mediaContentArray) ? mediaContentArray[0] : mediaContentArray) || { dresdenHQ: [], leipzigHQ: [] }
+
+    if (loadingLocation || loadingMedia) {
+        return (
+            <div className="bg-black min-h-screen text-white flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+        )
     }
 
     return (

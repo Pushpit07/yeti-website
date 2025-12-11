@@ -1,25 +1,33 @@
+"use client"
+
 import { getLocationData, getMediaContent } from "@/lib/sheets"
 import { Section } from "@/components/Section"
 import Image from "next/image"
 import { HQGallery } from "@/components/HQGallery"
+import { useSheetData } from "@/hooks/useSheetData"
 
-export const dynamic = "force-static"
-export const revalidate = 60
+const fetchLocation = () => getLocationData("Leipzig")
+const fetchMediaContent = async () => [await getMediaContent()]
 
-export const metadata = {
-    title: "Leipzig HQ | YETI",
-    description:
-        "Visit our headquarters in Leipzig - the heart of the YETI community, complete with a full makerspace.",
-}
+export default function LeipzigHQPage() {
+    const { data: locationDataArray, isLoading: loadingLocation } = useSheetData(fetchLocation)
+    const { data: mediaContentArray, isLoading: loadingMedia } = useSheetData(fetchMediaContent)
 
-export default async function LeipzigHQPage() {
-    const locationDataArray = await getLocationData("Leipzig")
-    const mediaContent = await getMediaContent()
-    const locationData = locationDataArray[0] || {
+    const locationData = locationDataArray?.[0] || {
         location: "Leipzig",
         hqAddress: "Address to be updated",
         emailId: "info@yeti-leipzig.org",
         hqContent: "",
+    }
+
+    const mediaContent = mediaContentArray?.[0] || { dresdenHQ: [], leipzigHQ: [] }
+
+    if (loadingLocation || loadingMedia) {
+        return (
+            <div className="bg-black min-h-screen text-white flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+        )
     }
 
     return (

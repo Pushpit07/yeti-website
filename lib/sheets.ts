@@ -111,7 +111,7 @@ async function getRawSheetData(
   )}`
 
   try {
-    const res = await fetch(url, { next: { revalidate: REVALIDATE_TIME } })
+    const res = await fetch(url)
 
     if (!res.ok) {
       // Log a warning but don't crash the app
@@ -563,4 +563,42 @@ export async function getMediaContent(): Promise<MediaContent> {
   })
 
   return content
+}
+
+// --- 10. Testimonials Parser ---
+
+export type Testimonial = {
+  quote: string
+  name: string
+  role: string
+  initials: string
+}
+
+export async function getTestimonialsData(): Promise<Testimonial[]> {
+  const rows = await getRawSheetData("Testimonials")
+  return rows
+    .map((row) => ({
+      quote: String(row.c?.[0]?.v || "").trim(),
+      name: String(row.c?.[1]?.v || "").trim(),
+      role: String(row.c?.[2]?.v || "").trim(),
+      initials: String(row.c?.[3]?.v || "").trim(),
+    }))
+    .filter((item) => item.quote && item.name)
+}
+
+// --- 11. FAQ Parser ---
+
+export type FAQItem = {
+  question: string
+  answer: string
+}
+
+export async function getFAQData(): Promise<FAQItem[]> {
+  const rows = await getRawSheetData("FAQ")
+  return rows
+    .map((row) => ({
+      question: String(row.c?.[0]?.v || "").trim(),
+      answer: String(row.c?.[1]?.v || "").trim(),
+    }))
+    .filter((item) => item.question && item.answer)
 }

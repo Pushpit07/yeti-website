@@ -32,6 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "YETI",
       description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
     },
+    manifest: "/manifest.json",
   }
 }
 

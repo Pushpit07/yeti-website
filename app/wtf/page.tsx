@@ -5,10 +5,19 @@ import Link from "next/link"
 import { CurriculumInfoSection } from "@/components/CurriculumInfoSection"
 import { TestimonialsSection } from "@/components/TestimonialsSection"
 import { MissionSection } from "@/components/MissionSection"
-import { getCityInfo, PROGRAM_INFO, TESTIMONIALS } from "@/lib/constants"
-import { useState } from "react"
+import { getCityInfo, PROGRAM_INFO, getTestimonialsConfig } from "@/lib/constants"
+import { useState, useEffect } from "react"
+import type { Testimonial } from "@/lib/sheets"
 
 const cityInfo = getCityInfo('dresden')
+
+type TestimonialsData = {
+  title: string
+  highlightWord: string
+  subtitle: string
+  row1: Testimonial[]
+  row2: Testimonial[]
+}
 
 type OfferingType = {
   emoji: string
@@ -65,6 +74,25 @@ const offerings: OfferingType[] = [
 
 export default function WTFPage() {
   const [selectedOffering, setSelectedOffering] = useState<OfferingType | null>(null)
+  const [testimonials, setTestimonials] = useState<TestimonialsData>({
+    title: "What YETIs say",
+    highlightWord: "YETIs",
+    subtitle: "Hear from our community of entrepreneurs and innovators who have been part of the YETI journey.",
+    row1: [],
+    row2: []
+  })
+
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const data = await getTestimonialsConfig()
+        setTestimonials(data)
+      } catch (err) {
+        console.error("Failed to fetch testimonials:", err)
+      }
+    }
+    loadTestimonials()
+  }, [])
 
   return (
     <div className="font-sans">
@@ -102,7 +130,7 @@ export default function WTFPage() {
               <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none z-10" />
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
-                src="https://www.youtube.com/embed/M7lc1UVf-VE?si=__P_Kj5s7N4R1m_"
+                src="https://www.youtube.com/embed/t0opx3NiUH8?si=VyVNI45VbsCROKfa"
                 title="WTF is YETI?"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
@@ -259,11 +287,11 @@ export default function WTFPage() {
       />
 
       <TestimonialsSection
-        title={TESTIMONIALS.title}
-        highlightWord={TESTIMONIALS.highlightWord}
-        subtitle={TESTIMONIALS.subtitle}
-        row1Testimonials={TESTIMONIALS.row1}
-        row2Testimonials={TESTIMONIALS.row2}
+        title={testimonials.title}
+        highlightWord={testimonials.highlightWord}
+        subtitle={testimonials.subtitle}
+        row1Testimonials={testimonials.row1}
+        row2Testimonials={testimonials.row2}
       />
 
       {/* Who should apply */}
