@@ -14,7 +14,7 @@ export default async function Header({ variant = "default" }: { variant?: "defau
           ]
         },
         { label: "Leipzig", href: "/leipzig" },
-        { label: "Blog", href: "/blogs" },
+        // { label: "Blog", href: "/blogs" },
         { label: "Projects", href: "/projects" },
         { label: "Contributors", href: "/contributors" },
         { label: "Events", href: "/events" }

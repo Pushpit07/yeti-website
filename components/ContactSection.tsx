@@ -25,9 +25,9 @@ export function ContactSection({ hqAddress, emailId, city }: ContactSectionProps
                 </div>
 
                 {/* Contact Info - No cards, just clean layout */}
-                <div className="space-y-12 mb-16">
+                <div className="flex flex-col md:flex-row md:gap-8 space-y-12 md:space-y-0 mb-16">
                     {/* Visit Us */}
-                    <div className="text-center md:text-left md:flex md:items-start md:gap-6">
+                    <div className="text-center md:text-left md:flex md:items-start md:gap-6 md:flex-1">
                         <div className="text-5xl mb-4 md:mb-0">📍</div>
                         <div>
                             <h3 className="text-2xl font-bold mb-3">Visit Us</h3>
@@ -41,7 +41,7 @@ export function ContactSection({ hqAddress, emailId, city }: ContactSectionProps
                     </div>
 
                     {/* Reach Out */}
-                    <div className="text-center md:text-left md:flex md:items-start md:gap-6">
+                    <div className="text-center md:text-left md:flex md:items-start md:gap-6 md:flex-1">
                         <div className="text-5xl mb-4 md:mb-0">✉️</div>
                         <div>
                             <h3 className="text-2xl font-bold mb-3">Reach Out</h3>
@@ -60,7 +60,7 @@ export function ContactSection({ hqAddress, emailId, city }: ContactSectionProps
 
                 {/* Blog CTA */}
                 <div className="border-t border-white/10 pt-12">
-                    <div className="text-center">
+                    {/* <div className="text-center">
                         <div className="inline-block mb-6">
                             <span className="px-4 py-2 bg-primary/20 backdrop-blur-sm border border-primary/40 rounded-full text-primary font-bold text-sm uppercase tracking-wider">
                                 Stories from the Community
@@ -81,7 +81,7 @@ export function ContactSection({ hqAddress, emailId, city }: ContactSectionProps
                                 <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </section>

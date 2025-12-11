@@ -69,7 +69,7 @@ export function OverviewSection({ locationData }: OverviewSectionProps) {
                         </div>
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
                             <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">
-                                {locationData.foundingProjects}
+                                {locationData.foundingProjects || "-"}
                             </div>
                             <div className="text-white/80 font-medium">Founding Projects</div>
                         </div>
