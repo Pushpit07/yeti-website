@@ -115,7 +115,7 @@ export default function WTFPage() {
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight tracking-tight">
               <span className="bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">
-                WTF is YETI?
+                What is YETI?
               </span>
             </h1>
 
@@ -131,7 +131,7 @@ export default function WTFPage() {
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
                 src="https://www.youtube.com/embed/t0opx3NiUH8?si=VyVNI45VbsCROKfa"
-                title="WTF is YETI?"
+                title="What is YETI?"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               />
@@ -375,6 +375,10 @@ export default function WTFPage() {
           </h2>
 
           <div className="grid md:grid-cols-4 gap-8">
+          <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
+              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">2</div>
+              <div className="text-white/80 font-medium">Cities</div>
+            </div>
             <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
               <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">18</div>
               <div className="text-white/80 font-medium">Months Program</div>
@@ -386,10 +390,6 @@ export default function WTFPage() {
             <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
               <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">€1M+</div>
               <div className="text-white/80 font-medium">Revenue by YETI Teams</div>
-            </div>
-            <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
-              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">2</div>
-              <div className="text-white/80 font-medium">Cities (Dresden & Leipzig)</div>
             </div>
           </div>
         </div>

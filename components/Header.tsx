@@ -4,7 +4,7 @@ export default async function Header({ variant = "default" }: { variant?: "defau
   return <HeaderClient
     nav={{
       main: [
-        { label: "WTF is YETI?", href: "/wtf" },
+        { label: "What is YETI?", href: "/wtf" },
         {
           label: "Dresden",
           children: [

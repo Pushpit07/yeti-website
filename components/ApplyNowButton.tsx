@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 interface ApplyNowButtonProps {
@@ -9,10 +9,26 @@ interface ApplyNowButtonProps {
 
 export function ApplyNowButton({ className = '' }: ApplyNowButtonProps) {
   const [mounted, setMounted] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
 
   if (!mounted) {
     return (
@@ -33,12 +49,20 @@ export function ApplyNowButton({ className = '' }: ApplyNowButtonProps) {
   `.trim()
 
   return (
-    <div className="group relative">
+    <div
+      ref={containerRef}
+      className="group relative"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
       {/* Main Button */}
-      <button className={buttonClasses}>
+      <button
+        className={buttonClasses}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <span>Apply Now</span>
         <svg
-          className="w-3 h-3 md:w-3.5 md:h-3.5 transition-transform duration-300 group-hover:rotate-180"
+          className={`w-3 h-3 md:w-3.5 md:h-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -49,7 +73,7 @@ export function ApplyNowButton({ className = '' }: ApplyNowButtonProps) {
       </button>
 
       {/* Dropdown Menu */}
-      <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-44 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:opacity-100">
+      <div className={`absolute right-0 top-full z-50 mt-2 min-w-44 transition-all duration-200 ease-out ${isOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}>
         {/* Dropdown Arrow */}
         <div className="absolute -top-1.5 right-6 h-3 w-3 rotate-45 border-l border-t border-blue-500/50 bg-gradient-to-br from-blue-600 to-blue-700"></div>
 
@@ -58,6 +82,7 @@ export function ApplyNowButton({ className = '' }: ApplyNowButtonProps) {
           <Link
             href="/application/dresden"
             className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-white/15"
+            onClick={() => setIsOpen(false)}
           >
             <span>for Dresden</span>
             <svg className="h-3.5 w-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -68,6 +93,7 @@ export function ApplyNowButton({ className = '' }: ApplyNowButtonProps) {
           <Link
             href="/application/leipzig"
             className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-white/15"
+            onClick={() => setIsOpen(false)}
           >
             <span>for Leipzig</span>
             <svg className="h-3.5 w-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

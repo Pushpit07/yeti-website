@@ -7,7 +7,7 @@ const footerSections = [
   {
     title: "About",
     links: [
-      { name: "WTF is YETI?", href: "/wtf" },
+      { name: "What is YETI?", href: "/wtf" },
       { name: "How it started?", href: "/how-it-started" },
       { name: "Dresden", href: "/dresden" },
       { name: "Leipzig", href: "/leipzig" },
@@ -18,16 +18,14 @@ const footerSections = [
     links: [
       { name: "Apply to Dresden", href: "/application/dresden" },
       { name: "Apply to Leipzig", href: "/application/leipzig" },
-      { name: "Projects", href: "/projects" },
     ],
   },
   {
     title: "Community",
     links: [
-      { name: "HQ", href: "/hq" },
-      { name: "Makerspace", href: "/makerspace" },
       { name: "Events", href: "/events" },
       { name: "Contributors", href: "/contributors" },
+      { name: "Projects", href: "/projects" },
     ],
   },
   {
@@ -52,7 +50,6 @@ export function FooterClient({
     <footer className="relative bg-black text-neutral-500 overflow-hidden">
       {/* Content - Above watermark */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-16 pb-12">
-        {/* Top Row - Logo and Social Icons */}
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-6 sm:mb-12 pb-8">
           {/* Logo and Info */}
           <div className="mb-6 lg:mb-0">
