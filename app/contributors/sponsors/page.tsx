@@ -6,6 +6,15 @@ import { Button } from '@/components/Button'
 export const dynamic = 'force-static'
 export const revalidate = 60
 
+interface SponsorItem {
+    id: string
+    name: string
+    role: string
+    description: string
+    image: string
+    linkedin: string
+}
+
 export default async function SponsorsPage() {
     const data = await getSponsorsData()
 
@@ -24,7 +33,7 @@ export default async function SponsorsPage() {
             linkedin: item.linkedin,
         })
         return acc
-    }, {} as Record<string, any[]>)
+    }, {} as Record<string, SponsorItem[]>)
 
     // Get categories and sort them if needed (optional)
     const categories = Object.keys(groupedData)

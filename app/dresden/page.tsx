@@ -4,13 +4,14 @@ import { HeadquartersSection } from "@/components/HeadquartersSection"
 import { MakerspaceSummarySection } from "@/components/MakerspaceSummarySection"
 import { GallerySection } from "@/components/GallerySection"
 import { ContactSection } from "@/components/ContactSection"
-import { getLocationData } from "@/lib/sheets"
+import { getLocationData, getMediaContent } from "@/lib/sheets"
 
 export const revalidate = 60
 
 export default async function DresdenPage() {
   // Fetch location-specific data from Google Sheets
   const locationDataArray = await getLocationData("Dresden")
+  const mediaContent = await getMediaContent()
   const locationData = locationDataArray[0] || {
     location: "Dresden",
     yearStarted: "2019",
@@ -48,7 +49,7 @@ export default async function DresdenPage() {
 
       {/* Gallery Section */}
       <GallerySection
-        contentFolder={locationData.contentFolder}
+        images={mediaContent.dresdenGeneral}
         location="Dresden"
       />
 

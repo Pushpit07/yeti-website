@@ -24,7 +24,7 @@ export function OverviewSection({ locationData }: OverviewSectionProps) {
                 {/* Descriptive Text */}
                 <p className="text-lg md:text-xl text-white/70 text-center mb-16 max-w-3xl mx-auto leading-relaxed">
                     YETI {locationData.location} started in <span className="text-primary font-bold">{locationData.yearStarted}</span>.
-                    It's home to <span className="text-primary font-bold">{locationData.yetiCounts}</span> inspiring young entrepreneurs
+                    It&apos;s home to <span className="text-primary font-bold">{locationData.yetiCounts}</span> inspiring young entrepreneurs
                     across <span className="text-primary font-bold">{locationData.yetiGenerations}</span> generations.
                 </p>
 

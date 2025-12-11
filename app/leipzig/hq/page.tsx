@@ -1,4 +1,4 @@
-import { getLocationData } from "@/lib/sheets"
+import { getLocationData, getMediaContent } from "@/lib/sheets"
 import { Section } from "@/components/Section"
 import Image from "next/image"
 import { HQGallery } from "@/components/HQGallery"
@@ -14,6 +14,7 @@ export const metadata = {
 
 export default async function LeipzigHQPage() {
     const locationDataArray = await getLocationData("Leipzig")
+    const mediaContent = await getMediaContent()
     const locationData = locationDataArray[0] || {
         location: "Leipzig",
         hqAddress: "Address to be updated",
@@ -150,8 +151,8 @@ export default async function LeipzigHQPage() {
                 </div>
             </section>
 
-            {/* HQ Gallery */}
-            <HQGallery folderUrl={locationData.hqContent} locationName="Leipzig" />
+            {/* HQGallery */}
+            <HQGallery images={mediaContent.leipzigHQ} locationName="Leipzig" />
 
             {/* Makerspace Section */}
             <Section className="bg-neutral-50">
@@ -168,9 +169,9 @@ export default async function LeipzigHQPage() {
                             </h2>
                             <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-8">
                                 YETI Leipzig HQ is fully equipped with a Makerspace where your ideas take
-                                physical form. Whether you're building a hardware
+                                physical form. Whether you&apos;re building a hardware
                                 prototype, creating a product demo, or just
-                                experimenting—we've got the tools and space you need.
+                                experimenting—we&apos;ve got the tools and space you need.
                             </p>
                             <div className="flex">
                                 <a

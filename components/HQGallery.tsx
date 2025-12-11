@@ -1,66 +1,36 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 
 interface HQGalleryProps {
-    folderUrl: string
+    images: string[]
     locationName: string
 }
 
-// This is a placeholder - in reality, you'd need a backend API to fetch images from Google Drive
-// For now, we'll show a beautiful placeholder that indicates where images will appear
-export function HQGallery({ folderUrl, locationName }: HQGalleryProps) {
+export function HQGallery({ images = [], locationName }: HQGalleryProps) {
     const [currentIndex, setCurrentIndex] = useState(0)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isFullscreen, setIsFullscreen] = useState(false)
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
 
-    // Placeholder images - replace with actual Google Drive fetching via backend API
-    const images: string[] = []
+    // Scroll active thumbnail into view
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            const activeThumb = scrollContainerRef.current.children[currentIndex] as HTMLElement
+            if (activeThumb) {
+                const containerWidth = scrollContainerRef.current.offsetWidth
+                const thumbLeft = activeThumb.offsetLeft
+                const thumbWidth = activeThumb.offsetWidth
 
-    if (!folderUrl || images.length === 0) {
-        return (
-            <section className="bg-black text-white py-16 md:py-24 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-
-                <div className="max-w-7xl mx-auto px-6 relative z-10">
-                    <div className="mb-12">
-                        <h2 className="text-4xl md:text-6xl font-bold mb-6">
-                            {locationName} <span className="text-primary">Headquarters</span>
-                        </h2>
-                        <p className="text-xl text-neutral-400 max-w-2xl">
-                            Explore our space where innovation meets collaboration.
-                        </p>
-                    </div>
-
-                    {/* Modern Grid Placeholder */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <div
-                                key={i}
-                                className="aspect-[4/3] bg-neutral-900/50 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm relative group hover:border-primary/50 transition-all duration-300"
-                            >
-                                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                                    <div className="w-16 h-16 mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                                        <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                    <p className="text-sm text-neutral-500 font-medium">Gallery coming soon</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="mt-12 text-center">
-                        <p className="text-neutral-500 text-sm">
-                            HQ photos will be loaded from Google Drive folder
-                        </p>
-                    </div>
-                </div>
-            </section>
-        )
-    }
+                scrollContainerRef.current.scrollTo({
+                    left: thumbLeft - (containerWidth / 2) + (thumbWidth / 2),
+                    behavior: 'smooth'
+                })
+            }
+        }
+    }, [currentIndex])
 
     const nextSlide = () => {
         setCurrentIndex((prev) => (prev + 1) % images.length)
@@ -70,124 +40,169 @@ export function HQGallery({ folderUrl, locationName }: HQGalleryProps) {
         setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
     }
 
-    return (
-        <>
+    if (!images || images.length === 0) {
+        return (
             <section className="bg-black text-white py-16 md:py-24 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-
-                <div className="max-w-7xl mx-auto px-6 relative z-10">
-                    <div className="mb-12">
-                        <h2 className="text-4xl md:text-6xl font-bold mb-6">
-                            {locationName} <span className="text-primary">Headquarters</span>
-                        </h2>
-                        <p className="text-xl text-neutral-400 max-w-2xl">
-                            Explore our space where innovation meets collaboration.
-                        </p>
-                    </div>
-
-                    {/* Main Slideshow */}
-                    <div className="relative group">
-                        <div className="aspect-[21/9] bg-neutral-900 rounded-3xl overflow-hidden relative">
-                            <Image
-                                src={images[currentIndex]}
-                                alt={`${locationName} HQ - Image ${currentIndex + 1}`}
-                                fill
-                                className="object-cover"
-                            />
-
-                            {/* Navigation Arrows */}
-                            <button
-                                onClick={prevSlide}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-all opacity-0 group-hover:opacity-100"
-                            >
-                                <ChevronLeft size={24} />
-                            </button>
-                            <button
-                                onClick={nextSlide}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-all opacity-0 group-hover:opacity-100"
-                            >
-                                <ChevronRight size={24} />
-                            </button>
-
-                            {/* Expand Button */}
-                            <button
-                                onClick={() => setIsModalOpen(true)}
-                                className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white text-sm font-medium hover:bg-black/70 transition-all opacity-0 group-hover:opacity-100"
-                            >
-                                View Fullscreen
-                            </button>
-
-                            {/* Counter */}
-                            <div className="absolute bottom-4 left-4 px-4 py-2 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white text-sm font-medium">
-                                {currentIndex + 1} / {images.length}
-                            </div>
-                        </div>
-
-                        {/* Thumbnail Navigation */}
-                        <div className="mt-6 grid grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
-                            {images.map((img, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => setCurrentIndex(idx)}
-                                    className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${idx === currentIndex
-                                            ? "border-primary scale-105"
-                                            : "border-white/10 hover:border-white/30"
-                                        }`}
-                                >
-                                    <Image
-                                        src={img}
-                                        alt={`Thumbnail ${idx + 1}`}
-                                        width={100}
-                                        height={100}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </button>
-                            ))}
+                <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+                    <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                        {locationName} <span className="text-primary">Gallery</span>
+                    </h2>
+                    <div className="aspect-[21/9] bg-neutral-900/50 border border-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                        <div className="text-center">
+                            <div className="text-6xl mb-4">📸</div>
+                            <p className="text-xl text-neutral-400">Gallery coming soon</p>
+                            <p className="text-sm text-neutral-600 mt-2">We are curating the best moments</p>
                         </div>
                     </div>
                 </div>
             </section>
+        )
+    }
 
-            {/* Fullscreen Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
-                    <button
-                        onClick={() => setIsModalOpen(false)}
-                        className="absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all z-10"
-                    >
-                        <X size={24} />
-                    </button>
+    return (
+        <section className="bg-neutral-50 py-16 md:py-24" id="gallery">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="mb-10 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                        Life at <span className="text-primary">{locationName} HQ</span>
+                    </h2>
+                    <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
+                        See where the magic happens.
+                    </p>
+                </div>
 
-                    <button
-                        onClick={prevSlide}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all z-10"
-                    >
-                        <ChevronLeft size={28} />
-                    </button>
+                <div className="max-w-5xl mx-auto">
+                    {/* Main Preview */}
+                    <div className="relative aspect-[16/9] md:aspect-[21/9] bg-white rounded-2xl shadow-xl overflow-hidden border border-neutral-200 mb-6 group">
 
-                    <div className="relative w-full h-full flex items-center justify-center p-4">
-                        <div className="relative w-full h-full max-w-7xl max-h-full">
-                            <Image
-                                src={images[currentIndex]}
-                                alt={`${locationName} HQ - Image ${currentIndex + 1}`}
-                                fill
-                                className="object-contain"
-                            />
+                        {/* Loading Skeleton */}
+                        <div className="absolute inset-0 bg-neutral-100 animate-pulse" />
+
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={currentIndex}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="relative w-full h-full"
+                            >
+                                <Image
+                                    src={images[currentIndex]}
+                                    alt={`Gallery Image ${currentIndex + 1}`}
+                                    fill
+                                    className="object-contain p-2"
+                                    sizes="(max-width: 768px) 100vw, 1200px"
+                                />
+                            </motion.div>
+                        </AnimatePresence>
+
+                        {/* Navigation Overlay */}
+                        <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button
+                                onClick={(e) => { e.stopPropagation(); prevSlide() }}
+                                className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-md transition-all transform hover:scale-105"
+                            >
+                                <ChevronLeft className="w-6 h-6" />
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); nextSlide() }}
+                                className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-md transition-all transform hover:scale-105"
+                            >
+                                <ChevronRight className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        {/* Expand Button */}
+                        <button
+                            onClick={() => setIsFullscreen(true)}
+                            className="absolute top-4 right-4 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        >
+                            <Maximize2 className="w-5 h-5" />
+                        </button>
+
+                        {/* Counter Pill */}
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-white text-sm font-medium">
+                            {currentIndex + 1} / {images.length}
                         </div>
                     </div>
 
-                    <button
-                        onClick={nextSlide}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all z-10"
+                    {/* Thumbnail Strip */}
+                    <div
+                        ref={scrollContainerRef}
+                        className="flex gap-4 overflow-x-auto pb-4 pt-2 px-2 scrollbar-hide snap-x"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
-                        <ChevronRight size={28} />
-                    </button>
-
-                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white font-medium">
-                        {currentIndex + 1} / {images.length}
+                        {images.map((img, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentIndex(idx)}
+                                className={`flex-shrink-0 relative w-24 h-16 md:w-32 md:h-20 rounded-lg overflow-hidden transition-all duration-300 snap-center
+                                    ${idx === currentIndex
+                                        ? 'ring-2 ring-primary ring-offset-2 ring-offset-neutral-50 shadow-md scale-105 opacity-100'
+                                        : 'opacity-60 hover:opacity-100 hover:scale-105'
+                                    }`}
+                            >
+                                <Image
+                                    src={img}
+                                    alt={`Thumbnail ${idx + 1}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="128px"
+                                />
+                            </button>
+                        ))}
                     </div>
                 </div>
-            )}
-        </>
+            </div>
+
+            {/* Fullscreen Lightbox */}
+            <AnimatePresence>
+                {isFullscreen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center"
+                        onClick={() => setIsFullscreen(false)}
+                    >
+                        <div className="relative w-full h-full p-4 md:p-10 flex items-center justify-center">
+                            <Image
+                                src={images[currentIndex]}
+                                alt={`Fullscreen Image ${currentIndex + 1}`}
+                                fill
+                                className="object-contain"
+                                quality={100}
+                            />
+
+                            <button
+                                onClick={(e) => { e.stopPropagation(); prevSlide() }}
+                                className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md"
+                            >
+                                <ChevronLeft className="w-8 h-8" />
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); nextSlide() }}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md"
+                            >
+                                <ChevronRight className="w-8 h-8" />
+                            </button>
+
+                            <button
+                                onClick={() => setIsFullscreen(false)}
+                                className="absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md z-50"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+
+                            <div className="absolute top-4 right-4 text-white/50 text-sm hidden">
+                                Press ESC to close
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </section>
     )
 }

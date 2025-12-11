@@ -26,7 +26,7 @@ export function HeadquartersSection({ hqAddress, city }: HeadquartersSectionProp
                         </h2>
 
                         <p className="text-lg text-neutral-700 mb-6 leading-relaxed">
-                            Our HQ is more than just an office—it's equipped with a fully accessible{" "}
+                            Our HQ is more than just an office—it&apos;s equipped with a fully accessible{" "}
                             <span className="font-bold text-primary">makerspace for builders</span>, where you can
                             prototype, experiment, and bring your ideas to life.
                         </p>
@@ -43,19 +43,19 @@ export function HeadquartersSection({ hqAddress, city }: HeadquartersSectionProp
 
                         <div className="flex flex-col sm:flex-row gap-4">
                             <a
-                                href="#makerspace"
+                                href={`/${city.toLowerCase()}/hq`}
                                 className="inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2"
                             >
-                                Explore Makerspace
+                                Discover the HQ
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </a>
                             <a
-                                href={`/${city.toLowerCase()}/hq`}
+                                href="#makerspace"
                                 className="inline-flex items-center justify-center px-6 py-3 bg-neutral-100 hover:bg-neutral-200 text-black font-bold rounded-full transition-colors gap-2"
                             >
-                                Explore More
+                                Explore Makerspace
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>

@@ -525,3 +525,42 @@ export async function getLocationData(city?: string): Promise<LocationData[]> {
 
   return allData
 }
+
+// --- 9. Media Content Parser ---
+
+export type MediaContent = {
+  dresdenHQ: string[]
+  leipzigHQ: string[]
+  dresdenGeneral: string[]
+  leipzigGeneral: string[]
+}
+
+export async function getMediaContent(): Promise<MediaContent> {
+  const rows = await getRawSheetData("Yeti Media Content")
+  const content: MediaContent = {
+    dresdenHQ: [],
+    leipzigHQ: [],
+    dresdenGeneral: [],
+    leipzigGeneral: [],
+  }
+
+  rows.forEach((row) => {
+    // Column A: Yeti Dresden HQ (Index 0)
+    const dHQ = String(row.c?.[0]?.v || "").trim()
+    if (dHQ) content.dresdenHQ.push(fixDriveUrl(dHQ))
+
+    // Column B: Yeti Leipzig HQ (Index 1)
+    const lHQ = String(row.c?.[1]?.v || "").trim()
+    if (lHQ) content.leipzigHQ.push(fixDriveUrl(lHQ))
+
+    // Column C: Yeti Dresden General Content (Index 2)
+    const dGen = String(row.c?.[2]?.v || "").trim()
+    if (dGen) content.dresdenGeneral.push(fixDriveUrl(dGen))
+
+    // Column D: Yeti Leipzig General Content (Index 3)
+    const lGen = String(row.c?.[3]?.v || "").trim()
+    if (lGen) content.leipzigGeneral.push(fixDriveUrl(lGen))
+  })
+
+  return content
+}

@@ -62,7 +62,7 @@ export default function MakerspacePage() {
               Choose Your <span className="text-primary">Makerspace</span>
             </h2>
             <p className="text-xl text-neutral-400 max-w-2xl mx-auto">
-              Select your location to explore our equipment and see what's being built.
+              Select your location to explore our equipment and see what&apos;s being built.
             </p>
           </div>
 

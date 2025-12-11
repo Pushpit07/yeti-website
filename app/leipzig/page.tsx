@@ -4,13 +4,14 @@ import { HeadquartersSection } from "@/components/HeadquartersSection"
 import { MakerspaceSummarySection } from "@/components/MakerspaceSummarySection"
 import { GallerySection } from "@/components/GallerySection"
 import { ContactSection } from "@/components/ContactSection"
-import { getLocationData } from "@/lib/sheets"
+import { getLocationData, getMediaContent } from "@/lib/sheets"
 
 export const revalidate = 60
 
 export default async function LeipzigPage() {
   // Fetch location-specific data from Google Sheets
   const locationDataArray = await getLocationData("Leipzig")
+  const mediaContent = await getMediaContent()
   const locationData = locationDataArray[0] || {
     location: "Leipzig",
     yearStarted: "2023",
@@ -79,7 +80,7 @@ export default async function LeipzigPage() {
 
       {/* Gallery Section */}
       <GallerySection
-        contentFolder={locationData.contentFolder}
+        images={mediaContent.leipzigGeneral}
         location="Leipzig"
       />
 

@@ -20,7 +20,7 @@ export function ContactSection({ hqAddress, emailId, city }: ContactSectionProps
                         Get in <span className="text-primary">Touch</span>
                     </h2>
                     <p className="text-xl text-white/70 max-w-2xl mx-auto">
-                        Have questions? Want to visit? We'd love to hear from you.
+                        Have questions? Want to visit? We&apos;d love to hear from you.
                     </p>
                 </div>
 
