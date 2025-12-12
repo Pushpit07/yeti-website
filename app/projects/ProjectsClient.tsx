@@ -341,7 +341,7 @@ function DetailModal({ project, onClose }: { project: Project; onClose: () => vo
             onClick={onClose}
         >
             <div
-                className={`bg-white w-full max-w-4xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row transform transition-all duration-500 ease-out ${isLoaded ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-4"}`}
+                className={`bg-white w-full max-w-4xl h-[90vh] rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row transform transition-all duration-500 ease-out ${isLoaded ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-4"}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="w-full md:w-[45%] bg-neutral-100 flex flex-col relative min-h-[250px] md:min-h-full group">
@@ -388,7 +388,7 @@ function DetailModal({ project, onClose }: { project: Project; onClose: () => vo
                     )}
                 </div>
 
-                <div className="w-full md:w-[55%] bg-white flex flex-col h-full overflow-hidden">
+                <div className="w-full md:w-[55%] bg-white flex flex-col flex-1 md:flex-none md:h-full overflow-hidden min-h-0">
                     <div className="flex-grow overflow-y-auto custom-scrollbar p-6 md:p-8">
                         <div className="flex justify-between items-start mb-6">
                             <div className="space-y-3">

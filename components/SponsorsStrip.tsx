@@ -26,7 +26,7 @@ export function SponsorsStrip() {
               key={`first-${index}`}
               className="mx-4 flex-shrink-0 text-base font-semibold text-white/60 transition-colors hover:text-white md:mx-8 md:text-xl"
             >
-              {sponsor}
+              {sponsor.company}
             </div>
           ))}
           {/* Duplicate set for seamless loop */}
@@ -35,7 +35,7 @@ export function SponsorsStrip() {
               key={`second-${index}`}
               className="mx-4 flex-shrink-0 text-base font-semibold text-white/60 transition-colors hover:text-white md:mx-8 md:text-xl"
             >
-              {sponsor}
+              {sponsor.company}
             </div>
           ))}
         </div>
