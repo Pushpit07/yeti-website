@@ -602,3 +602,24 @@ export async function getFAQData(): Promise<FAQItem[]> {
     }))
     .filter((item) => item.question && item.answer)
 }
+
+// --- 12. Contact Info Parser ---
+
+export type ContactInfo = {
+  location: string
+  medium: string // "Whatsapp", "Instagram", etc.
+  address: string // The URL or contact string
+  qrImage: string
+}
+
+export async function getContactData(): Promise<ContactInfo[]> {
+  const rows = await getRawSheetData("Yeti Contact")
+  return rows
+    .map((row) => ({
+      location: String(row.c?.[0]?.v || "Common").trim(),
+      medium: String(row.c?.[1]?.v || "").trim(),
+      address: String(row.c?.[2]?.v || "").trim(),
+      qrImage: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+    }))
+    .filter((item) => item.medium)
+}

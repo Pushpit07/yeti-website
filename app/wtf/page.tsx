@@ -6,8 +6,10 @@ import { CurriculumInfoSection } from "@/components/CurriculumInfoSection"
 import { TestimonialsSection } from "@/components/TestimonialsSection"
 import { MissionSection } from "@/components/MissionSection"
 import { getCityInfo, PROGRAM_INFO, getTestimonialsConfig } from "@/lib/constants"
-import { useState, useEffect } from "react"
-import type { Testimonial } from "@/lib/sheets"
+import { useState, useEffect, useRef } from "react"
+import { type Testimonial, type ContactInfo, getContactData } from "@/lib/sheets"
+import { AnimatePresence, motion } from "framer-motion"
+import Image from "next/image"
 
 const cityInfo = getCityInfo('dresden')
 
@@ -81,17 +83,33 @@ export default function WTFPage() {
     row1: [],
     row2: []
   })
+  const [contactInfo, setContactInfo] = useState<ContactInfo[]>([])
+  const [isApplyDropdownOpen, setIsApplyDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    async function loadTestimonials() {
+    async function loadData() {
       try {
-        const data = await getTestimonialsConfig()
-        setTestimonials(data)
+        const [testimonialsData, contactData] = await Promise.all([
+          getTestimonialsConfig(),
+          getContactData()
+        ])
+        setTestimonials(testimonialsData)
+        setContactInfo(contactData)
       } catch (err) {
-        console.error("Failed to fetch testimonials:", err)
+        console.error("Failed to fetch data:", err)
       }
     }
-    loadTestimonials()
+    loadData()
+
+    // Click outside handler for dropdown
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsApplyDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
   return (
@@ -327,36 +345,113 @@ export default function WTFPage() {
             </div>
           </div>
 
-          <div className="relative bg-black text-white rounded-3xl p-8 md:p-12 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
-            <div className="relative z-10">
-              <h3 className="text-2xl md:text-4xl font-bold mb-6 tracking-tight">Ready to join?</h3>
-              <p className="text-lg md:text-xl text-white/80 mb-10 max-w-3xl mx-auto leading-relaxed">
-                Applications are open for both Dresden and Leipzig.
-                <br className="hidden md:block" />
-                The program is <strong className="text-primary font-semibold">completely free</strong>, and you even get prototyping budget for projects.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/application/dresden"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2"
-                >
-                  Apply for Dresden
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
-                <Link
-                  href="/application/leipzig"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-neutral-100 text-black font-bold rounded-full transition-colors gap-2"
-                >
-                  Apply for Leipzig
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Ready to Join Section */}
+            <div className="relative bg-black text-white rounded-3xl p-8 md:p-12 overflow-visible min-h-[400px] flex flex-col">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent rounded-3xl overflow-hidden" />
+              <div className="relative z-10 flex-1 flex flex-col items-start text-left">
+                <h3 className="text-2xl md:text-4xl font-bold mb-4 tracking-tight">Ready to join?</h3>
+                <p className="text-lg md:text-xl text-white/80 mb-8 leading-relaxed max-w-md">
+                  Applications are open for both Dresden and Leipzig. The program is <strong className="text-primary font-semibold">completely free</strong>.
+                </p>
+
+                <div className="mt-auto relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setIsApplyDropdownOpen(!isApplyDropdownOpen)}
+                    className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2 w-full sm:w-auto"
+                  >
+                    Apply Now
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`transition-transform duration-200 ${isApplyDropdownOpen ? 'rotate-180' : ''}`}
+                    >
+                      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+
+                  <AnimatePresence>
+                    {isApplyDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute bottom-full left-0 mb-2 w-full sm:w-64 bg-white rounded-xl shadow-2xl overflow-hidden z-50 py-2"
+                      >
+                        <Link
+                          href="/application/dresden"
+                          className="flex items-center gap-3 px-6 py-3 hover:bg-neutral-50 transition-colors text-black"
+                        >
+                          <span className="w-2 h-2 rounded-full bg-primary" />
+                          <span className="font-semibold">Apply for Dresden</span>
+                        </Link>
+                        <Link
+                          href="/application/leipzig"
+                          className="flex items-center gap-3 px-6 py-3 hover:bg-neutral-50 transition-colors text-black"
+                        >
+                          <span className="w-2 h-2 rounded-full bg-black" />
+                          <span className="font-semibold">Apply for Leipzig</span>
+                        </Link>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
+
+            {/* Community Section */}
+            {(() => {
+              const whatsapp = contactInfo.find(c => c.medium.toLowerCase().includes('what'))
+              // Fallback if not fetched yet or not found
+              const whatsappLink = whatsapp?.address || "https://chat.whatsapp.com/Gf290Qt4NEp7Chb070Dxmp" // Fallback link form footer
+              const qrImage = whatsapp?.qrImage || "/qr-placeholder.png"
+
+              return (
+                <div className="relative bg-[#25D366] text-white rounded-3xl p-8 md:p-12 overflow-hidden min-h-[400px] flex flex-col group">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 opacity-10" style={{
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                    backgroundSize: '24px 24px'
+                  }} />
+
+                  <div className="relative z-10 flex-1 flex flex-col h-full">
+                    <div className="flex justify-between items-start mb-6">
+                      <div>
+                        <h3 className="text-2xl md:text-4xl font-bold mb-2 tracking-tight">Join our Community</h3>
+                        <p className="text-white/90 font-medium text-lg">Stay updated via WhatsApp</p>
+                      </div>
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12 text-white opacity-80">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                      </svg>
+                    </div>
+
+                    <div className="mt-auto flex items-end justify-between gap-4">
+                      <a
+                        href={whatsappLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#25D366] font-bold rounded-full transition-all hover:bg-neutral-100 hover:scale-105 shadow-lg"
+                      >
+                        Join Group
+                      </a>
+                      {/* Qr Code - Only show if image exists or we have a valid placeholder */}
+                      {whatsapp?.qrImage && (
+                        <div className="w-32 h-32 bg-white p-2 rounded-xl shadow-lg shrink-0 overflow-hidden transform group-hover:scale-105 transition-transform">
+                          <img
+                            src={qrImage}
+                            alt="WhatsApp QR Code"
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })()}
           </div>
         </div>
       </Section>
@@ -375,7 +470,7 @@ export default function WTFPage() {
           </h2>
 
           <div className="grid md:grid-cols-4 gap-8">
-          <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
+            <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
               <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">2</div>
               <div className="text-white/80 font-medium">Cities</div>
             </div>
