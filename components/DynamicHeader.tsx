@@ -28,6 +28,7 @@ export function DynamicHeader() {
                 label: "Leipzig",
                 children: [
                   { label: "Overview", href: "/leipzig" },
+                  { label: "Headquarters", href: "/leipzig#headquarters" },
                   { label: "Makerspace", href: "/leipzig#makerspace" },
                   { label: "Apply", href: "/application/leipzig" },
                 ]

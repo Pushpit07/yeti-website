@@ -1,18 +1,14 @@
 'use client'
 
+import { getSponsorsData } from '@/lib/sheets'
+import { useSheetData } from '@/hooks/useSheetData'
+
 export function SponsorsStrip() {
-  const sponsors = [
-    'TechCorp',
-    'InnovateLabs',
-    'FutureTech',
-    'StartupHub',
-    'VentureCapital',
-    'DigitalWorks',
-    'CloudSystems',
-    'DataDrive',
-    'NextGen',
-    'SmartSolutions',
-  ]
+  const { data: sponsors } = useSheetData(getSponsorsData)
+
+  if (!sponsors || sponsors.length === 0) {
+    return null
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-white/10 bg-black py-3 md:py-4">

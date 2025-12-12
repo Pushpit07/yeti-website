@@ -413,18 +413,11 @@ export async function getYetiBoardData(): Promise<YetiBoard[]> {
     .filter((item) => item.name)
 }
 
-export async function getSponsorsData(): Promise<Sponsor[]> {
+export async function getSponsorsData(): Promise<string[]> {
   const rows = await getRawSheetData("Sponsors")
   return rows
-    .map((row) => ({
-      company: String(row.c?.[0]?.v || "").trim(),
-      category: String(row.c?.[1]?.v || "").trim(),
-      description: String(row.c?.[2]?.v || "").trim(),
-      type: String(row.c?.[3]?.v || "").trim(),
-      linkedin: String(row.c?.[4]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[5]?.v || "").trim()),
-    }))
-    .filter((item) => item.company)
+    .map((row) => String(row.c?.[0]?.v || "").trim())
+    .filter((company) => company)
 }
 
 export async function getMentorsData(): Promise<Mentor[]> {

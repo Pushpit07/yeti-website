@@ -120,7 +120,7 @@ export default async function LandingPage() {
       <div className="fixed left-1/2 top-0 z-10 h-screen w-[15%] -translate-x-1/2 hidden md:block" />
 
       {/* Sponsors strip at bottom */}
-      {/* <SponsorsStrip /> */}
+      <SponsorsStrip />
     </div>
   )
 }
