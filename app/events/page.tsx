@@ -268,6 +268,8 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
 export default function EventsPage() {
   const { data: sheetEvents, isLoading: loading } = useSheetData(getEventsData)
   const [showPastEvents, setShowPastEvents] = useState(false)
+  const [pastEventsPage, setPastEventsPage] = useState(1)
+  const PAST_EVENTS_PER_PAGE = 3
 
   // Memoize mapped events to prevent recalculation on every render
   const events = useMemo(() => {
@@ -304,6 +306,13 @@ export default function EventsPage() {
     const dateB = b.date ? parseFlexibleDate(b.date)?.getTime() || 0 : 0
     return dateB - dateA
   })
+
+  // Pagination Logic
+  const totalPastEventsPages = Math.ceil(pastEvents.length / PAST_EVENTS_PER_PAGE)
+  const paginatedPastEvents = pastEvents.slice(
+    (pastEventsPage - 1) * PAST_EVENTS_PER_PAGE,
+    pastEventsPage * PAST_EVENTS_PER_PAGE
+  )
 
   return (
     <div className="font-sans">
@@ -373,6 +382,7 @@ export default function EventsPage() {
             )}
           </div>
 
+
           {/* Past Events Section */}
           {!loading && pastEvents.length > 0 && (
             <div className="max-w-5xl mx-auto border-t border-neutral-200 pt-16">
@@ -393,10 +403,35 @@ export default function EventsPage() {
               <div className={`grid transition-[grid-template-rows] duration-500 ease-in-out ${showPastEvents ? 'grid-rows-[1fr] mt-8' : 'grid-rows-[0fr]'}`}>
                 <div className="overflow-hidden">
                   <div className="space-y-8">
-                    {pastEvents.map((event, index) => (
+                    {paginatedPastEvents.map((event, index) => (
                       <EventCard key={event.slug} event={event} index={index} isPast={true} />
                     ))}
                   </div>
+
+                  {/* Pagination Controls */}
+                  {totalPastEventsPages > 1 && (
+                    <div className="flex items-center justify-between mt-8 pt-4 border-t border-neutral-100">
+                      <div className="text-sm text-neutral-500">
+                        Page {pastEventsPage} of {totalPastEventsPages}
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setPastEventsPage(prev => Math.max(prev - 1, 1))}
+                          disabled={pastEventsPage === 1}
+                          className="px-4 py-2 text-sm font-medium border border-neutral-200 rounded-full hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                          Previous
+                        </button>
+                        <button
+                          onClick={() => setPastEventsPage(prev => Math.min(prev + 1, totalPastEventsPages))}
+                          disabled={pastEventsPage === totalPastEventsPages}
+                          className="px-4 py-2 text-sm font-medium border border-neutral-200 rounded-full hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
