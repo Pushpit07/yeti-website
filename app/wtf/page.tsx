@@ -77,8 +77,8 @@ const offerings: OfferingType[] = [
 export default function WTFPage() {
   const [selectedOffering, setSelectedOffering] = useState<OfferingType | null>(null)
   const [testimonials, setTestimonials] = useState<TestimonialsData>({
-    title: "What YETIs say",
-    highlightWord: "YETIs",
+    title: "What Yetis say",
+    highlightWord: "Yetis",
     subtitle: "Hear from our community of entrepreneurs and innovators who have been part of the YETI journey.",
     row1: [],
     row2: []
@@ -115,7 +115,7 @@ export default function WTFPage() {
   return (
     <div className="font-sans">
       {/* Hero Section */}
-      <section className="relative bg-black text-white py-24 md:py-32 lg:py-40 overflow-hidden">
+      <section className="relative bg-black text-white py-24 md:py-32 lg:py-40 !pb-4 overflow-hidden">
         {/* Animated gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
         <div className="absolute inset-0">
@@ -138,7 +138,7 @@ export default function WTFPage() {
             </h1>
 
             <p className="text-xl md:text-2xl lg:text-[28px] text-white/75 mb-8 max-w-3xl mx-auto leading-relaxed font-light">
-              No fluff. No BS. Just the honest answer.
+              Find everything you need to know about YETI
             </p>
           </div>
 
@@ -159,26 +159,7 @@ export default function WTFPage() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/application/dresden"
-              className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-full transition-colors gap-2"
-            >
-              Apply for Dresden
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-            <Link
-              href="/application/leipzig"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-full transition-colors gap-2 border border-white/20"
-            >
-              Apply for Leipzig
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-          </div>
+          
         </div>
       </section>
 
@@ -196,7 +177,6 @@ export default function WTFPage() {
           paragraphs: [
             "<strong>Y</strong>oung <strong>E</strong>ntrepreneurs, in <strong>T</strong>ech and <strong>I</strong>nnovation Dresden is an educational initiative which aims to support the participants in becoming entrepreneurial role models and influential figures for society.",
             `The ${PROGRAM_INFO.duration.months}-month program enables students to develop business ideas and leadership skills.`,
-            `Participants are mentored by the start-up community and ${cityInfo.mentorOrganization}.`
           ]
         }}
       />
@@ -475,8 +455,8 @@ export default function WTFPage() {
               <div className="text-white/80 font-medium">Cities</div>
             </div>
             <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
-              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">18</div>
-              <div className="text-white/80 font-medium">Months Program</div>
+              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">50+</div>
+              <div className="text-white/80 font-medium">Projects</div>
             </div>
             <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
               <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">100+</div>

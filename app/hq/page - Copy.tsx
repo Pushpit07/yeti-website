@@ -256,7 +256,7 @@ export default function HQPage() {
               <div className="space-y-4 text-lg">
                 <div>
                   <p className="font-bold">Thursday (YETI Day)</p>
-                  <p className="text-muted-foreground">All day access & events</p>
+                  <p className="text-muted-foreground">Team work & events</p>
                 </div>
                 <div>
                   <p className="font-bold">Other weekdays</p>

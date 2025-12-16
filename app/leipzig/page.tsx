@@ -54,6 +54,31 @@ export default function LeipzigPage() {
     fetchData()
   }, [])
 
+  // Handle hash navigation for smooth scrolling to sections
+  useEffect(() => {
+    const handleHashNavigation = () => {
+      const hash = window.location.hash
+      if (hash) {
+        // Wait a bit for the page to fully render
+        setTimeout(() => {
+          const element = document.querySelector(hash)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
+        }, 100)
+      }
+    }
+
+    // Handle on mount and when loading completes
+    if (!isLoading) {
+      handleHashNavigation()
+    }
+
+    // Handle hash changes
+    window.addEventListener('hashchange', handleHashNavigation)
+    return () => window.removeEventListener('hashchange', handleHashNavigation)
+  }, [isLoading])
+
   if (isLoading) {
     return (
       <div className="bg-black min-h-screen text-white flex items-center justify-center">

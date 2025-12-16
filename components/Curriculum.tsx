@@ -55,14 +55,14 @@ export function Curriculum() {
               1
             </div>
             <div className="text-xs md:text-base font-bold mt-1.5 md:mt-2">Semester 1</div>
-            <div className="text-[8px] md:text-[10px] text-muted-foreground mt-0.5">Foundation</div>
+            <div className="text-[8px] md:text-[10px] text-muted-foreground mt-0.5">Learn</div>
           </div>
           <div className="group relative rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-50 px-1.5 py-1.5 md:px-3 md:py-3 text-center border border-neutral-200">
             <div className="absolute -top-1.5 -right-1.5 flex h-4 w-4 md:h-5 md:w-5 items-center justify-center rounded-full bg-primary text-white text-[8px] md:text-[10px] font-bold shadow-sm">
               2
             </div>
             <div className="text-xs md:text-base font-bold mt-1.5 md:mt-2">Semester 2</div>
-            <div className="text-[8px] md:text-[10px] text-muted-foreground mt-0.5">Growth</div>
+            <div className="text-[8px] md:text-[10px] text-muted-foreground mt-0.5">Apply</div>
           </div>
           <div className="group relative rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-50 px-1.5 py-1.5 md:px-3 md:py-3 text-center border border-neutral-200">
             <div className="absolute -top-1.5 -right-1.5 flex h-4 w-4 md:h-5 md:w-5 items-center justify-center rounded-full bg-primary text-white text-[8px] md:text-[10px] font-bold shadow-sm">

@@ -55,24 +55,33 @@ export function OverviewSection({ locationData }: OverviewSectionProps) {
                         Our <span className="text-primary">Impact</span> So Far
                     </h3>
                     <div className="grid md:grid-cols-3 gap-8 mb-12">
-                        <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
+                        <Link
+                            href="/projects#innovation"
+                            className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all cursor-pointer block"
+                        >
                             <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">
                                 {locationData.innovationProjects}
                             </div>
                             <div className="text-white/80 font-medium">Innovation Projects</div>
-                        </div>
-                        <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
+                        </Link>
+                        <Link
+                            href="/projects#industry"
+                            className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all cursor-pointer block"
+                        >
                             <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">
                                 {locationData.industryProjects}
                             </div>
                             <div className="text-white/80 font-medium">Industry Projects</div>
-                        </div>
-                        <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all">
+                        </Link>
+                        <Link
+                            href="/projects#founding"
+                            className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all cursor-pointer block"
+                        >
                             <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">
                                 {locationData.foundingProjects || "-"}
                             </div>
                             <div className="text-white/80 font-medium">Founding Projects</div>
-                        </div>
+                        </Link>
                     </div>
 
                     {/* CTA to Projects */}

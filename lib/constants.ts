@@ -21,7 +21,6 @@ export const CITY_INFO = {
       city: '01069 Dresden',
       country: 'Germany',
     },
-    mentorOrganization: 'dresden|exists, the start-up service for universities and scientific institutions in Dresden',
   },
   leipzig: {
     name: 'Leipzig',
@@ -66,7 +65,7 @@ export const PROGRAM_INFO = {
   duration: {
     months: 18,
     semesters: 3,
-    description: 'The educational program lasts for three semesters, followed by the Alumni network.',
+    description: 'The educational program lasts for three semesters, in which you will develop and learn new skills.',
   },
   timeCommitment: {
     hoursPerWeek: '10-15',
@@ -74,7 +73,7 @@ export const PROGRAM_INFO = {
   },
   yetiDay: {
     day: 'Thursday',
-    description: "All input-sessions will be held on Thursdays. It's also the busiest day of the week at YETI HQ.",
+    description: "All input-sessions will be held on Thursdays. On these days, you will work with your team at the HQ.",
   },
   language: {
     primary: 'English',
@@ -126,8 +125,8 @@ export function getGenerationText(city: City): string {
 
 // Testimonials
 export const TESTIMONIALS = {
-  title: "What YETIs say",
-  highlightWord: "YETIs",
+  title: "What Yetis say",
+  highlightWord: "Yetis",
   subtitle: "Hear from our community of entrepreneurs and innovators who have been part of the YETI journey.",
   row1: [
     {
@@ -201,8 +200,8 @@ export async function getTestimonialsConfig() {
   const row2 = testimonials.slice(midPoint)
 
   return {
-    title: "What YETIs say",
-    highlightWord: "YETIs",
+    title: "What Yetis say",
+    highlightWord: "Yetis",
     subtitle: "Hear from our community of entrepreneurs and innovators who have been part of the YETI journey.",
     row1,
     row2

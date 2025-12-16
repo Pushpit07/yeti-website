@@ -17,7 +17,7 @@ export function SponsorsStrip() {
         <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-40 bg-gradient-to-r from-black via-black to-transparent md:w-60" />
 
         <div className="absolute left-2 top-1/2 z-30 -translate-y-1/2 text-[10px] uppercase tracking-wider text-white/30 md:left-4 md:text-xs">
-          Our Sponsors
+          Our Partners
         </div>
         <div className="flex animate-scroll pl-20 md:pl-32">
           {/* First set of sponsors */}

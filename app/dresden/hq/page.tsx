@@ -276,7 +276,7 @@ export default function DresdenHQPage() {
                                     <div>
                                         <p className="font-bold">Thursday (YETI Day)</p>
                                         <p className="text-muted-foreground">
-                                            All day access & events
+                                            Team work & events
                                         </p>
                                     </div>
                                     <div>

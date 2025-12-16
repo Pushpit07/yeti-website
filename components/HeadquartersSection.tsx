@@ -12,7 +12,7 @@ export function HeadquartersSection({ hqAddress, city }: HeadquartersSectionProp
                     <div className="order-2 md:order-1">
                         <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-neutral-200 shadow-xl">
                             <img
-                                src={city.toLowerCase() === 'dresden' ? '/hq.jpg' : '/leipzig.jpg'}
+                                src={city.toLowerCase() === 'dresden' ? '/hq.jpg' : '/yeti-leipzig-hq.jpg'}
                                 alt={`YETI ${city} Headquarters`}
                                 className="w-full h-full object-cover"
                             />

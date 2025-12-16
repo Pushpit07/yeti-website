@@ -37,7 +37,7 @@ export default function LeipzigHQPage() {
                 <div className="relative w-full h-screen">
                     <div className="absolute inset-0">
                         <img
-                            src="/yeti-leipzig.jpg"
+                            src="/yeti-leipzig-hq.jpg"
                             alt="YETI Leipzig HQ"
                             className="w-full h-full object-cover"
                             style={{ objectPosition: "center" }}
@@ -256,7 +256,7 @@ export default function LeipzigHQPage() {
                                     <div>
                                         <p className="font-bold">Thursday (YETI Day)</p>
                                         <p className="text-muted-foreground">
-                                            All day access & events
+                                        Team work & events
                                         </p>
                                     </div>
                                     <div>

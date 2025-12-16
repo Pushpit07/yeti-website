@@ -90,6 +90,11 @@ export function EventsCalendar({ events }: { events: CalendarEvent[] }) {
 
     const monthName = currentDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })
 
+    // Get today's date for highlighting
+    const today = new Date()
+    const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month
+    const todayDate = today.getDate()
+
     return (
         <div className="w-full bg-white rounded-3xl border border-neutral-200 shadow-sm overflow-hidden p-8 md:p-12 mb-16">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -179,6 +184,7 @@ export function EventsCalendar({ events }: { events: CalendarEvent[] }) {
                             const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
                             const dayEvents = eventsByDate.get(dateKey) || []
                             const hasEvents = dayEvents.length > 0
+                            const isToday = isCurrentMonth && day === todayDate
 
                             return (
                                 <div key={day} className="relative group h-9 w-full flex items-center justify-center">
@@ -186,15 +192,19 @@ export function EventsCalendar({ events }: { events: CalendarEvent[] }) {
                                         className={`h-8 w-8 flex items-center justify-center rounded-full text-sm font-medium transition-all duration-300 relative z-10
                       ${hasEvents
                                                 ? "bg-black text-white cursor-pointer shadow-lg hover:bg-primary hover:shadow-primary/30 hover:scale-110"
-                                                : "text-neutral-500 hover:bg-neutral-200/50 cursor-default"}`}
+                                                : isToday
+                                                    ? "bg-primary text-white text-primary font-bold border-2 border-primary cursor-default"
+                                                    : "text-neutral-500 hover:bg-neutral-200/50 cursor-default"}
+                      ${isToday && hasEvents ? "border-2 border-primary" : ""}`}
                                     >
                                         {day}
                                     </div>
 
                                     {/* Indicator dot for events */}
-                                    {hasEvents && (
+                                    {hasEvents && !isToday && (
                                         <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full z-20" />
                                     )}
+
 
                                     {/* TOOLTIP POPUP */}
                                     {hasEvents && (

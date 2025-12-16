@@ -23,6 +23,34 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>("Innovation Projects")
     const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
+    // --- Hash navigation support ---
+    useEffect(() => {
+        const handleHashNavigation = () => {
+            const hash = window.location.hash.replace('#', '')
+            if (hash) {
+                // Map hash to category
+                const hashToCategoryMap: Record<string, string> = {
+                    'innovation': 'Innovation Projects',
+                    'industry': 'Industry Projects',
+                    'founding': 'Founding Projects',
+                    'companies': 'Yeti Companies',
+                    'golden-frame': 'Golden Frame'
+                }
+                const category = hashToCategoryMap[hash.toLowerCase()]
+                if (category) {
+                    setSelectedCategory(category)
+                }
+            }
+        }
+
+        // Handle on mount
+        handleHashNavigation()
+
+        // Handle hash changes
+        window.addEventListener('hashchange', handleHashNavigation)
+        return () => window.removeEventListener('hashchange', handleHashNavigation)
+    }, [])
+
     // --- Metrics Calculation ---
     const metrics = useMemo(() => {
         const innovationCount = projects.filter((p) => isInnovation(p)).length
@@ -98,9 +126,9 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                             <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30">
                                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             </div>
-                            <h3 className="text-white font-bold text-lg mb-2">Real-World Stakes</h3>
+                            <h3 className="text-white font-bold text-lg mb-2">Innovation Projects</h3>
                             <p className="text-neutral-300 text-sm leading-relaxed">
-                                Textbooks explain history; projects create the future. Move beyond case studies and face the unpredictability of real markets.
+                                At the beginning of the program, you will work on a specific problem area. This will lead to your first prototype and make you learn design thinking practically.
                             </p>
                         </div>
 
@@ -109,20 +137,25 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                             <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-purple-500/30">
                                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                             </div>
-                            <h3 className="text-white font-bold text-lg mb-2">Radical Collaboration</h3>
+                            <h3 className="text-white font-bold text-lg mb-2">Industry Projects</h3>
                             <p className="text-neutral-300 text-sm leading-relaxed">
-                                Silos don&apos;t exist here. Engineers, designers, and business minds work together to solve complex problems from day one.
+                                In the second semester, you will work with a real industry partner to solve a specific problem using design thinking.
                             </p>
                         </div>
 
                         {/* Feature 3 */}
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl hover:bg-white/15 transition-colors">
-                            <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-green-500/30">
-                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-green-500/30">
+                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="2" y="7" width="20" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                                    <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+                                    <path d="M2 9c1.5 0 2.5-1 2.5-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                    <path d="M22 15c-1.5 0-2.5 1-2.5 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                </svg>
                             </div>
-                            <h3 className="text-white font-bold text-lg mb-2">Ownership & Impact</h3>
+                            <h3 className="text-white font-bold text-lg mb-2">Golden Frame</h3>
                             <p className="text-neutral-300 text-sm leading-relaxed">
-                                You don&apos;t just &quot;learn&quot; — you build. Whether it&apos;s a prototype or a start-up, you own the outcome and the success.
+                                The golden frame is given to all projects that result out of Yetis when they are part of the program and make €10k+ in revenue. This will then be portrayed in a golden frame at the HQ.
                             </p>
                         </div>
                     </div>
@@ -186,6 +219,20 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                     )}
                 </div>
             </Section>
+
+            <section className="max-w-4xl mx-auto pb-24 -mt-16 text-center">
+                <div className="inline-block mb-6">
+                    <span className="px-4 py-2 bg-primary/10 text-primary font-bold rounded-full text-sm uppercase tracking-wider">
+                        More to come!
+                    </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                    More projects are on the way
+                </h2>
+                <p className="text-neutral-600 text-lg mb-6">
+                    Check back soon to see what our amazing community has built.
+                </p>
+            </section>
 
             {/* --- Detail Modal --- */}
             {selectedProject && (

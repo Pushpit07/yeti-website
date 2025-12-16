@@ -103,6 +103,32 @@ export function MakerspaceSummarySection({ location }: MakerspaceSummarySectionP
                                     </div>
                                 </div>
                             ))}
+
+                            {/* More to come card */}
+                            <div className="group flex flex-col bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-3xl overflow-hidden hover:border-primary/40 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20">
+                                {/* Decorative Area */}
+                                <div className="relative w-full h-64 bg-gradient-to-br from-primary/10 to-transparent overflow-hidden flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(138,210,255,0.1),transparent_50%)]"></div>
+                                    <div className="relative z-10 flex flex-col items-center gap-4">
+                                        <div className="flex gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0s' }}></div>
+                                            <div className="w-2 h-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                                            <div className="w-2 h-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                                        </div>
+                                        <svg className="w-16 h-16 text-primary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                {/* Content Area */}
+                                <div className="p-6 flex flex-col flex-grow items-center justify-center text-center">
+                                    <h3 className="text-xl font-bold text-primary mb-2 group-hover:scale-105 transition-transform">
+                                        More to come...
+                                    </h3>
+                     
+                                </div>
+                            </div>
                         </div>
                     ) : (
                         <div className="text-center py-12 text-neutral-500">
