@@ -5,15 +5,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function processImageUrl(url: string | null | undefined): string {
+export function processImageUrl(
+  url: string | null | undefined,
+  fallback: string = "/logo.jpg"
+): string {
   if (!url || typeof url !== 'string') {
-    return "/hq.jpg" // Return a fallback image
+    return fallback
   }
 
   // 1. Handle Google Drive Links
-  const driveMatch = url.match(/drive\.google\.com\/(file\/d\/|open\?id=)([\w-]+)/)
-  if (driveMatch && driveMatch[2]) {
-    const fileId = driveMatch[2]
+  // Matches: /d/ID, id=ID, file/d/ID, open?id=ID
+  const driveMatch = url.match(/(?:\/d\/|id=|file\/d\/|open\?id=)([-\w]{25,})/)
+  if (driveMatch && driveMatch[1]) {
+    const fileId = driveMatch[1]
     return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`
   }
 
@@ -23,7 +27,7 @@ export function processImageUrl(url: string | null | undefined): string {
   }
 
   console.warn(`Could not parse link, returning fallback: ${url}`)
-  return "/hq.jpg" // Return a fallback image
+  return fallback
 }
 
 // Backward compatibility alias if needed, but we will update usages.

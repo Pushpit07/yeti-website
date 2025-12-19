@@ -228,14 +228,17 @@ export async function getProjectsData(): Promise<Project[]> {
       const active = isTrue(9)
 
       const industryPartner = cleanStr(10)
-      const industryPartnerLogo = cleanStr(11)
+      const industryPartnerLogo = processImageLink(cleanStr(11))
 
       const rawPhotos = cleanStr(12)
       const teamPhotos = rawPhotos
-        ? rawPhotos.split(/[\n,]+/).map((p) => p.trim()).filter(Boolean)
+        ? rawPhotos
+          .split(/[\n,]+/)
+          .map((p) => processImageLink(p.trim()))
+          .filter(Boolean)
         : []
 
-      const logo = cleanStr(13)
+      const logo = processImageLink(cleanStr(13), "/white-transparent.png")
       const revenue = cleanStr(14)
 
       return {
