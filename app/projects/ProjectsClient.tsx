@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect } from "react"
 import Image from "next/image"
 import type { Project } from "@/lib/sheets"
 import { Section } from "@/components/Section"
-import { convertGoogleDriveLink } from "@/lib/utils"
+import { processImageUrl } from "@/lib/utils"
 
 export type ProjectsClientProps = {
     projects: Project[]
@@ -277,9 +277,9 @@ function ProjectCard({ project, onClick }: { project: Project; onClick: () => vo
         overviewTitle = "Founding Project Overview"
     }
 
-    const thumbnail = project.teamPhotos.length > 0 ? convertGoogleDriveLink(project.teamPhotos[0]) : null
-    const logoUrl = project.logo ? convertGoogleDriveLink(project.logo) : null
-    const partnerLogo = project.industryPartnerLogo ? convertGoogleDriveLink(project.industryPartnerLogo) : null
+    const thumbnail = project.teamPhotos.length > 0 ? processImageUrl(project.teamPhotos[0]) : null
+    const logoUrl = project.logo ? processImageUrl(project.logo) : null
+    const partnerLogo = project.industryPartnerLogo ? processImageUrl(project.industryPartnerLogo) : null
 
     return (
         <div
@@ -372,9 +372,9 @@ function DetailModal({ project, onClose }: { project: Project; onClose: () => vo
 
     useEffect(() => { setIsLoaded(true) }, [])
 
-    const galleryImages = project.teamPhotos.map((url) => convertGoogleDriveLink(url))
-    const logoUrl = project.logo ? convertGoogleDriveLink(project.logo) : null
-    const partnerLogo = project.industryPartnerLogo ? convertGoogleDriveLink(project.industryPartnerLogo) : null
+    const galleryImages = project.teamPhotos.map((url) => processImageUrl(url))
+    const logoUrl = project.logo ? processImageUrl(project.logo) : null
+    const partnerLogo = project.industryPartnerLogo ? processImageUrl(project.industryPartnerLogo) : null
     const isIndustry = isIndustryProject(project)
 
     useEffect(() => {
@@ -398,7 +398,7 @@ function DetailModal({ project, onClose }: { project: Project; onClose: () => vo
                                 src={galleryImages[activeImgIndex]}
                                 alt="Project Visual"
                                 fill
-                                className="object-cover"
+                                className="object-contain"
                                 priority
                             />
                         ) : (

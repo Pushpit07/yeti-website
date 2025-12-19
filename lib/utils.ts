@@ -5,19 +5,26 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function convertGoogleDriveLink(url: string): string {
+export function processImageUrl(url: string | null | undefined): string {
   if (!url || typeof url !== 'string') {
     return "/hq.jpg" // Return a fallback image
   }
 
-  // Use a regex to extract the file ID
-  const match = url.match(/drive\.google\.com\/(file\/d\/|open\?id=)([\w-]+)/)
-
-  if (match && match[2]) {
-    const fileId = match[2]
+  // 1. Handle Google Drive Links
+  const driveMatch = url.match(/drive\.google\.com\/(file\/d\/|open\?id=)([\w-]+)/)
+  if (driveMatch && driveMatch[2]) {
+    const fileId = driveMatch[2]
     return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`
   }
 
-  console.warn(`Could not parse GDrive link: ${url}`)
+  // 2. Pass through other valid URLs (e.g. ImageKit, Unsplash, etc.)
+  if (url.startsWith('http')) {
+    return url
+  }
+
+  console.warn(`Could not parse link, returning fallback: ${url}`)
   return "/hq.jpg" // Return a fallback image
 }
+
+// Backward compatibility alias if needed, but we will update usages.
+export const convertGoogleDriveLink = processImageUrl

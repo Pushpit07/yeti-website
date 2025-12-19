@@ -60,16 +60,13 @@ export type FiresideChat = {
   linkedin: string
 }
 
-function fixDriveUrl(url: string): string {
-  if (!url) return ""
-  // Handle standard Drive Viewer links
-  const match = url.match(/https?:\/\/drive\.google\.com\/file\/d\/([^/]+)/)
-  if (match) {
-    const id = match[1]
-    return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
-  }
-  return url
-}
+
+import { processImageUrl } from "@/lib/utils"
+
+// Backward compatibility or direct alias
+const processImageLink = processImageUrl
+
+
 
 // Project type
 export type Project = {
@@ -334,7 +331,7 @@ export async function getEventsData(): Promise<SheetEvent[]> {
       const registrationLink = clean(row.c?.[9]?.v)
       const sponsoredBy = clean(row.c?.[10]?.v)
 
-      const image = rawImage ? fixDriveUrl(rawImage) : ""
+      const image = rawImage ? processImageLink(rawImage) : ""
 
       return {
         slug,
@@ -395,7 +392,7 @@ export async function getOberYetisData(): Promise<OberYeti[]> {
       role: String(row.c?.[1]?.v || "").trim(),
       description: String(row.c?.[2]?.v || "").trim(),
       linkedin: String(row.c?.[3]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[4]?.v || "").trim()),
+      photo: processImageLink(String(row.c?.[4]?.v || "").trim()),
     }))
     .filter((item) => item.name)
 }
@@ -407,7 +404,7 @@ export async function getYetiBoardData(): Promise<YetiBoard[]> {
       name: String(row.c?.[0]?.v || "").trim(),
       title: String(row.c?.[1]?.v || "").trim(),
       company: String(row.c?.[2]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[4]?.v || "").trim()),
+      photo: processImageLink(String(row.c?.[4]?.v || "").trim()),
       linkedin: String(row.c?.[3]?.v || "").trim(),
     }))
     .filter((item) => item.name)
@@ -421,7 +418,7 @@ export async function getSponsorsData(): Promise<Sponsor[]> {
       category: String(row.c?.[1]?.v || "").trim(),
       description: String(row.c?.[2]?.v || "").trim(),
       type: String(row.c?.[3]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[4]?.v || "").trim()),
+      photo: processImageLink(String(row.c?.[4]?.v || "").trim()),
       linkedin: String(row.c?.[5]?.v || "").trim(),
     }))
     .filter((item) => item.company)
@@ -436,7 +433,7 @@ export async function getMentorsData(): Promise<Mentor[]> {
       company: String(row.c?.[2]?.v || "").trim(),
       description: String(row.c?.[3]?.v || "").trim(),
       linkedin: String(row.c?.[4]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[5]?.v || "").trim()),
+      photo: processImageLink(String(row.c?.[5]?.v || "").trim()),
     }))
     .filter((item) => item.name)
 }
@@ -448,7 +445,7 @@ export async function getFiresideChatsData(): Promise<FiresideChat[]> {
       name: String(row.c?.[0]?.v || "").trim(),
       title: String(row.c?.[1]?.v || "").trim(),
       description: String(row.c?.[2]?.v || "").trim(),
-      photo: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      photo: processImageLink(String(row.c?.[3]?.v || "").trim()),
       linkedin: String(row.c?.[4]?.v || "").trim(),
     }))
     .filter((item) => item.name)
@@ -547,19 +544,19 @@ export async function getMediaContent(): Promise<MediaContent> {
   rows.forEach((row) => {
     // Column A: Yeti Dresden HQ (Index 0)
     const dHQ = String(row.c?.[0]?.v || "").trim()
-    if (dHQ) content.dresdenHQ.push(fixDriveUrl(dHQ))
+    if (dHQ) content.dresdenHQ.push(processImageLink(dHQ))
 
     // Column B: Yeti Leipzig HQ (Index 1)
     const lHQ = String(row.c?.[1]?.v || "").trim()
-    if (lHQ) content.leipzigHQ.push(fixDriveUrl(lHQ))
+    if (lHQ) content.leipzigHQ.push(processImageLink(lHQ))
 
     // Column C: Yeti Dresden General Content (Index 2)
     const dGen = String(row.c?.[2]?.v || "").trim()
-    if (dGen) content.dresdenGeneral.push(fixDriveUrl(dGen))
+    if (dGen) content.dresdenGeneral.push(processImageLink(dGen))
 
     // Column D: Yeti Leipzig General Content (Index 3)
     const lGen = String(row.c?.[3]?.v || "").trim()
-    if (lGen) content.leipzigGeneral.push(fixDriveUrl(lGen))
+    if (lGen) content.leipzigGeneral.push(processImageLink(lGen))
   })
 
   return content
@@ -619,7 +616,7 @@ export async function getContactData(): Promise<ContactInfo[]> {
       location: String(row.c?.[0]?.v || "Common").trim(),
       medium: String(row.c?.[1]?.v || "").trim(),
       address: String(row.c?.[2]?.v || "").trim(),
-      qrImage: fixDriveUrl(String(row.c?.[3]?.v || "").trim()),
+      qrImage: processImageLink(String(row.c?.[3]?.v || "").trim()),
     }))
     .filter((item) => item.medium)
 }
