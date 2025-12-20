@@ -19,9 +19,13 @@ const CATEGORIES = [
     "Golden Frame",
 ]
 
+const ITEMS_PER_PAGE = 12 // 4 rows * 3 cols
+
 export function ProjectsClient({ projects }: ProjectsClientProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>("Innovation Projects")
     const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
 
     // --- Hash navigation support ---
     useEffect(() => {
@@ -39,6 +43,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                 const category = hashToCategoryMap[hash.toLowerCase()]
                 if (category) {
                     setSelectedCategory(category)
+                    setSearchQuery("") // Clear search if navigating via hash
                 }
             }
         }
@@ -68,8 +73,25 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
         }
     }, [projects])
 
+    // --- Reset Page on Filter Change ---
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [selectedCategory, searchQuery])
+
     // --- Filtering Logic ---
     const filteredProjects = useMemo(() => {
+        // 1. Global Search (Overrides Category)
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase()
+            return projects.filter((p) => {
+                const titleMatch = p.title.toLowerCase().includes(query)
+                const partnerMatch = p.industryPartner?.toLowerCase().includes(query)
+                const teamMatch = p.teamMembers.some(m => m.toLowerCase().includes(query))
+                return titleMatch || partnerMatch || teamMatch
+            })
+        }
+
+        // 2. Category Filter
         switch (selectedCategory) {
             case "Innovation Projects":
                 return projects.filter((p) => isInnovation(p))
@@ -84,25 +106,35 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             default:
                 return projects
         }
-    }, [projects, selectedCategory])
+    }, [projects, selectedCategory, searchQuery])
+
+    // --- Pagination Logic ---
+    const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE)
+    const paginatedProjects = useMemo(() => {
+        const start = (currentPage - 1) * ITEMS_PER_PAGE
+        return filteredProjects.slice(start, start + ITEMS_PER_PAGE)
+    }, [filteredProjects, currentPage])
+
+    const handleCategoryClick = (cat: string) => {
+        setSelectedCategory(cat)
+        setSearchQuery("") // Clear search when switching tabs
+    }
 
     return (
         <div className="font-sans min-h-screen bg-neutral-50 text-neutral-900">
 
-            {/* --- HERO SECTION (Redesigned) --- */}
+            {/* --- HERO SECTION --- */}
             <section className="relative min-h-[80vh] flex flex-col justify-center overflow-hidden">
 
                 {/* 1. Background Image with Overlay */}
                 <div className="absolute inset-0 z-0">
-                    {/* You can replace this src with a local image like '/images/hero.jpg' */}
                     <Image
-                        src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop"
+                        src="/ProjectPage.jpg"
                         alt="YETI Teamwork"
                         fill
                         className="object-cover"
                         priority
                     />
-                    {/* Gradient Overlay for Readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40" />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent" />
                 </div>
@@ -119,9 +151,9 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                         </p>
                     </div>
 
-                    {/* 3. Value Props Grid (Why YETI?) */}
+                    {/* 3. Value Props Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                        {/* Feature 1 */}
+                        {/* Innovation */}
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl hover:bg-white/15 transition-colors">
                             <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30">
                                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -132,7 +164,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                             </p>
                         </div>
 
-                        {/* Feature 2 */}
+                        {/* Industry */}
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl hover:bg-white/15 transition-colors">
                             <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-purple-500/30">
                                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -143,7 +175,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                             </p>
                         </div>
 
-                        {/* Feature 3 */}
+                        {/* Golden Frame */}
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl hover:bg-white/15 transition-colors">
                             <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-green-500/30">
                                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +187,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                             </div>
                             <h3 className="text-white font-bold text-lg mb-2">Golden Frame</h3>
                             <p className="text-neutral-300 text-sm leading-relaxed">
-                                The golden frame is given to all projects that result out of Yetis when they are part of the program and make €10k+ in revenue. This will then be portrayed in a golden frame at the HQ.
+                                The golden frame is given to all projects that result out of Yetis when they are part of the program and make €10k+ in revenue.
                             </p>
                         </div>
                     </div>
@@ -164,7 +196,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
 
             {/* --- Metrics Bar --- */}
             <section className="border-b border-neutral-200 bg-white sticky top-0 z-20 shadow-sm transition-all">
-                {/* Top Row: Stats (Hidden on mobile for cleaner look) */}
+                {/* Stats (Hidden on mobile) */}
                 <div className="hidden md:block border-b border-neutral-100">
                     <div className="container mx-auto px-6 md:px-12 py-6">
                         <div className="grid grid-cols-5 gap-4 divide-x divide-neutral-100">
@@ -177,23 +209,52 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                     </div>
                 </div>
 
-                {/* Bottom Row: Filter Tabs */}
-                <div className="container mx-auto px-4 md:px-12 py-4 overflow-x-auto no-scrollbar">
-                    <div className="flex md:justify-center min-w-max">
-                        <div className="inline-flex bg-neutral-100 p-1.5 rounded-full border border-neutral-200">
-                            {CATEGORIES.map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setSelectedCategory(cat)}
-                                    className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${selectedCategory === cat
-                                        ? "bg-white text-black shadow-md transform scale-105"
-                                        : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/50"
-                                        }`}
-                                >
-                                    {cat}
-                                </button>
-                            ))}
+                {/* Filter Tabs & Search */}
+                <div className="container mx-auto px-4 md:px-12 py-4">
+                    <div className="flex flex-col lg:flex-row items-center justify-center gap-4">
+
+                        {/* Tabs */}
+                        <div className="overflow-x-auto no-scrollbar w-full lg:w-auto">
+                            <div className="flex min-w-max bg-neutral-100 p-1.5 rounded-full border border-neutral-200">
+                                {CATEGORIES.map((cat) => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => handleCategoryClick(cat)}
+                                        // Disable tab highlighting if searching, or keep it but it might be confusing
+                                        // Better: If searching, show all tabs as inactive or just indicate search mode
+                                        className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${!searchQuery && selectedCategory === cat
+                                            ? "bg-white text-black shadow-md transform scale-105"
+                                            : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/50"
+                                            }`}
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
+
+                        {/* Search Bar */}
+                        <div className="relative w-full lg:w-72 group">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg className="h-5 w-5 text-neutral-400 group-focus-within:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            </div>
+                            <input
+                                type="text"
+                                className="block w-full pl-10 pr-3 py-2.5 border border-neutral-200 rounded-full leading-5 bg-neutral-50 placeholder-neutral-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm"
+                                placeholder="Search projects, people..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery("")}
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                >
+                                    <svg className="h-4 w-4 text-neutral-400 hover:text-red-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            )}
+                        </div>
+
                     </div>
                 </div>
             </section>
@@ -201,20 +262,67 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             {/* --- Projects Grid --- */}
             <Section className="bg-neutral-50 min-h-[800px] py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    {/* Search Results Info */}
+                    {searchQuery && (
+                        <div className="mb-8 text-center">
+                            <h2 className="text-2xl font-bold text-neutral-900">
+                                Search Results for &quot;{searchQuery}&quot;
+                            </h2>
+                            <p className="text-neutral-500 mt-1">
+                                Found {filteredProjects.length} projects across all categories
+                            </p>
+                        </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredProjects.map((project, index) => (
+                        {paginatedProjects.map((project, index) => (
                             <ProjectCard
-                                key={index}
+                                key={`${project.title}-${index}`}
                                 project={project}
                                 onClick={() => setSelectedProject(project)}
                             />
                         ))}
                     </div>
 
-                    {filteredProjects.length === 0 && (
+                    {/* Empty State */}
+                    {paginatedProjects.length === 0 && (
                         <div className="flex flex-col items-center justify-center py-32 text-neutral-400">
                             <div className="text-5xl mb-4">🔍</div>
-                            <p className="text-xl font-medium">No projects found in this category yet.</p>
+                            <p className="text-xl font-medium">No projects found.</p>
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery("")}
+                                    className="mt-4 px-4 py-2 text-sm text-blue-600 font-medium hover:underline"
+                                >
+                                    Clear Search
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Pagination Controls */}
+                    {totalPages > 1 && (
+                        <div className="mt-16 flex items-center justify-center gap-4">
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                disabled={currentPage === 1}
+                                className="p-2 rounded-full border border-neutral-200 bg-white text-neutral-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-50 hover:border-neutral-300 transition-all"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+                            </button>
+
+                            <span className="text-sm font-medium text-neutral-500">
+                                Page <span className="text-neutral-900 font-bold">{currentPage}</span> of {totalPages}
+                            </span>
+
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                                className="p-2 rounded-full border border-neutral-200 bg-white text-neutral-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-50 hover:border-neutral-300 transition-all"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                            </button>
                         </div>
                     )}
                 </div>
@@ -259,7 +367,7 @@ function isFounding(p: Project) {
 
 // --- Sub-Components ---
 
-function MetricItem({ label, value, isLast }: { label: string; value: number, isLast?: boolean }) {
+function MetricItem({ label, value }: { label: string; value: number, isLast?: boolean }) {
     return (
         <div className={`flex flex-col items-center justify-center px-4`}>
             <span className="text-3xl font-bold text-neutral-900">{value}</span>
@@ -544,7 +652,7 @@ function Badge({ children, color }: { children: React.ReactNode, color: "blue" |
     )
 }
 
-function SocialBtn({ href, label, icon }: { href: string; label: string; icon: string }) {
+function SocialBtn({ href, label }: { href: string; label: string; icon: string }) {
     return (
         <a
             href={href}
