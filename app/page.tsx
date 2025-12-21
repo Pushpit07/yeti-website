@@ -2,12 +2,14 @@ import Link from "next/link"
 import { DynamicHeader } from "@/components/DynamicHeader"
 import { SponsorsStrip } from "@/components/SponsorsStrip"
 import { Button } from "@/components/Button"
+import DomainRedirect from "@/components/DomainRedirect"
 
 export const dynamic = "force-static"
 
 export default async function LandingPage() {
   return (
     <div className="relative min-h-screen bg-black">
+      <DomainRedirect />
       <DynamicHeader />
       {/* Full viewport split layout */}
       <div className="group/container flex min-h-screen md:flex-row flex-col pt-16 md:pb-14 pb-12">
