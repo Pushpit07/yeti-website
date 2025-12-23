@@ -10,6 +10,7 @@ import { getCityInfo, getApplicationDates } from "@/lib/constants"
 import { getApplicationData } from "@/lib/sheets"
 import { Mail, ArrowRight, CheckCircle2 } from "lucide-react"
 import { useSheetData } from "@/hooks/useSheetData"
+import { trackEvent } from "@/lib/analytics"
 
 const cityInfo = getCityInfo('leipzig')
 const applicationDates = getApplicationDates('leipzig')
@@ -111,6 +112,7 @@ export default function ApplicationLeipzigPage() {
 
               <a
                 href={`mailto:${applicationEmail}`}
+                onClick={() => trackEvent('generate_lead', 'application', 'email_leipzig_hero')}
                 className="group inline-flex items-center gap-3 px-8 py-5 bg-white text-black rounded-full font-bold text-xl transition-all hover:bg-primary hover:text-white hover:scale-105 active:scale-95 shadow-lg shadow-white/10"
               >
                 <Mail className="w-6 h-6" />
@@ -189,6 +191,7 @@ export default function ApplicationLeipzigPage() {
               <div className="mt-12 pt-8 border-t border-neutral-100">
                 <a
                   href={`mailto:${applicationEmail}`}
+                  onClick={() => trackEvent('generate_lead', 'application', 'email_leipzig_steps')}
                   className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-hover text-white font-bold text-lg py-4 rounded-xl transition-colors shadow-lg shadow-primary/25"
                 >
                   <Mail className="w-5 h-5" />

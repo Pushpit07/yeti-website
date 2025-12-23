@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button"
+import { trackEvent } from "@/lib/analytics"
 
 interface BookZoomCallCTAProps {
   city: "dresden" | "leipzig"
@@ -26,6 +27,7 @@ export function BookZoomCallCTA({ city }: BookZoomCallCTAProps) {
             href={zoomLinks[city]}
             variant="rounded-full"
             target="_blank"
+            onClick={() => trackEvent('click_book_call', 'booking', `zoom_call_${city}`)}
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"

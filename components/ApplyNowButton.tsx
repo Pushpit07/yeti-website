@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { trackEvent } from '@/lib/analytics'
 
 interface ApplyNowButtonProps {
   className?: string
@@ -82,7 +83,10 @@ export function ApplyNowButton({ className = '' }: ApplyNowButtonProps) {
           <Link
             href="/application/dresden"
             className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-white/15"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false)
+              trackEvent('begin_checkout', 'navigation', 'application_dresden')
+            }}
           >
             <span>for Dresden</span>
             <svg className="h-3.5 w-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -93,7 +97,10 @@ export function ApplyNowButton({ className = '' }: ApplyNowButtonProps) {
           <Link
             href="/application/leipzig"
             className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-white/15"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false)
+              trackEvent('begin_checkout', 'navigation', 'application_leipzig')
+            }}
           >
             <span>for Leipzig</span>
             <svg className="h-3.5 w-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
