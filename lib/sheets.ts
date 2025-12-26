@@ -74,6 +74,8 @@ export type Project = {
   goldenFrame: boolean
   companyFormed: boolean
   title: string
+  city: string
+  year: string
   summary: string
   teamMembers: string[]
   linkedin: string
@@ -215,22 +217,24 @@ export async function getProjectsData(): Promise<Project[]> {
       const goldenFrame = isTrue(1)
       const companyFormed = isTrue(2)
       const title = cleanStr(3)
-      const summary = cleanStr(4)
+      const city = cleanStr(4)
+      const year = cleanStr(5)
+      const summary = cleanStr(6)
 
-      const rawMembers = cleanStr(5)
+      const rawMembers = cleanStr(7)
       const teamMembers = rawMembers
         ? rawMembers.split(/[\n,:]+/).map((m) => m.trim()).filter(Boolean)
         : []
 
-      const linkedin = cleanStr(6)
-      const instagram = cleanStr(7)
-      const website = cleanStr(8)
-      const active = isTrue(9)
+      const linkedin = cleanStr(8)
+      const instagram = cleanStr(9)
+      const website = cleanStr(10)
+      const active = isTrue(11)
 
-      const industryPartner = cleanStr(10)
-      const industryPartnerLogo = processImageLink(cleanStr(11))
+      const industryPartner = cleanStr(12)
+      const industryPartnerLogo = processImageLink(cleanStr(13))
 
-      const rawPhotos = cleanStr(12)
+      const rawPhotos = cleanStr(14)
       const teamPhotos = rawPhotos
         ? rawPhotos
           .split(/[\n,]+/)
@@ -238,14 +242,16 @@ export async function getProjectsData(): Promise<Project[]> {
           .filter(Boolean)
         : []
 
-      const logo = processImageLink(cleanStr(13), "/white-transparent.png")
-      const revenue = cleanStr(14)
+      const logo = processImageLink(cleanStr(15), "/white-transparent.png")
+      const revenue = cleanStr(16)
 
       return {
         projectType,
         goldenFrame,
         companyFormed,
         title,
+        city,
+        year,
         summary,
         teamMembers,
         linkedin,
