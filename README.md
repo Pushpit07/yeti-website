@@ -14,6 +14,20 @@ npm run dev
 # http://localhost:3000
 ```
 
+### Environment Variables
+Create a `.env.local` file for local development:
+```bash
+# Google Sheets Configuration
+# Control flag for Google Sheets structure:
+# - "0" or undefined: Use legacy single-file spreadsheet (default)
+# - "1": Use new multi-file spreadsheet structure
+NEXT_PUBLIC_SHEETS_USE_NEW_STRUCTURE=0
+```
+
+**Google Sheets Modes:**
+- **Legacy Mode (0)**: Single spreadsheet with multiple tabs
+- **New Mode (1)**: Multiple spreadsheets organized by category (Contributors, Content, Projects, Admin, Headquarters)
+
 ### Content
 - Edit JSON under `content/`:
   - `site.json`, `nav.json`

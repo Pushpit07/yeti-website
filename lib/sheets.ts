@@ -1,5 +1,32 @@
 // lib/sheets.ts
 
+// --- 0. IMPORTS & CONFIGURATION ---
+
+import type { DataType } from "./sheets/types"
+import { resolveLegacySheet } from "./sheets/legacy"
+import { resolveNewSheet } from "./sheets/new"
+import { processImageUrl } from "@/lib/utils"
+
+/**
+ * Control flag for sheet structure:
+ * - "0" or undefined: Use legacy single-file spreadsheet (default)
+ * - "1": Use new multi-file spreadsheet structure
+ * 
+ * Set via environment variable: NEXT_PUBLIC_SHEETS_USE_NEW_STRUCTURE
+ */
+const USE_NEW_STRUCTURE = process.env.NEXT_PUBLIC_SHEETS_USE_NEW_STRUCTURE === "1"
+
+/**
+ * Resolve sheet target based on current mode
+ * Returns { sheetIds: string[], tabName: string } for redundancy support
+ */
+function resolveSheet(dataType: DataType) {
+  return USE_NEW_STRUCTURE ? resolveNewSheet(dataType) : resolveLegacySheet(dataType)
+}
+
+// Backward compatibility or direct alias
+const processImageLink = processImageUrl
+
 // --- 1. Type Definitions ---
 
 export type Machine = {
@@ -16,7 +43,6 @@ export type Blog = {
   markdownContent: string
   imageLink: string
 }
-
 
 export type OberYeti = {
   name: string
@@ -60,15 +86,6 @@ export type FiresideChat = {
   linkedin: string
 }
 
-
-import { processImageUrl } from "@/lib/utils"
-
-// Backward compatibility or direct alias
-const processImageLink = processImageUrl
-
-
-
-// Project type
 export type Project = {
   projectType: string
   goldenFrame: boolean
@@ -93,69 +110,98 @@ type SheetRow = {
   c: ({ v: string | number | null } | null)[] | null
 }
 
-// --- 2. Generic Data Fetcher (OPTIMIZED) ---
+// --- 2. Generic Data Fetcher with Redundancy Support ---
 
 // ⚡ PERFORMANCE SETTING:
 // Revalidate every 60 seconds.
 // This prevents "Max retries exceeded" errors by not spamming Google on every reload.
 const REVALIDATE_TIME = 60
 
+/**
+ * Fetches raw data from Google Sheets with redundancy/failover support
+ * @param dataType - The type of data to fetch (e.g., "projects", "events")
+ * @param skipFirstRow - Whether to skip the first row (header row)
+ * @returns Array of sheet rows
+ * 
+ * Redundancy: Tries each sheetId in order until one succeeds
+ */
 async function getRawSheetData(
-  sheetName: string,
+  dataType: DataType,
   skipFirstRow: boolean = true
 ): Promise<SheetRow[]> {
-  const sheetId = "1QYpLhGzI1rm_evuLnEGYr72OE3h83DMw9hqe2pCtU58"
-  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(
-    sheetName
-  )}`
+  const { sheetIds, tabName } = resolveSheet(dataType)
 
-  try {
-    const res = await fetch(url)
+  // Try each sheet ID in order (primary + fallbacks)
+  for (let i = 0; i < sheetIds.length; i++) {
+    const sheetId = sheetIds[i]
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(
+      tabName
+    )}`
 
-    if (!res.ok) {
-      // Log a warning but don't crash the app
-      console.warn(
-        `[Sheets API] Failed to fetch "${sheetName}". Status: ${res.status}`
+    try {
+      const res = await fetch(url)
+
+      if (!res.ok) {
+        // Log warning and try next sheet if available
+        console.warn(
+          `[Sheets API] Failed to fetch "${tabName}" from sheet ${sheetId} (attempt ${i + 1}/${sheetIds.length}). Status: ${res.status}`
+        )
+        continue // Try next sheetId
+      }
+
+      let text = await res.text()
+
+      // Parse Google's JSONP response format
+      const jsonStart = text.indexOf("(") + 1
+      const jsonEnd = text.lastIndexOf(")")
+
+      if (jsonStart === 0 || jsonEnd === -1) {
+        if (text.length > 0) {
+          console.warn(
+            `[Sheets API] JSONP format error in "${tabName}" from sheet ${sheetId} (attempt ${i + 1}/${sheetIds.length})`
+          )
+        }
+        continue // Try next sheetId
+      }
+
+      text = text.substring(jsonStart, jsonEnd)
+      const json = JSON.parse(text)
+
+      if (!json.table || !json.table.rows) {
+        console.warn(
+          `[Sheets API] Empty or invalid data in "${tabName}" from sheet ${sheetId} (attempt ${i + 1}/${sheetIds.length})`
+        )
+        continue // Try next sheetId
+      }
+
+      const rows: SheetRow[] = json.table.rows
+
+      // Success! Return the data
+      return skipFirstRow ? rows.slice(1) : rows
+
+    } catch (err) {
+      // Log error and try next sheet if available
+      console.error(
+        `[Sheets API] Network/Parse Error for "${tabName}" from sheet ${sheetId} (attempt ${i + 1}/${sheetIds.length}):`,
+        err
       )
-      return []
+      continue // Try next sheetId
     }
-
-    let text = await res.text()
-
-    // Parse Google's weird JSONP response format
-    const jsonStart = text.indexOf("(") + 1
-    const jsonEnd = text.lastIndexOf(")")
-
-    if (jsonStart === 0 || jsonEnd === -1) {
-      // Only log this if we actually got text back but it was wrong
-      if (text.length > 0) console.warn(`[Sheets API] JSONP format error in "${sheetName}"`)
-      return []
-    }
-
-    text = text.substring(jsonStart, jsonEnd)
-    const json = JSON.parse(text)
-
-    if (!json.table || !json.table.rows) {
-      return []
-    }
-
-    const rows: SheetRow[] = json.table.rows
-
-    // Return sliced or full rows
-    return skipFirstRow ? rows.slice(1) : rows
-
-  } catch (err) {
-    // 🛡️ CRASH PROTECTION:
-    // If network fails, return [] so the page still renders (just without data)
-    console.error(`[Sheets API] Network/Parse Error for "${sheetName}":`, err)
-    return []
   }
+
+  // 🛡️ CRASH PROTECTION:
+  // All sheets failed - return [] so the page still renders (just without data)
+  console.error(
+    `[Sheets API] All attempts failed for "${tabName}" (tried ${sheetIds.length} sheet(s))`
+  )
+  return []
 }
+
 
 // --- 3. Specific Data Parsers ---
 
 export async function getMakerspaceData(city?: string): Promise<Machine[]> {
-  const rows = await getRawSheetData("Makerspace")
+  const rows = await getRawSheetData("makerspace")
   const allData = rows
     .map((row) => ({
       location: String(row.c?.[0]?.v || "").trim(),
@@ -201,7 +247,7 @@ export async function getBlogData(): Promise<Blog[]> {
 
 export async function getProjectsData(): Promise<Project[]> {
   // We explicitly request ALL rows, do NOT slice the first one
-  const rows = await getRawSheetData("Projects", false)
+  const rows = await getRawSheetData("projects", false)
 
   const data: Project[] = rows
     .map((row) => {
@@ -290,7 +336,7 @@ export type SheetEvent = {
 }
 
 export async function getEventsData(): Promise<SheetEvent[]> {
-  const rows = await getRawSheetData("Events")
+  const rows = await getRawSheetData("events")
 
   const clean = (val: string | number | null | undefined) => String(val ?? "").trim()
   const isUrl = (val: string) => /^https?:\/\//i.test(val)
@@ -371,7 +417,7 @@ export type MakerspaceActivity = {
 }
 
 export async function getMakerspaceActivityData(city?: string): Promise<MakerspaceActivity[]> {
-  const rows = await getRawSheetData("Makerspace Activity")
+  const rows = await getRawSheetData("makerspaceActivity")
 
   const allData = rows
     .map((row) => ({
@@ -394,7 +440,7 @@ export async function getMakerspaceActivityData(city?: string): Promise<Makerspa
 }
 
 export async function getOberYetisData(): Promise<OberYeti[]> {
-  const rows = await getRawSheetData("OberYeti")
+  const rows = await getRawSheetData("oberYeti")
   return rows
     .map((row) => ({
       name: String(row.c?.[0]?.v || "").trim(),
@@ -407,7 +453,7 @@ export async function getOberYetisData(): Promise<OberYeti[]> {
 }
 
 export async function getYetiBoardData(): Promise<YetiBoard[]> {
-  const rows = await getRawSheetData("Yeti Board")
+  const rows = await getRawSheetData("yetiBoard")
   return rows
     .map((row) => ({
       name: String(row.c?.[0]?.v || "").trim(),
@@ -420,7 +466,7 @@ export async function getYetiBoardData(): Promise<YetiBoard[]> {
 }
 
 export async function getSponsorsData(): Promise<Sponsor[]> {
-  const rows = await getRawSheetData("Sponsors")
+  const rows = await getRawSheetData("sponsors")
   return rows
     .map((row) => ({
       company: String(row.c?.[0]?.v || "").trim(),
@@ -434,7 +480,7 @@ export async function getSponsorsData(): Promise<Sponsor[]> {
 }
 
 export async function getMentorsData(): Promise<Mentor[]> {
-  const rows = await getRawSheetData("Mentors")
+  const rows = await getRawSheetData("mentors")
   return rows
     .map((row) => ({
       name: String(row.c?.[0]?.v || "").trim(),
@@ -448,7 +494,7 @@ export async function getMentorsData(): Promise<Mentor[]> {
 }
 
 export async function getFiresideChatsData(): Promise<FiresideChat[]> {
-  const rows = await getRawSheetData("Fireside chat")
+  const rows = await getRawSheetData("firesideChat")
   return rows
     .map((row) => ({
       name: String(row.c?.[0]?.v || "").trim(),
@@ -489,7 +535,7 @@ export type LocationData = {
 }
 
 export async function getApplicationData(): Promise<ApplicationData[]> {
-  const rows = await getRawSheetData("Application", false)
+  const rows = await getRawSheetData("application", false)
   return rows
     .map((row) => ({
       city: String(row.c?.[0]?.v || "").trim(),
@@ -504,7 +550,7 @@ export async function getApplicationData(): Promise<ApplicationData[]> {
 }
 
 export async function getLocationData(city?: string): Promise<LocationData[]> {
-  const rows = await getRawSheetData("Yeti", false)
+  const rows = await getRawSheetData("location", false)
 
   const allData = rows
     .map((row) => ({
@@ -542,7 +588,7 @@ export type MediaContent = {
 }
 
 export async function getMediaContent(): Promise<MediaContent> {
-  const rows = await getRawSheetData("Yeti Media Content")
+  const rows = await getRawSheetData("mediaContent")
   const content: MediaContent = {
     dresdenHQ: [],
     leipzigHQ: [],
@@ -581,7 +627,7 @@ export type Testimonial = {
 }
 
 export async function getTestimonialsData(): Promise<Testimonial[]> {
-  const rows = await getRawSheetData("Testimonials")
+  const rows = await getRawSheetData("testimonials")
   return rows
     .map((row) => ({
       quote: String(row.c?.[0]?.v || "").trim(),
@@ -600,7 +646,7 @@ export type FAQItem = {
 }
 
 export async function getFAQData(): Promise<FAQItem[]> {
-  const rows = await getRawSheetData("FAQ")
+  const rows = await getRawSheetData("faq")
   return rows
     .map((row) => ({
       question: String(row.c?.[0]?.v || "").trim(),
@@ -619,7 +665,7 @@ export type ContactInfo = {
 }
 
 export async function getContactData(): Promise<ContactInfo[]> {
-  const rows = await getRawSheetData("Yeti Contact")
+  const rows = await getRawSheetData("contact")
   return rows
     .map((row) => ({
       location: String(row.c?.[0]?.v || "Common").trim(),
