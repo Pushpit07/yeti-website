@@ -9,19 +9,36 @@ import { processImageUrl } from "@/lib/utils"
 
 /**
  * Control flag for sheet structure:
- * - "0" or undefined: Use legacy single-file spreadsheet (default)
- * - "1": Use new multi-file spreadsheet structure
+ * - true: Use new multi-file spreadsheet structure
+ * - false: Use legacy single-file spreadsheet
  * 
- * Set via environment variable: NEXT_PUBLIC_SHEETS_USE_NEW_STRUCTURE
+ * Simply change true/false here to switch between structures!
  */
-const USE_NEW_STRUCTURE = process.env.NEXT_PUBLIC_SHEETS_USE_NEW_STRUCTURE === "1"
+const USE_NEW_STRUCTURE = true  // ← Change this to true or false
+
+// DEBUG: Log on module load to verify the constant
+// console.log('\n🔍 SHEETS.TS LOADED - USE_NEW_STRUCTURE =', USE_NEW_STRUCTURE, '\n')
 
 /**
  * Resolve sheet target based on current mode
  * Returns { sheetIds: string[], tabName: string } for redundancy support
  */
 function resolveSheet(dataType: DataType) {
-  return USE_NEW_STRUCTURE ? resolveNewSheet(dataType) : resolveLegacySheet(dataType)
+  const result = USE_NEW_STRUCTURE ? resolveNewSheet(dataType) : resolveLegacySheet(dataType)
+
+  // Log which structure is being used (only in development)
+  if (process.env.NODE_ENV === 'development' && dataType === 'events') {
+    console.log(`\n${'='.repeat(60)}`)
+    console.log(`📊 RESOLVING EVENTS DATA`)
+    console.log(`${'='.repeat(60)}`)
+    console.log(`Constant value: USE_NEW_STRUCTURE = ${USE_NEW_STRUCTURE}`)
+    console.log(`Structure type: ${USE_NEW_STRUCTURE ? '🆕 NEW multi-file' : '📁 LEGACY single-file'}`)
+    console.log(`Sheet ID: ${result.sheetIds[0]}`)
+    console.log(`Tab Name: "${result.tabName}"`)
+    console.log(`${'='.repeat(60)}\n`)
+  }
+
+  return result
 }
 
 // Backward compatibility or direct alias
@@ -357,29 +374,13 @@ export async function getEventsData(): Promise<SheetEvent[]> {
       const registrationStartDate = clean(row.c?.[1]?.v)
       const registrationEndDate = clean(row.c?.[2]?.v)
       const eventDate = clean(row.c?.[3]?.v)
+
+      // Column 4: Location
       const location = clean(row.c?.[4]?.v)
 
-      const col5 = clean(row.c?.[5]?.v)
-      const col6 = clean(row.c?.[6]?.v)
-
-      let heading = ""
-      let googleMapsLink = ""
-
-      // Smart detection for Google Maps vs Heading
-      if (isGoogleMapsUrl(col5) && !isGoogleMapsUrl(col6)) {
-        googleMapsLink = col5
-        heading = col6
-      } else if (isGoogleMapsUrl(col6) && !isGoogleMapsUrl(col5)) {
-        googleMapsLink = col6
-        heading = col5
-      } else {
-        if (!isUrl(col5) && col5) heading = col5
-        else if (!isUrl(col6) && col6) heading = col6
-        else heading = col5 || col6
-
-        if (isGoogleMapsUrl(col5)) googleMapsLink = col5
-        else if (isGoogleMapsUrl(col6)) googleMapsLink = col6
-      }
+      // Column 5: Google Maps Link, Column 6: Event Heading
+      const googleMapsLink = clean(row.c?.[5]?.v)
+      const heading = clean(row.c?.[6]?.v)
 
       const description = clean(row.c?.[7]?.v)
       const rawImage = clean(row.c?.[8]?.v)

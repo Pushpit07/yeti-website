@@ -51,7 +51,7 @@ function mapSheetEventToEvent(e: SheetEvent): Event {
 
   const links =
     e.registrationLink && e.registrationLink.length > 0
-      ? [{ label: "Register", href: e.registrationLink }]
+      ? [{ label: "Register Now", href: e.registrationLink }]
       : undefined
 
   const sponsors =

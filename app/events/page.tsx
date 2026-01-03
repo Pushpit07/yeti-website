@@ -104,7 +104,7 @@ function stripIfUrl(text?: string): string | undefined {
 function mapSheetEventToEvent(e: SheetEvent): Event {
   const { raw, formatted } = formatDate(e.eventDate)
   const links = e.registrationLink && e.registrationLink.length > 0
-    ? [{ label: "Register", href: e.registrationLink }]
+    ? [{ label: "Register Now", href: e.registrationLink }]
     : undefined
   const sponsors = e.sponsoredBy && e.sponsoredBy.length > 0
     ? [{ name: e.sponsoredBy }]
@@ -178,7 +178,7 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
 
   // Filter links: if isPast, remove 'Register' links
   const visibleLinks = isPast
-    ? event.links?.filter(l => l.label !== "Register")
+    ? event.links?.filter(l => l.label !== "Register" && l.label !== "Register Now")
     : event.links
 
   return (

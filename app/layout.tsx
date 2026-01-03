@@ -35,6 +35,15 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "YETI",
       description: "We empower young people to become entrepreneurial role models through networking, training and resources.",
     },
+    icons: {
+      icon: [
+        { url: "/logo.jpg" },
+        { url: "/logo.jpg", sizes: "32x32", type: "image/jpeg" },
+        { url: "/logo.jpg", sizes: "16x16", type: "image/jpeg" },
+      ],
+      apple: "/logo.jpg",
+      shortcut: "/logo.jpg",
+    },
     manifest: "/manifest.json",
   }
 }
@@ -45,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Analytics 4 - Only in production */}
         {process.env.NODE_ENV === 'production' && (
