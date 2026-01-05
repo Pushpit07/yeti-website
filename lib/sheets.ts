@@ -495,7 +495,7 @@ export async function getMentorsData(): Promise<Mentor[]> {
 }
 
 export async function getFiresideChatsData(): Promise<FiresideChat[]> {
-  const rows = await getRawSheetData("firesideChat")
+  const rows = await getRawSheetData("firesideChatSpeakers")
   return rows
     .map((row) => ({
       name: String(row.c?.[0]?.v || "").trim(),

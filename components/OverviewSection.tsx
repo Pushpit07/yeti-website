@@ -38,7 +38,7 @@ export function OverviewSection({ locationData }: OverviewSectionProps) {
                             <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">
                                 {locationData.yetiCounts}
                             </div>
-                            <div className="text-white/80 font-medium text-lg">Total YETIs</div>
+                            <div className="text-white/80 font-medium text-lg">Total Yetis</div>
                         </div>
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all">
                             <div className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-primary to-primary-hover bg-clip-text text-transparent mb-3">
@@ -87,7 +87,7 @@ export function OverviewSection({ locationData }: OverviewSectionProps) {
                     {/* CTA to Projects */}
                     <div className="text-center">
                         <p className="text-white/70 mb-6 text-lg">
-                            Curious about what YETIs have built?
+                            Curious about what Yetis have built?
                         </p>
                         <Link
                             href="/projects"

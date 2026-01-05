@@ -4,8 +4,8 @@ import Link from "next/link"
 export const dynamic = "force-static"
 
 export const metadata = {
-  title: "YETI Headquarters | YETI",
-  description: "Visit our headquarters - the heart of the YETI community in Dresden and Leipzig.",
+  title: "YETI Headquarter | YETI",
+  description: "Visit our headquarter - the heart of the YETI community in Dresden and Leipzig.",
 }
 
 export default function HQPage() {
@@ -24,7 +24,7 @@ export default function HQPage() {
           </div>
 
           <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight">
-            YETI <span className="text-primary">Headquarters</span>
+            YETI <span className="text-primary">Headquarter</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
@@ -57,7 +57,7 @@ export default function HQPage() {
 
                   <div className="space-y-4 mb-8">
                     <p className="text-lg text-neutral-400 leading-relaxed">
-                      Located in the center of Dresden, our headquarters is where innovation meets collaboration.
+                      Located in the center of Dresden, our headquarter is where innovation meets collaboration.
                     </p>
                     <p className="text-lg text-neutral-400 leading-relaxed">
                       Home to our makerspace, co-working areas, and Thursday community sessions.
@@ -93,7 +93,7 @@ export default function HQPage() {
 
                   <div className="space-y-4 mb-8">
                     <p className="text-lg text-neutral-400 leading-relaxed">
-                      Our Leipzig headquarters brings together entrepreneurs, makers, and innovators.
+                      Our Leipzig headquarter brings together entrepreneurs, makers, and innovators.
                     </p>
                     <p className="text-lg text-neutral-400 leading-relaxed">
                       A vibrant space equipped with everything you need to build your startup.

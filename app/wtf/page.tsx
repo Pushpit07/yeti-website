@@ -69,7 +69,7 @@ const offerings: OfferingType[] = [
     emoji: '🏢',
     title: 'Workspace',
     shortDescription: 'Co-working space at YETI HQ.',
-    detailedContent: 'Get 24/7 access to our headquarters and makerspace. Work anytime in a cozy, inspiring environment designed to boost your productivity and creativity.',
+    detailedContent: 'Get 24/7 access to our headquarter and makerspace. Work anytime in a cozy, inspiring environment designed to boost your productivity and creativity.',
     color: 'primary'
   }
 ]

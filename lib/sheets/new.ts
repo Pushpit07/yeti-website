@@ -59,7 +59,7 @@ export function resolveNewSheet(dataType: DataType): SheetTarget {
                 sheetIds: [CONTRIBUTORS_SHEET_ID],
                 tabName: "Mentors", // EXACT: "Mentors" (capital M)
             }
-        case "firesideChat":
+        case "firesideChatSpeakers":
             return {
                 sheetIds: [CONTRIBUTORS_SHEET_ID],
                 tabName: "Fireside chat speakers",

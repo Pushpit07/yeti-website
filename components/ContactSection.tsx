@@ -67,7 +67,7 @@ export function ContactSection({ hqAddress, emailId, city }: ContactSectionProps
                             </span>
                         </div>
                         <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                            Read Stories from Our YETIs
+                            Read Stories from Our Yetis
                         </h3>
                         <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto">
                             Discover journeys, projects, and insights from the YETI {city} community

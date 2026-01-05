@@ -101,7 +101,7 @@ export default function LeipzigHQPage() {
                                 <div>
                                     <h3 className="text-2xl font-bold mb-2 text-white">Central Leipzig location</h3>
                                     <p className="text-lg text-white/80 leading-relaxed">
-                                        Located in the center of Leipzig, our headquarters provides the perfect environment for collaboration, innovation, and growth.
+                                        Located in the center of Leipzig, our headquarter provides the perfect environment for collaboration, innovation, and growth.
                                     </p>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@ export default function LeipzigHQPage() {
                                 <div>
                                     <h3 className="text-2xl font-bold mb-2 text-white">Always accessible</h3>
                                     <p className="text-lg text-white/80 leading-relaxed">
-                                        Open all week for YETIs to work, meet, and make things happen.
+                                        Open all week for Yetis to work, meet, and make things happen.
                                     </p>
                                 </div>
                             </div>

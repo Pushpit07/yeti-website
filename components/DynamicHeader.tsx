@@ -19,7 +19,7 @@ export function DynamicHeader() {
                 label: "Dresden",
                 children: [
                   { label: "Overview", href: "/dresden" },
-                  { label: "Headquarter", href: "/dresden#headquarters" },
+                  { label: "Headquarter", href: "/dresden#headquarter" },
                   { label: "Makerspace", href: "/dresden#makerspace" },
                   { label: "Apply", href: "/application/dresden" },
                 ]
@@ -28,7 +28,7 @@ export function DynamicHeader() {
                 label: "Leipzig",
                 children: [
                   { label: "Overview", href: "/leipzig" },
-                  { label: "Headquarters", href: "/leipzig#headquarters" },
+                  { label: "Headquarter", href: "/leipzig#headquarter" },
                   { label: "Makerspace", href: "/leipzig#makerspace" },
                   { label: "Apply", href: "/application/leipzig" },
                 ]

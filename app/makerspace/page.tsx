@@ -91,7 +91,7 @@ export default function MakerspacePage() {
                       Fully equipped with 3D printers, laser cutters, and tools for prototyping.
                     </p>
                     <p className="text-lg text-neutral-400 leading-relaxed">
-                      Where Dresden YETIs transform ideas into physical products.
+                      Where Dresden Yetis transform ideas into physical products.
                     </p>
                   </div>
 

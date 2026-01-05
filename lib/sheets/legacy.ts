@@ -21,7 +21,7 @@ const LEGACY_TABS: Record<DataType, string> = {
     yetiBoard: "Yeti Board",
     sponsors: "Sponsors",
     mentors: "Mentors",
-    firesideChat: "Fireside chat",
+    firesideChatSpeakers: "Fireside chat speakers",
     blog: "blog",
     location: "Yeti", // EXACT: "Yeti" (not "Yeti Location Data")
     mediaContent: "Yeti Media Content",

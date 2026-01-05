@@ -12,7 +12,7 @@ export type DataType =
     | "yetiBoard"
     | "sponsors"
     | "mentors"
-    | "firesideChat"
+    | "firesideChatSpeakers"
     | "blog"
     | "location"
     | "mediaContent"

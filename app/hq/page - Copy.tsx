@@ -5,7 +5,7 @@ export const dynamic = "force-static"
 
 export const metadata = {
   title: "YETI HQ | YETI",
-  description: "Visit our headquarters in Dresden - the heart of the YETI community",
+  description: "Visit our headquarter in Dresden - the heart of the YETI community",
 }
 
 export default function HQPage() {
@@ -53,7 +53,7 @@ export default function HQPage() {
                 YETI HQ is more than just an office.
               </p>
               <p className="font-light">
-                It&apos;s the <strong className="text-primary font-semibold">beating heart</strong> of our entrepreneurial community. Located in the center of Dresden, our headquarters provides the perfect environment for collaboration, innovation, and growth.
+                It&apos;s the <strong className="text-primary font-semibold">beating heart</strong> of our entrepreneurial community. Located in the center of Dresden, our headquarter provides the perfect environment for collaboration, innovation, and growth.
               </p>
 
               <div className="h-px w-16 bg-primary/30 mx-auto my-8" />
@@ -62,7 +62,7 @@ export default function HQPage() {
                 Every Thursday, the HQ comes alive with <strong className="text-primary font-semibold">workshops, pitches, and networking sessions</strong> – the creative chaos that comes with building the future.
               </p>
               <p className="font-light">
-                But it&apos;s open all week for YETIs to work, meet, and make things happen.
+                But it&apos;s open all week for Yetis to work, meet, and make things happen.
               </p>
             </div>
           </div>
@@ -198,7 +198,7 @@ export default function HQPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">Networking & Community</h3>
-                    <p className="text-muted-foreground">Connect with fellow YETIs, mentors, and visiting entrepreneurs</p>
+                    <p className="text-muted-foreground">Connect with fellow Yetis, mentors, and visiting entrepreneurs</p>
                   </div>
                 </div>
 

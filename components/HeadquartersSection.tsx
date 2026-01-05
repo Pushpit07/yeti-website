@@ -5,7 +5,7 @@ interface HeadquartersSectionProps {
 
 export function HeadquartersSection({ hqAddress, city }: HeadquartersSectionProps) {
     return (
-        <section id="headquarters" className="py-16 md:py-24 bg-white">
+        <section id="headquarter" className="py-16 md:py-24 bg-white">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     {/* Image Section */}
@@ -13,7 +13,7 @@ export function HeadquartersSection({ hqAddress, city }: HeadquartersSectionProp
                         <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-neutral-200 shadow-xl">
                             <img
                                 src={city.toLowerCase() === 'dresden' ? '/hq.jpg' : '/yeti-leipzig-hq.jpg'}
-                                alt={`YETI ${city} Headquarters`}
+                                alt={`YETI ${city} Headquarter`}
                                 className="w-full h-full object-cover"
                             />
                         </div>
