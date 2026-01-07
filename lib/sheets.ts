@@ -156,7 +156,7 @@ async function getRawSheetData(
     )}`
 
     try {
-      const res = await fetch(url)
+      const res = await fetch(url, { next: { revalidate: REVALIDATE_TIME } })
 
       if (!res.ok) {
         // Log warning and try next sheet if available
@@ -357,8 +357,7 @@ export async function getEventsData(): Promise<SheetEvent[]> {
 
   const clean = (val: string | number | null | undefined) => String(val ?? "").trim()
   const isUrl = (val: string) => /^https?:\/\//i.test(val)
-  const isGoogleMapsUrl = (val: string) =>
-    isUrl(val) && /google\..*maps/i.test(val)
+
 
   return rows
     .map((row) => {

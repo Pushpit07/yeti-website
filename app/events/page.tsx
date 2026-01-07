@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useState, useMemo } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
@@ -266,7 +266,7 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
 }
 
 export default function EventsPage() {
-  const { data: sheetEvents, isLoading: loading } = useSheetData(getEventsData)
+  const { data: sheetEvents, isLoading: loading } = useSheetData("events", getEventsData)
   const [showPastEvents, setShowPastEvents] = useState(false)
   const [pastEventsPage, setPastEventsPage] = useState(1)
   const PAST_EVENTS_PER_PAGE = 3

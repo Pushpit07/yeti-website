@@ -71,14 +71,14 @@ export function BlogDetailContent({ blog }: { blog: Blog }) {
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw]}
                         components={{
-                            h2: ({ node, ...props }) => <h2 className="text-black font-bold mt-12 mb-6" {...props} />,
-                            h3: ({ node, ...props }) => <h3 className="text-black font-bold mt-8 mb-4" {...props} />,
-                            ul: ({ node, ...props }) => <ul className="pl-5 list-disc my-6" {...props} />,
-                            li: ({ node, ...props }) => <li className="mb-2" {...props} />,
-                            p: ({ node, ...props }) => <p className="mb-6 leading-relaxed text-neutral-700" {...props} />,
-                            a: ({ node, ...props }) => <a className="text-primary hover:underline font-medium" {...props} />,
-                            blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary pl-4 italic my-8 text-neutral-600" {...props} />,
-                            br: ({ node, ...props }) => <br {...props} />
+                            h2: ({ ...props }) => <h2 className="text-black font-bold mt-12 mb-6" {...props} />,
+                            h3: ({ ...props }) => <h3 className="text-black font-bold mt-8 mb-4" {...props} />,
+                            ul: ({ ...props }) => <ul className="pl-5 list-disc my-6" {...props} />,
+                            li: ({ ...props }) => <li className="mb-2" {...props} />,
+                            p: ({ ...props }) => <p className="mb-6 leading-relaxed text-neutral-700" {...props} />,
+                            a: ({ ...props }) => <a className="text-primary hover:underline font-medium" {...props} />,
+                            blockquote: ({ ...props }) => <blockquote className="border-l-4 border-primary pl-4 italic my-8 text-neutral-600" {...props} />,
+                            br: ({ ...props }) => <br {...props} />
                         }}
                     >
                         {blog.markdownContent.replace(/ {2}\n/g, '\n\n')}

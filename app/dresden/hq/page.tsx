@@ -10,8 +10,8 @@ const fetchLocation = () => getLocationData("Dresden")
 const fetchMediaContent = async () => [await getMediaContent()]
 
 export default function DresdenHQPage() {
-    const { data: locationDataArray, isLoading: loadingLocation } = useSheetData(fetchLocation)
-    const { data: mediaContentArray, isLoading: loadingMedia } = useSheetData(fetchMediaContent)
+    const { data: locationDataArray, isLoading: loadingLocation } = useSheetData("locationDresden", fetchLocation)
+    const { data: mediaContentArray, isLoading: loadingMedia } = useSheetData("mediaContent", fetchMediaContent)
 
     // Media content returns an array with 1 item usually, but let's check structure
     // getMediaContent returns Promise<MediaContent> NOT array?
@@ -50,11 +50,14 @@ export default function DresdenHQPage() {
             <section className="relative bg-black text-white overflow-hidden">
                 <div className="relative w-full h-screen">
                     <div className="absolute inset-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src="/hq.jpg"
                             alt="YETI Dresden HQ"
                             className="w-full h-full object-cover"
                             style={{ objectPosition: "center" }}
+                            loading="lazy"
+                            decoding="async"
                         />
                     </div>
 

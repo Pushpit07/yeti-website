@@ -16,7 +16,7 @@ const cityInfo = getCityInfo('leipzig')
 const applicationDates = getApplicationDates('leipzig')
 
 export default function ApplicationLeipzigPage() {
-  const { data: appData, isLoading } = useSheetData(getApplicationData)
+  const { data: appData, isLoading } = useSheetData("application", getApplicationData)
   const data = appData.find(d => d.city.toLowerCase() === 'leipzig')
 
   const isApplicationOpen = data?.status

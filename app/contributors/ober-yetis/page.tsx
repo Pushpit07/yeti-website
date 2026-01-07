@@ -6,7 +6,7 @@ import { FadeIn } from '@/components/FadeIn'
 import { useSheetData } from '@/hooks/useSheetData'
 
 export default function OberYetisPage() {
-    const { data, isLoading } = useSheetData(getOberYetisData)
+    const { data, isLoading } = useSheetData("oberYeti", getOberYetisData)
 
     const items = data.map((item, index) => ({
         id: `ober-yeti-${index}`,

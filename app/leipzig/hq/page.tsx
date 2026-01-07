@@ -10,8 +10,8 @@ const fetchLocation = () => getLocationData("Leipzig")
 const fetchMediaContent = async () => [await getMediaContent()]
 
 export default function LeipzigHQPage() {
-    const { data: locationDataArray, isLoading: loadingLocation } = useSheetData(fetchLocation)
-    const { data: mediaContentArray, isLoading: loadingMedia } = useSheetData(fetchMediaContent)
+    const { data: locationDataArray, isLoading: loadingLocation } = useSheetData("locationLeipzig", fetchLocation)
+    const { data: mediaContentArray, isLoading: loadingMedia } = useSheetData("mediaContent", fetchMediaContent)
 
     const locationData = locationDataArray?.[0] || {
         location: "Leipzig",
@@ -36,11 +36,14 @@ export default function LeipzigHQPage() {
             <section className="relative bg-black text-white overflow-hidden">
                 <div className="relative w-full h-screen">
                     <div className="absolute inset-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src="/yeti-leipzig-hq.jpg"
                             alt="YETI Leipzig HQ"
                             className="w-full h-full object-cover"
                             style={{ objectPosition: "center" }}
+                            loading="lazy"
+                            decoding="async"
                         />
                     </div>
 
@@ -256,7 +259,7 @@ export default function LeipzigHQPage() {
                                     <div>
                                         <p className="font-bold">Thursday (YETI Day)</p>
                                         <p className="text-muted-foreground">
-                                        Team work & events
+                                            Team work & events
                                         </p>
                                     </div>
                                     <div>

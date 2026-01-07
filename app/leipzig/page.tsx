@@ -92,11 +92,14 @@ export default function LeipzigPage() {
       {/* Hero Section - Keep existing */}
       <section className="relative min-h-screen">
         <div className="absolute inset-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/yeti-leipzig.jpg"
             alt="YETI Leipzig"
             className="w-full h-full object-cover"
             style={{ objectPosition: "center" }}
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />

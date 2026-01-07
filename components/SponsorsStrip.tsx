@@ -4,7 +4,7 @@ import { getSponsorsData } from '@/lib/sheets'
 import { useSheetData } from '@/hooks/useSheetData'
 
 export function SponsorsStrip() {
-  const { data: sponsors } = useSheetData(getSponsorsData)
+  const { data: sponsors } = useSheetData("sponsors", getSponsorsData)
 
   if (!sponsors || sponsors.length === 0) {
     return null

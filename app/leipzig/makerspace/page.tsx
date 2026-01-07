@@ -9,8 +9,8 @@ const fetchMachines = () => getMakerspaceData("Leipzig")
 const fetchActivities = () => getMakerspaceActivityData("Leipzig")
 
 export default function LeipzigMakerspacePage() {
-    const { data: machines, isLoading: loadingMachines } = useSheetData(fetchMachines)
-    const { data: activities, isLoading: loadingActivities } = useSheetData(fetchActivities)
+    const { data: machines, isLoading: loadingMachines } = useSheetData("makerspaceMachinesLeipzig", fetchMachines)
+    const { data: activities, isLoading: loadingActivities } = useSheetData("makerspaceActivitiesLeipzig", fetchActivities)
 
     if (loadingMachines || loadingActivities) {
         return (

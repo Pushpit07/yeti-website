@@ -6,7 +6,7 @@ import { FadeIn } from '@/components/FadeIn'
 import { useSheetData } from '@/hooks/useSheetData'
 
 export default function FiresideChatsPage() {
-    const { data, isLoading } = useSheetData(getFiresideChatsData)
+    const { data, isLoading } = useSheetData("firesideChatSpeakers", getFiresideChatsData)
 
     const items = data.map((item, index) => ({
         id: `fireside-${index}`,

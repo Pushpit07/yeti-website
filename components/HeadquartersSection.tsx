@@ -11,10 +11,13 @@ export function HeadquartersSection({ hqAddress, city }: HeadquartersSectionProp
                     {/* Image Section */}
                     <div className="order-2 md:order-1">
                         <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-neutral-200 shadow-xl">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={city.toLowerCase() === 'dresden' ? '/hq.jpg' : '/yeti-leipzig-hq.jpg'}
                                 alt={`YETI ${city} Headquarter`}
                                 className="w-full h-full object-cover"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </div>
                     </div>

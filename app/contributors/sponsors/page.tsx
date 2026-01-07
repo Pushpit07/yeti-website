@@ -1,6 +1,6 @@
 "use client"
 
-import { getSponsorsData } from '@/lib/sheets'
+import { getSponsorsData, type Sponsor } from '@/lib/sheets'
 import { ContributorGrid } from '@/components/contributors/ContributorGrid'
 import { FadeIn } from '@/components/FadeIn'
 import { Button } from '@/components/Button'
@@ -16,10 +16,10 @@ interface SponsorItem {
 }
 
 export default function SponsorsPage() {
-    const { data, isLoading } = useSheetData(getSponsorsData)
+    const { data, isLoading } = useSheetData<Sponsor>("sponsors", getSponsorsData)
 
     // Group data by category
-    const groupedData = data.reduce((acc, item) => {
+    const groupedData = data.reduce((acc: Record<string, SponsorItem[]>, item: Sponsor) => {
         const category = item.category || 'Our Partners'
         if (!acc[category]) {
             acc[category] = []

@@ -414,10 +414,13 @@ export default function WTFPage() {
                       {/* Qr Code */}
                       {whatsapp?.qrImage && (
                         <div className="w-48 h-48 bg-white p-3 rounded-xl shadow-lg shrink-0 overflow-hidden transform group-hover:scale-105 transition-transform">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={qrImage}
                             alt="WhatsApp QR Code"
                             className="w-full h-full object-contain"
+                            loading="lazy"
+                            decoding="async"
                           />
                         </div>
                       )}

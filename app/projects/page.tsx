@@ -5,7 +5,7 @@ import { ProjectsClient } from "./ProjectsClient"
 import { useSheetData } from "@/hooks/useSheetData"
 
 export default function ProjectsPage() {
-  const { data: projects, isLoading } = useSheetData(getProjectsData)
+  const { data: projects, isLoading } = useSheetData("projects", getProjectsData)
 
   if (isLoading) {
     return (

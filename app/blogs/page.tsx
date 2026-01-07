@@ -5,7 +5,7 @@ import BlogList from "./BlogList"
 import { useSheetData } from "@/hooks/useSheetData"
 
 export default function BlogPage() {
-  const { data: blogs, isLoading } = useSheetData(getBlogData)
+  const { data: blogs, isLoading } = useSheetData("blog", getBlogData)
 
   if (isLoading) {
     return (

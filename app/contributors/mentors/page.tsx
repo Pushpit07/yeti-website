@@ -6,7 +6,7 @@ import { FadeIn } from '@/components/FadeIn'
 import { useSheetData } from '@/hooks/useSheetData'
 
 export default function MentorsPage() {
-    const { data, isLoading } = useSheetData(getMentorsData)
+    const { data, isLoading } = useSheetData("mentors", getMentorsData)
 
     const items = data.map((item, index) => ({
         id: `mentor-${index}`,

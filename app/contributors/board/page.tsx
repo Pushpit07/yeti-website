@@ -6,7 +6,7 @@ import { FadeIn } from '@/components/FadeIn'
 import { useSheetData } from '@/hooks/useSheetData'
 
 export default function YetiBoardPage() {
-    const { data, isLoading } = useSheetData(getYetiBoardData)
+    const { data, isLoading } = useSheetData("yetiBoard", getYetiBoardData)
 
     const items = data.map((item, index) => ({
         id: `board-${index}`,
