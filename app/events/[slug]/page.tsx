@@ -92,10 +92,11 @@ export async function generateStaticParams() {
 export default async function EventDetailPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
+  const { slug } = await params
   const sheetEvents = await getEventsData()
-  const sheetEvent = sheetEvents.find((e) => e.slug === params.slug)
+  const sheetEvent = sheetEvents.find((e) => e.slug === slug)
 
   if (!sheetEvent) {
     notFound()

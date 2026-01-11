@@ -265,11 +265,74 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
   )
 }
 
+function PaginationControl({
+  currentPage,
+  totalPages,
+  onPageChange
+}: {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+}) {
+  if (totalPages <= 1) return null
+
+  // Generate page numbers to show (e.g., 1, 2, 3, 4, 5)
+  // Simple logic: show all for now, or sliding window if many pages
+  // For simplicity given typical event counts, we'll show up to 7 pages.
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+
+  return (
+    <div className="flex items-center justify-center gap-2 mt-12 pt-4 border-t border-neutral-200">
+      {/* Previous Arrow */}
+      <button
+        onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+        disabled={currentPage === 1}
+        className="p-2 rounded-full text-neutral-500 hover:text-black hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        aria-label="Previous Page"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      {/* Page Numbers */}
+      <div className="flex items-center gap-1">
+        {pages.map((page) => (
+          <button
+            key={page}
+            onClick={() => onPageChange(page)}
+            className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium transition-all ${currentPage === page
+              ? "bg-black text-white scale-110 shadow-sm"
+              : "text-neutral-500 hover:bg-neutral-100 hover:text-black"
+              }`}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+
+      {/* Next Arrow */}
+      <button
+        onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+        disabled={currentPage === totalPages}
+        className="p-2 rounded-full text-neutral-500 hover:text-black hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        aria-label="Next Page"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  )
+}
+
 export default function EventsPage() {
   const { data: sheetEvents, isLoading: loading } = useSheetData("events", getEventsData)
   const [showPastEvents, setShowPastEvents] = useState(false)
   const [pastEventsPage, setPastEventsPage] = useState(1)
+  const [upcomingEventsPage, setUpcomingEventsPage] = useState(1)
   const PAST_EVENTS_PER_PAGE = 3
+  const UPCOMING_EVENTS_PER_PAGE = 5
 
   // Memoize mapped events to prevent recalculation on every render
   const events = useMemo(() => {
@@ -307,11 +370,19 @@ export default function EventsPage() {
     return dateB - dateA
   })
 
-  // Pagination Logic
+  // Pagination Logic - Past Events
   const totalPastEventsPages = Math.ceil(pastEvents.length / PAST_EVENTS_PER_PAGE)
   const paginatedPastEvents = pastEvents.slice(
     (pastEventsPage - 1) * PAST_EVENTS_PER_PAGE,
     pastEventsPage * PAST_EVENTS_PER_PAGE
+  )
+
+  // Pagination Logic - Upcoming Events
+  const allUpcoming = [...upcomingEvents, ...withoutDate]
+  const totalUpcomingPages = Math.ceil(allUpcoming.length / UPCOMING_EVENTS_PER_PAGE)
+  const paginatedUpcomingEvents = allUpcoming.slice(
+    (upcomingEventsPage - 1) * UPCOMING_EVENTS_PER_PAGE,
+    upcomingEventsPage * UPCOMING_EVENTS_PER_PAGE
   )
 
   return (
@@ -366,11 +437,20 @@ export default function EventsPage() {
               // Real Data Loaded
               <>
                 {upcomingEvents.length > 0 || withoutDate.length > 0 ? (
-                  <div className="space-y-8">
-                    {upcomingEvents.concat(withoutDate).map((event, index) => (
-                      <EventCard key={event.slug} event={event} index={index} />
-                    ))}
-                  </div>
+                  <>
+                    <div className="space-y-8">
+                      {paginatedUpcomingEvents.map((event, index) => (
+                        <EventCard key={event.slug} event={event} index={index} />
+                      ))}
+                    </div>
+
+                    {/* Pagination Controls for Upcoming Events */}
+                    <PaginationControl
+                      currentPage={upcomingEventsPage}
+                      totalPages={totalUpcomingPages}
+                      onPageChange={setUpcomingEventsPage}
+                    />
+                  </>
                 ) : (
                   <div className="text-center py-10 bg-white rounded-2xl border border-neutral-200">
                     <p className="text-base md:text-lg text-neutral-600 px-4">
@@ -409,37 +489,19 @@ export default function EventsPage() {
                   </div>
 
                   {/* Pagination Controls */}
-                  {totalPastEventsPages > 1 && (
-                    <div className="flex items-center justify-between mt-8 pt-4 border-t border-neutral-100">
-                      <div className="text-sm text-neutral-500">
-                        Page {pastEventsPage} of {totalPastEventsPages}
-                      </div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => setPastEventsPage(prev => Math.max(prev - 1, 1))}
-                          disabled={pastEventsPage === 1}
-                          className="px-4 py-2 text-sm font-medium border border-neutral-200 rounded-full hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                          Previous
-                        </button>
-                        <button
-                          onClick={() => setPastEventsPage(prev => Math.min(prev + 1, totalPastEventsPages))}
-                          disabled={pastEventsPage === totalPastEventsPages}
-                          className="px-4 py-2 text-sm font-medium border border-neutral-200 rounded-full hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                          Next
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <PaginationControl
+                    currentPage={pastEventsPage}
+                    totalPages={totalPastEventsPages}
+                    onPageChange={setPastEventsPage}
+                  />
                 </div>
               </div>
             </div>
           )}
         </div>
-      </section>
+      </section >
 
       <PastProjectsSection />
-    </div>
+    </div >
   )
 }

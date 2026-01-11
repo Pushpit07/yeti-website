@@ -146,13 +146,44 @@ export default function WTFPage() {
           <div className="max-w-4xl mx-auto mb-16">
             <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
               <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none z-10" />
-              <iframe
-                className="absolute top-0 left-0 w-full h-full"
-                src="https://www.youtube.com/embed/hJh_SPRswcc"
-                title="What is YETI?"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
+              {(() => {
+                // Fallback ID
+                const DEFAULT_VIDEO_ID = "hJh_SPRswcc"
+
+                // Try to find dynamic video from sheets
+                const dynamicVideoEntry = contactInfo.find(c =>
+                  c.medium.toLowerCase().trim() === "wtf page video"
+                )
+
+                let videoId = DEFAULT_VIDEO_ID
+
+                if (dynamicVideoEntry?.address) {
+                  try {
+                    // Extract ID from various YouTube URL formats
+                    const url = dynamicVideoEntry.address
+                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+                    const match = url.match(regExp)
+                    if (match && match[2].length === 11) {
+                      videoId = match[2]
+                    } else {
+                      // warning: invalid url format in sheet
+                      console.warn("Invalid YouTube URL in sheet:", url)
+                    }
+                  } catch (e) {
+                    console.error("Error parsing video URL:", e)
+                  }
+                }
+
+                return (
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full"
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    title="What is YETI?"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                )
+              })()}
             </div>
             <p className="text-center text-white/50 mt-4 text-sm font-light">
               Watch the video to understand what YETI is all about.

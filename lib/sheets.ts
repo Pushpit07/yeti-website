@@ -27,16 +27,7 @@ function resolveSheet(dataType: DataType) {
   const result = USE_NEW_STRUCTURE ? resolveNewSheet(dataType) : resolveLegacySheet(dataType)
 
   // Log which structure is being used (only in development)
-  if (process.env.NODE_ENV === 'development' && dataType === 'events') {
-    console.log(`\n${'='.repeat(60)}`)
-    console.log(`📊 RESOLVING EVENTS DATA`)
-    console.log(`${'='.repeat(60)}`)
-    console.log(`Constant value: USE_NEW_STRUCTURE = ${USE_NEW_STRUCTURE}`)
-    console.log(`Structure type: ${USE_NEW_STRUCTURE ? '🆕 NEW multi-file' : '📁 LEGACY single-file'}`)
-    console.log(`Sheet ID: ${result.sheetIds[0]}`)
-    console.log(`Tab Name: "${result.tabName}"`)
-    console.log(`${'='.repeat(60)}\n`)
-  }
+
 
   return result
 }
@@ -359,16 +350,26 @@ export async function getEventsData(): Promise<SheetEvent[]> {
   const isUrl = (val: string) => /^https?:\/\//i.test(val)
 
 
+  const slugCounts: Record<string, number> = {}
+
   return rows
     .map((row) => {
       // Safe access using optional chaining row.c?.[0]
       const name = clean(row.c?.[0]?.v)
       if (!name) return null
 
-      const slug = name
+      let slug = name
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "")
+
+      // Ensure unique slug
+      if (slugCounts[slug]) {
+        slugCounts[slug] += 1
+        slug = `${slug}-${slugCounts[slug]}`
+      } else {
+        slugCounts[slug] = 1
+      }
 
       const registrationStartDate = clean(row.c?.[1]?.v)
       const registrationEndDate = clean(row.c?.[2]?.v)

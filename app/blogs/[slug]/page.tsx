@@ -13,12 +13,13 @@ export const dynamic = "force-static"
 export const revalidate = 60
 
 type Props = {
-    params: { slug: string }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: Props) {
+    const { slug } = await params
     const blogs = await getBlogData()
-    const blog = blogs.find((b) => b.slug === params.slug)
+    const blog = blogs.find((b) => b.slug === slug)
 
     if (!blog) {
         return {
@@ -33,8 +34,9 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function BlogDetailPage({ params }: Props) {
+    const { slug } = await params
     const blogs = await getBlogData()
-    const blog = blogs.find((b) => b.slug === params.slug)
+    const blog = blogs.find((b) => b.slug === slug)
 
     if (!blog) {
         notFound()

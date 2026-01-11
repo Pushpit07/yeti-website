@@ -44,7 +44,7 @@ export function DynamicHeader() {
               { label: "Ober Yetis", href: "/contributors/ober-yetis" },
               { label: "Yeti Board", href: "/contributors/board" },
               { label: "Our Partners", href: "/contributors/sponsors" },
-              { label: "Mentors", href: "/contributors/mentors" },
+              //{ label: "Mentors", href: "/contributors/mentors" },
               { label: "Our Speakers", href: "/contributors/fireside-chats" }
             ]
           },
