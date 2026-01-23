@@ -6,7 +6,7 @@ import { ConditionalLayout } from "@/components/ConditionalLayout";
 import { DynamicHeader } from "@/components/DynamicHeader";
 import Footer from "@/components/Footer";
 import Analytics from "@/components/Analytics";
-import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+import { GA_MEASUREMENT_ID, GOOGLE_ADS_ID } from "@/lib/analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,6 +71,7 @@ export default function RootLayout({
                 gtag('config', '${GA_MEASUREMENT_ID}', {
                   page_path: window.location.pathname,
                 });
+                gtag('config', '${GOOGLE_ADS_ID}');
               `}
             </Script>
           </>

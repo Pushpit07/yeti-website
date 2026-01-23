@@ -173,6 +173,8 @@ function EventCardSkeleton() {
 
 // ... imports ...
 
+import { trackEvent } from "@/lib/analytics"
+
 function EventCard({ event, index, isPast = false }: { event: Event; index: number; isPast?: boolean }) {
   const hasMapsLink = !!event.googleMapsLink
 
@@ -244,7 +246,11 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
           </p>
         )}
         <div className="flex flex-wrap gap-2 pt-2">
-          <Link href={`/events/${event.slug}`} className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-primary text-white text-sm rounded-full hover:bg-black transition-colors font-medium">
+          <Link
+            href={`/events/${event.slug}`}
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-primary text-white text-sm rounded-full hover:bg-black transition-colors font-medium"
+            onClick={() => trackEvent('select_content', 'event_list', event.slug)}
+          >
             View details
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -252,7 +258,14 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
           </Link>
 
           {visibleLinks && visibleLinks.map((link, idx) => (
-            <Link key={idx} href={link.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-black text-white text-sm rounded-full hover:bg-primary transition-colors font-medium">
+            <Link
+              key={idx}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-black text-white text-sm rounded-full hover:bg-primary transition-colors font-medium"
+              onClick={() => trackEvent('click_external_link', 'event_external_link', `${link.label} - ${event.slug}`)}
+            >
               {link.label}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

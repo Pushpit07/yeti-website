@@ -1,6 +1,7 @@
 // Google Analytics 4 utility functions
 
 export const GA_MEASUREMENT_ID = 'G-7ZZ9BJPPXS';
+export const GOOGLE_ADS_ID = 'AW-17100411946';
 
 /**
  * Check if we're in production environment
