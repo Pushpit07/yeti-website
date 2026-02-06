@@ -111,7 +111,7 @@ export function ContributorsClient() {
                                     Entrepreneurs and experts host workshops and join <Link href="/contributors/fireside-chats" className="text-primary font-semibold hover:underline">Fireside Chats</Link>.
                                 </li>
                                 <li>
-                                    Many serve as <Link href="/contributors/mentors" className="text-primary font-semibold hover:underline">Mentors</Link>, providing personal guidance to every YETI.
+                                    Many serve as <strong>Mentors</strong>, providing personal guidance to every YETI.
                                 </li>
                             </ul>
                         </motion.div>
@@ -160,7 +160,7 @@ export function ContributorsClient() {
                             {
                                 title: "Mentors",
                                 desc: "Guides",
-                                href: "/contributors/mentors",
+                                href: "", // Navigation disabled as per request
                                 icon: <GraduationCap className="w-5 h-5" />,
                                 color: "from-emerald-500/20 to-teal-500/20",
                                 hoverColor: "group-hover:from-emerald-500/40 group-hover:to-teal-500/40"
@@ -181,15 +181,15 @@ export function ContributorsClient() {
                                 color: "from-red-500/20 to-rose-500/20",
                                 hoverColor: "group-hover:from-red-500/40 group-hover:to-rose-500/40"
                             }
-                        ].map((item, index) => (
-                            <Link key={item.title} href={item.href} className="block h-full">
+                        ].map((item, index) => {
+                            const CardContent = (
                                 <motion.div
                                     className="group relative h-full bg-neutral-900/40 border border-white/10 rounded-xl p-5 hover:bg-neutral-800/60 transition-all duration-300 overflow-hidden flex flex-col items-start justify-between min-h-[140px]"
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.05 }}
-                                    whileHover={{ y: -2 }}
+                                    whileHover={{ y: item.href ? -2 : 0 }}
                                 >
                                     <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-30 ${item.hoverColor} transition-all duration-500`} />
 
@@ -198,19 +198,29 @@ export function ContributorsClient() {
                                     </div>
 
                                     <div className="relative z-10 w-full">
-                                        <h3 className="font-bold text-white text-lg leading-tight mb-1 group-hover:text-primary transition-colors">
+                                        <h3 className={`font-bold text-white text-lg leading-tight mb-1 ${item.href ? 'group-hover:text-primary' : ''} transition-colors`}>
                                             {item.title}
                                         </h3>
                                         <div className="flex items-center justify-between w-full">
                                             <p className="text-white/50 text-xs font-medium uppercase tracking-wide">
                                                 {item.desc}
                                             </p>
-                                            <ArrowRight className="w-3 h-3 text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                                            {item.href && <ArrowRight className="w-3 h-3 text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all" />}
                                         </div>
                                     </div>
                                 </motion.div>
-                            </Link>
-                        ))}
+                            )
+
+                            return item.href ? (
+                                <Link key={item.title} href={item.href} className="block h-full">
+                                    {CardContent}
+                                </Link>
+                            ) : (
+                                <div key={item.title} className="block h-full cursor-default">
+                                    {CardContent}
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </section>

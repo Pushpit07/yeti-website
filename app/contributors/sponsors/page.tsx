@@ -73,6 +73,27 @@ export default function SponsorsPage() {
                     })}
                 </div>
 
+                {/* Why Become an Industry Partner Section */}
+                <FadeIn>
+                    <div className="mt-32 border-t border-white/10 pt-16 text-center">
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                            Why Become an Industry Partner?
+                        </h2>
+                        <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+                            Discover how partnering with YETI can bring fresh innovation, access to top talent,
+                            and meaningful brand visibility to your organization.
+                        </p>
+                        <div className="flex justify-center">
+                            <Button
+                                href="/industrypartners"
+                                variant="solid"
+                            >
+                                Learn More About Partnerships
+                            </Button>
+                        </div>
+                    </div>
+                </FadeIn>
+
                 {/* Integration of CTA Section */}
                 <FadeIn>
                     <div className="mt-32 border-t border-white/10 pt-16 text-center">
