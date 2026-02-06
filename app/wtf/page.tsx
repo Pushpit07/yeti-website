@@ -9,9 +9,8 @@ import { getCityInfo, PROGRAM_INFO, getTestimonialsConfig } from "@/lib/constant
 import { useState, useEffect, useRef } from "react"
 import { type Testimonial, type ContactInfo, getContactData } from "@/lib/sheets"
 import { AnimatePresence, motion } from "framer-motion"
-import Image from "next/image"
 
-const cityInfo = getCityInfo('dresden')
+
 
 type TestimonialsData = {
   title: string

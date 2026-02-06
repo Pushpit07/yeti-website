@@ -8,21 +8,21 @@ import ReactMarkdown from "react-markdown"
 
 interface FAQAccordionProps {
   city: City
-  cityInfo: {
-    name: string
-    generation: number
-    generationSuffix: string
-    applicationEmail: string
-  }
-  applicationDates: {
-    openingDate: string
-    deadline: string
-    kickoffWeekend: string
-    programStart: string
-  }
+  //   cityInfo: {
+  //     name: string
+  //     generation: number
+  //     generationSuffix: string
+  //     applicationEmail: string
+  //   }
+  //   applicationDates: {
+  //     openingDate: string
+  //     deadline: string
+  //     kickoffWeekend: string
+  //     programStart: string
+  //   }
 }
 
-export function FAQAccordion({ cityInfo, applicationDates }: FAQAccordionProps) {
+export function FAQAccordion({ }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
   const [faqs, setFaqs] = useState<SheetFAQItem[]>([])
   const [isLoading, setIsLoading] = useState(true)

@@ -1,4 +1,4 @@
-import { Section } from "@/components/Section"
+
 import Link from "next/link"
 
 export const dynamic = "force-static"

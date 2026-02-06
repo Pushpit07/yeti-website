@@ -6,13 +6,13 @@ import { FAQHeader } from "@/components/FAQHeader"
 import { BookZoomCallCTA } from "@/components/BookZoomCallCTA"
 import Link from "next/link"
 import Image from "next/image"
-import { getCityInfo, getApplicationDates } from "@/lib/constants"
+import { getApplicationDates } from "@/lib/constants"
 import { getApplicationData } from "@/lib/sheets"
 import { Mail, ArrowRight, CheckCircle2 } from "lucide-react"
 import { useSheetData } from "@/hooks/useSheetData"
 import { trackEvent } from "@/lib/analytics"
 
-const cityInfo = getCityInfo('leipzig')
+
 const applicationDates = getApplicationDates('leipzig')
 
 export default function ApplicationLeipzigPage() {
@@ -228,8 +228,6 @@ export default function ApplicationLeipzigPage() {
 
         <FAQAccordion
           city="leipzig"
-          cityInfo={cityInfo}
-          applicationDates={applicationDates}
         />
       </Section>
 

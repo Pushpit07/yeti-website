@@ -153,7 +153,6 @@ export default function LeipzigPage() {
       <ContactSection
         hqAddress={locationData.hqAddress}
         emailId={locationData.emailId}
-        city="Leipzig"
       />
     </div>
   )

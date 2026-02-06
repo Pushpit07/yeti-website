@@ -4,7 +4,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { type Machine } from "@/lib/sheets"
-import { convertGoogleDriveLink, cn } from "@/lib/utils"
+import { convertGoogleDriveLink } from "@/lib/utils"
 
 export function EquipmentGrid({ machines }: { machines: Machine[] }) {
     const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null)

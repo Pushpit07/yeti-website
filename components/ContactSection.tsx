@@ -1,12 +1,12 @@
-import Link from "next/link"
+
 
 interface ContactSectionProps {
     hqAddress: string
     emailId: string
-    city: string
+
 }
 
-export function ContactSection({ hqAddress, emailId, city }: ContactSectionProps) {
+export function ContactSection({ hqAddress, emailId }: ContactSectionProps) {
     return (
         <section id="contact" className="bg-black text-white py-16 md:py-24 relative overflow-hidden">
             {/* Background gradient */}

@@ -347,7 +347,7 @@ export async function getEventsData(): Promise<SheetEvent[]> {
   const rows = await getRawSheetData("events")
 
   const clean = (val: string | number | null | undefined) => String(val ?? "").trim()
-  const isUrl = (val: string) => /^https?:\/\//i.test(val)
+
 
 
   const slugCounts: Record<string, number> = {}

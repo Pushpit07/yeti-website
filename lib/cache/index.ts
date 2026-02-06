@@ -1,4 +1,4 @@
-import { CACHE_TTL, CacheKey } from "./config";
+import { CACHE_TTL } from "./config";
 
 type CacheEntry<T> = {
     data: T;

@@ -14,7 +14,7 @@ export default function IndustryPartnersPage() {
                             Turn Business Challenges Into Innovation
                         </h1>
                         <p className="text-xl md:text-2xl text-white/80 leading-relaxed mb-8">
-                            Partner with YETI's entrepreneurial students to solve real problems and discover future talent.
+                            Partner with YETI&apos;s entrepreneurial students to solve real problems and discover future talent.
                         </p>
                         <Button
                             href="mailto:sandra@yeti-dresden.org"
