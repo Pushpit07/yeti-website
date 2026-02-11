@@ -7,6 +7,18 @@
       "**/node_modules/**"
     ],
     "cleanUrls": true,
-    "trailingSlash": false
+    "trailingSlash": false,
+    "redirects": [
+      {
+        "source": "/mensa-screen-1",
+        "destination": "/wtf",
+        "type": 301
+      },
+      {
+        "source": "/qrwh",
+        "destination": "/wtf",
+        "type": 301
+      }
+    ]
   }
 }

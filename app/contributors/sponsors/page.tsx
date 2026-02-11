@@ -73,44 +73,29 @@ export default function SponsorsPage() {
                     })}
                 </div>
 
-                {/* Why Become an Industry Partner Section */}
-                <FadeIn>
-                    <div className="mt-32 border-t border-white/10 pt-16 text-center">
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                            Why Become an Industry Partner?
-                        </h2>
-                        <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-                            Discover how partnering with YETI can bring fresh innovation, access to top talent,
-                            and meaningful brand visibility to your organization.
-                        </p>
-                        <div className="flex justify-center">
-                            <Button
-                                href="/industrypartners"
-                                variant="solid"
-                            >
-                                Learn More About Partnerships
-                            </Button>
-                        </div>
-                    </div>
-                </FadeIn>
-
-                {/* Integration of CTA Section */}
+                {/* Partnership CTA Section */}
                 <FadeIn>
                     <div className="mt-32 border-t border-white/10 pt-16 text-center">
                         <h2 className="text-3xl md:text-5xl font-bold mb-6">
                             Would you like to become our partner?
                         </h2>
                         <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+                            Discover how partnering with YETI can bring fresh innovation, access to top talent,
+                            and meaningful brand visibility to your organization.
                             We are always looking for collaboration with young minds and forward-thinking companies.
-                            Join the YETI ecosystem and help shape the future of entrepreneurship.
                         </p>
-                        <div className="flex justify-center">
+                        <div className="flex flex-col sm:flex-row justify-center gap-4">
                             <Button
                                 href="mailto:sandra@yeti-dresden.org"
                                 variant="solid"
-                                className="bg-white text-black hover:bg-neutral-200"
                             >
                                 Get in Touch
+                            </Button>
+                            <Button
+                                href="/industrypartners"
+                                variant="solid"
+                            >
+                                Learn More About Partnerships
                             </Button>
                         </div>
                     </div>
