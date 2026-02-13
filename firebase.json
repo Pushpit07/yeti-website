@@ -18,6 +18,11 @@
         "source": "/qrwh",
         "destination": "/wtf",
         "type": 301
+      },
+      {
+        "source": "/yeti-leipzig",
+        "destination": "/leipzig",
+        "type": 301
       }
     ]
   }
