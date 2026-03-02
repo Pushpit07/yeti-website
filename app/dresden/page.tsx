@@ -89,12 +89,12 @@ export default function DresdenPage() {
 
   return (
     <div className="font-sans">
-      {/* Hero Section - Keep existing */}
+      {/* Hero Section */}
       <Hero
         title="We are YETI Dresden"
         subtitle="Young Entrepreneurs in Tech and Innovation"
         cta={{ label: "Apply now", href: "/application/dresden" }}
-        backgroundVideoUrl="/demo-day-recap.mp4"
+        backgroundVideoUrl={(locationData.backgroundMedia && locationData.backgroundMedia.startsWith('http')) ? locationData.backgroundMedia : "/demo-day-recap.mp4"}
       />
 
       {/* Overview Section */}

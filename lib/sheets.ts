@@ -533,6 +533,7 @@ export type LocationData = {
   emailId: string
   contentFolder: string
   hqContent: string
+  backgroundMedia?: string
 }
 
 export async function getApplicationData(): Promise<ApplicationData[]> {
@@ -566,6 +567,7 @@ export async function getLocationData(city?: string): Promise<LocationData[]> {
       emailId: String(row.c?.[8]?.v || "").trim(),
       contentFolder: String(row.c?.[9]?.v || "").trim(),
       hqContent: String(row.c?.[10]?.v || "").trim(),
+      backgroundMedia: processImageLink(String(row.c?.[11]?.v || "").trim()),
     }))
     .filter((item) => item.location)
 

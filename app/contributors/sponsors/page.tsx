@@ -86,16 +86,16 @@ export default function SponsorsPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
                             <Button
+                                href="/industrypartners"
+                                variant="solid"
+                            >
+                                Learn More
+                            </Button>
+                            <Button
                                 href="mailto:sandra@yeti-dresden.org"
                                 variant="solid"
                             >
                                 Get in Touch
-                            </Button>
-                            <Button
-                                href="/industrypartners"
-                                variant="solid"
-                            >
-                                Learn More About Partnerships
                             </Button>
                         </div>
                     </div>

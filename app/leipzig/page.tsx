@@ -92,15 +92,38 @@ export default function LeipzigPage() {
       {/* Hero Section - Keep existing */}
       <section className="relative min-h-screen">
         <div className="absolute inset-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/yeti-leipzig.jpg"
-            alt="YETI Leipzig"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center" }}
-            loading="lazy"
-            decoding="async"
-          />
+          {(() => {
+            const mediaUrl = (locationData?.backgroundMedia && locationData.backgroundMedia.startsWith('http')) ? locationData.backgroundMedia : "/yeti-leipzig.jpg"
+            const isVideo = mediaUrl.match(/\.(mp4|webm|ogg)$/i) !== null
+
+            if (isVideo) {
+              return (
+                <video
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  style={{ objectPosition: "center" }}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  src={mediaUrl}
+                  preload="none"
+                />
+              )
+            }
+
+            return (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={mediaUrl}
+                alt="YETI Leipzig"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "center" }}
+                loading="lazy"
+                decoding="async"
+              />
+            )
+          })()}
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         <div className="relative z-10 flex min-h-screen flex-col items-start justify-end p-8 md:p-12">
