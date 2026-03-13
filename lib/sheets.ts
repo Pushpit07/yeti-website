@@ -147,7 +147,11 @@ async function getRawSheetData(
     )}`
 
     try {
-      const res = await fetch(url, { next: { revalidate: REVALIDATE_TIME } })
+      // For location data, never cache (background media must be fresh)
+      const fetchOptions = dataType === 'location'
+        ? { cache: 'no-store' as RequestCache }
+        : { next: { revalidate: REVALIDATE_TIME } }
+      const res = await fetch(url, fetchOptions)
 
       if (!res.ok) {
         // Log warning and try next sheet if available
@@ -554,6 +558,9 @@ export async function getApplicationData(): Promise<ApplicationData[]> {
 export async function getLocationData(city?: string): Promise<LocationData[]> {
   const rows = await getRawSheetData("location", false)
 
+  // Sheet columns: A=Location, B=Year Started, C=Yeti Counts, D=Yeti Generations,
+  // E=Innovation Projects, F=Industry Projects, G=Founding Projects,
+  // H=HQ Address, I=Email ID, J=Background Media
   const allData = rows
     .map((row) => ({
       location: String(row.c?.[0]?.v || "").trim(),
@@ -565,9 +572,9 @@ export async function getLocationData(city?: string): Promise<LocationData[]> {
       foundingProjects: String(row.c?.[6]?.v || "").trim(),
       hqAddress: String(row.c?.[7]?.v || "").trim(),
       emailId: String(row.c?.[8]?.v || "").trim(),
-      contentFolder: String(row.c?.[9]?.v || "").trim(),
-      hqContent: String(row.c?.[10]?.v || "").trim(),
-      backgroundMedia: processImageLink(String(row.c?.[11]?.v || "").trim()),
+      contentFolder: "",
+      hqContent: "",
+      backgroundMedia: String(row.c?.[9]?.v || "").trim() || undefined,
     }))
     .filter((item) => item.location)
 
