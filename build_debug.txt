@@ -1,0 +1,29 @@
+
+> yeti-website@0.1.0 build
+> next build --turbopack
+
+   ▲ Next.js 15.5.7 (Turbopack)
+
+   Creating an optimized production build ...
+ ✓ Finished writing to disk in 134ms
+ ✓ Compiled successfully in 4.7s
+   Linting and checking validity of types ...
+
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+
+
+Failed to compile.
+
+./app/wtf/page.tsx
+8:10  Warning: 'getCityInfo' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/BackgroundVideo.tsx
+4:8  Warning: 'Image' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/WaitlistModal.tsx
+122:73  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+124:17  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
