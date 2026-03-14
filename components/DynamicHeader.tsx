@@ -6,6 +6,7 @@ import { HeaderClient } from './HeaderClient'
 export function DynamicHeader() {
   const pathname = usePathname()
   const isEventDetailPage = pathname.startsWith('/events/') && pathname !== '/events'
+  const isAdminConsole = pathname.startsWith('/adminconsole')
 
   return (
     <HeaderClient
@@ -58,7 +59,7 @@ export function DynamicHeader() {
         ]
       }}
       title="YETI"
-      variant={isEventDetailPage ? 'black' : 'default'}
+      variant={(isEventDetailPage || isAdminConsole) ? 'black' : 'default'}
     />
   )
 }

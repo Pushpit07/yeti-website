@@ -4,6 +4,8 @@ import { Section } from "@/components/Section"
 import { FAQAccordion } from "@/components/FAQAccordion"
 import { FAQHeader } from "@/components/FAQHeader"
 import { BookZoomCallCTA } from "@/components/BookZoomCallCTA"
+import { WaitlistModal } from "@/components/WaitlistModal"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { getApplicationDates } from "@/lib/constants"
@@ -16,6 +18,7 @@ import { trackEvent } from "@/lib/analytics"
 const applicationDates = getApplicationDates('dresden')
 
 export default function ApplicationDresdenPage() {
+  const [isWaitlistModalOpen, setIsWaitlistModalOpen] = useState(false)
   const { data: appData, isLoading } = useSheetData("application", getApplicationData)
   const data = appData.find(d => d.city.toLowerCase() === 'dresden')
 
@@ -106,21 +109,40 @@ export default function ApplicationDresdenPage() {
             )}
 
             <div className="pt-8 border-t border-white/10">
-              <p className="text-white/80 mb-6 text-lg">
-                Please send your <span className="font-bold text-white border-b-2 border-primary/50">Resume</span> and <span className="font-bold text-white border-b-2 border-primary/50">Motivation Letter</span> to:
-              </p>
+              {isApplicationOpen ? (
+                <>
+                  <p className="text-white/80 mb-6 text-lg">
+                    Please send your <span className="font-bold text-white border-b-2 border-primary/50">Resume</span> and <span className="font-bold text-white border-b-2 border-primary/50">Motivation Letter</span> to:
+                  </p>
 
-              <a
-                href={`mailto:${applicationEmail}`}
-                onClick={() => trackEvent('generate_lead', 'application', 'email_dresden_hero')}
-                className="group inline-flex items-center gap-3 px-8 py-5 bg-white text-black rounded-full font-bold text-xl transition-all hover:bg-primary hover:text-white hover:scale-105 active:scale-95 shadow-lg shadow-white/10"
-              >
-                <Mail className="w-6 h-6" />
-                <span>{applicationEmail}</span>
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </a>
+                  <a
+                    href={`mailto:${applicationEmail}`}
+                    onClick={() => trackEvent('generate_lead', 'application', 'email_dresden_hero')}
+                    className="group inline-flex items-center gap-3 px-8 py-5 bg-white text-black rounded-full font-bold text-xl transition-all hover:bg-primary hover:text-white hover:scale-105 active:scale-95 shadow-lg shadow-white/10"
+                  >
+                    <Mail className="w-6 h-6" />
+                    <span>{applicationEmail}</span>
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </a>
+                </>
+              ) : (
+                <button
+                  onClick={() => setIsWaitlistModalOpen(true)}
+                  className="group inline-flex items-center gap-3 px-8 py-5 bg-primary text-white rounded-full font-bold text-xl transition-all hover:bg-primary-hover hover:scale-105 active:scale-95 shadow-lg shadow-primary/25"
+                >
+                  Sign Up for Waitlist
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </button>
+              )}
             </div>
           </div>
+
+          <WaitlistModal 
+            isOpen={isWaitlistModalOpen}
+            onClose={() => setIsWaitlistModalOpen(false)}
+            city="dresden"
+            generation={generationText}
+          />
 
           <div className="mt-16">
             <Link
