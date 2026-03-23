@@ -78,25 +78,60 @@ No `.env` file is required. The Google Sheets configuration and Firebase keys ar
 
 ## How Content Works (Google Sheets)
 
-Almost all website content is managed through **Google Sheets**. The site fetches data from 5 separate spreadsheets, organized by category. To update content, just edit the relevant Google Sheet -- the website picks up changes automatically (cached for 60 seconds on the server, varies by type on the client).
+Almost all website content is managed through **Google Sheets** -- no coding required. You edit a spreadsheet, and the website updates itself automatically (usually within 60 seconds).
+
+### Why Google Sheets?
+
+Google Sheets acts as our "CMS" (content management system). Instead of needing a developer to change text, images, or events on the website, anyone on the team can just open a Google Sheet, edit a cell, and the website picks it up. No deploy, no code changes, no waiting.
 
 ### The 5 Google Sheets
 
-| Sheet | ID | What it contains |
-|-------|-----|-----------------|
-| **Contributors** | `1aIO1SYEXukAmM4sqwHKuArc2Y6JaGlIt-Ep-ldg43aI` | Ober Yetis, Yeti Board, Partners (sponsors), Mentors, Fireside chat speakers |
-| **Content** | `1eJjJxiXwQlawNCueugrR73QnaaRZiIEj-Vl_0xp2kZU` | Blogs, Yeti Media Content, Testimonials, FAQs |
-| **Projects** | `1jTl9MdYqhrDMwBRqBA776LfFFMiGohP3u0utjpA7lu4` | All Projects, Made in Yeti (makerspace activity) |
-| **Admin** | `1JN35Ql-K4WInjh11Of7Jtgp63MqE-hpZMzRbCSN29aM` | Events, Yeti Location Data, Application settings, Yeti Contacts |
-| **Headquarters** | `1K2s1z3jRGoAS6Z2uU4wpRppwH5MOb6ckoqrvsFXYqdw` | Makerspace equipment |
+| Sheet | What it contains | Link |
+|-------|-----------------|------|
+| **Contributors** | Ober Yetis, Yeti Board, Partners (sponsors), Mentors, Fireside chat speakers | [Open Sheet](https://docs.google.com/spreadsheets/d/1aIO1SYEXukAmM4sqwHKuArc2Y6JaGlIt-Ep-ldg43aI) |
+| **Content** | Blogs, Yeti Media Content, Testimonials, FAQs | [Open Sheet](https://docs.google.com/spreadsheets/d/1eJjJxiXwQlawNCueugrR73QnaaRZiIEj-Vl_0xp2kZU) |
+| **Projects** | All Projects, Made in Yeti (makerspace activity) | [Open Sheet](https://docs.google.com/spreadsheets/d/1jTl9MdYqhrDMwBRqBA776LfFFMiGohP3u0utjpA7lu4) |
+| **Admin** | Events, Yeti Location Data, Application settings, Yeti Contacts | [Open Sheet](https://docs.google.com/spreadsheets/d/1JN35Ql-K4WInjh11Of7Jtgp63MqE-hpZMzRbCSN29aM) |
+| **Headquarters** | Makerspace equipment | [Open Sheet](https://docs.google.com/spreadsheets/d/1K2s1z3jRGoAS6Z2uU4wpRppwH5MOb6ckoqrvsFXYqdw) |
 
-To open any sheet, go to: `https://docs.google.com/spreadsheets/d/{SHEET_ID}`
+### How to edit content (step by step)
+
+1. Open the relevant Google Sheet from the table above
+2. Find the correct **tab** at the bottom of the sheet (e.g., "Blogs", "Events", "Ober Yetis")
+3. Edit the cells directly -- add a new row for new content, or change existing cells
+4. Wait ~60 seconds -- the website fetches fresh data automatically
+5. Refresh the website page to see your changes
+
+**Important rules:**
+- **Do not rename tabs** or change column headers -- the website code expects specific tab names and column names to stay the same
+- **Do not change the sheet sharing settings** -- the sheets must remain accessible via "anyone with the link" for the website to read them
+- Each tab maps to a specific part of the website. The mapping is defined in `lib/sheets/new.ts` if you ever need to check which tab feeds which page
+
+### How images work in Sheets
+
+When you need to add an image to a Google Sheet cell:
+
+1. Upload the image to **Google Drive**
+2. Right-click the image in Drive and select "Share" > "Copy link"
+3. Paste that link into the Google Sheet cell
+
+The website automatically detects Google Drive links and converts them to displayable image URLs. You can also use **ImageKit** URLs (see below) or any direct image URL (e.g., from Unsplash).
+
+### ImageKit -- Why and How
+
+Some images on the site are hosted on [ImageKit](https://imagekit.io) (`ik.imagekit.io`). ImageKit is an image CDN (Content Delivery Network) that:
+
+- **Optimizes images automatically** -- it compresses and resizes images so they load faster on the website
+- **Serves images from edge servers** -- users get images from the server closest to them, which speeds up page loads
+- **Supports transformations** -- you can resize, crop, or adjust images just by changing the URL
+
+If you have an ImageKit account, you can upload images there and paste the ImageKit URL directly into the Google Sheet. The website will display it as-is. Google Drive links work fine too -- ImageKit is just a faster alternative for frequently-viewed images.
 
 ### How it works under the hood
 
-- The site uses the **Google Visualization API** (`gviz/tq`) to fetch sheet data as JSON -- no API key needed, sheets just need to be publicly readable (or shared with "anyone with the link").
-- Data fetching logic lives in `lib/sheets.ts`, with sheet-to-tab mappings in `lib/sheets/new.ts`.
-- Images in Google Sheets should be pasted as **Google Drive share links**. The site automatically converts them to thumbnail URLs for display.
+- The site uses the **Google Visualization API** (`gviz/tq`) to fetch sheet data as JSON -- no API key needed, sheets just need to be publicly readable (or shared with "anyone with the link")
+- Data fetching logic lives in `lib/sheets.ts`, with sheet-to-tab mappings in `lib/sheets/new.ts`
+- Images pasted as Google Drive share links are automatically converted to thumbnail URLs by `lib/utils.ts`
 
 ---
 
@@ -134,26 +169,34 @@ Upload images to **Google Drive**, get a shareable link, and paste it into the r
 
 ---
 
-## Firebase & Waitlist
+## Waitlist (Application Page)
 
-The site uses **Firebase** for two things:
+The application pages (`/application/dresden` and `/application/leipzig`) include a **waitlist signup form**. This was added by Sanchit so that interested applicants can register their interest even when applications aren't officially open yet.
 
-1. **Firestore** -- stores waitlist/application signups
-2. **Analytics** -- client-side tracking (tied to GA4)
+### What happens when someone signs up
 
-**Firebase project:** `yeti-dresden` ([Firebase Console](https://console.firebase.google.com/project/yeti-dresden))
+1. A visitor goes to the application page for their city (Dresden or Leipzig)
+2. They click a button to join the waitlist, which opens a popup form
+3. They fill in their details: name, email, address, field of study, university, whether they've graduated, and either their current semester or profession/company
+4. When they submit, the data is saved to **Firebase Firestore** (a cloud database by Google) -- no spreadsheet involved here, it goes straight to a database
+5. The website also logs a `waitlist_signup` analytics event so you can track how many people are signing up
 
-### Waitlist signups
-When someone fills out the waitlist form on the application page, their data is saved to Firestore at:
-```
-waitlist/{city}/generations/{generation}/signups/{autoId}
-```
+### Viewing and exporting signups
 
-### Admin console
-View and export signups at `/adminconsole/signuplist`. This page has basic authentication (credentials are hardcoded in the component at `app/adminconsole/signuplist/page.tsx`). Features:
-- Filter by city (Dresden/Leipzig) and generation
-- Paginated list view
-- Export to Excel
+There is a built-in **admin panel** at `/adminconsole/signuplist` where you can:
+- **Log in** with the credentials hardcoded in `app/adminconsole/signuplist/page.tsx`
+- **Filter** signups by city (Dresden or Leipzig) and generation (e.g., "Generation 8")
+- **Browse** through all signups in a paginated list
+- **Export to Excel** -- download all filtered signups as an `.xlsx` file for further processing
+
+### Firebase
+
+Firebase is the backend service powering the waitlist. It's a Google product, so it's free for our usage level.
+
+- **Firebase project:** `yeti-dresden` ([Firebase Console](https://console.firebase.google.com/project/yeti-dresden))
+- **What it stores:** Waitlist signups and login logs
+- **Data structure:** `waitlist/{city}/generations/{generation}/signups/{id}`
+- The Firebase config (API keys etc.) is in `lib/firebase.ts` -- these keys are public/read-only and safe to have in the code
 
 ---
 
@@ -250,3 +293,14 @@ The site has a multi-layer caching strategy:
 - **Google Ads** (ID: `AW-17100411946`)
 - Only active in production (not in dev mode)
 - Custom events tracked: `waitlist_signup`, `generate_lead`, page views
+
+---
+
+## Contact / Website Maintainers
+
+If something breaks or you need help understanding the codebase, reach out to the people who built it:
+
+| Name | Role | Contact |
+|------|------|---------|
+| **Pushpit** | Original Developer | [GitHub](https://github.com/Pushpit07) | +49 17647661972
+| **Sanchit** | Original Developer | [GitHub branch](https://github.com/Sanchitj23) | +49 17655668362
