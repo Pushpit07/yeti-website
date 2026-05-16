@@ -19,7 +19,7 @@ export default function LeipzigPage() {
     innovationProjects: "10+",
     industryProjects: "5+",
     foundingProjects: "3+",
-    hqAddress: "SpinLab, Spinnereistraße 7, 04179 Leipzig",
+    hqAddress: "Markt 8, 04109 Leipzig",
     emailId: "info@yeti-leipzig.org",
     contentFolder: "",
     hqContent: ""

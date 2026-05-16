@@ -121,6 +121,20 @@ export default async function LandingPage() {
       {/* Fixed center transparent overlay with 7.5% overlap on each side */}
       <div className="fixed left-1/2 top-0 z-10 h-screen w-[15%] -translate-x-1/2 hidden md:block" />
 
+      {/* Legal links — required on the landing page since the global footer is hidden here */}
+      <nav
+        aria-label="Legal"
+        className="fixed bottom-14 right-2 z-30 flex items-center gap-3 text-[9px] uppercase tracking-wider text-white/60 md:bottom-[68px] md:right-3 md:text-[11px]"
+      >
+        <Link href="/impressum" className="transition-colors hover:text-white">
+          Impressum
+        </Link>
+        <span aria-hidden="true" className="text-white/30">·</span>
+        <Link href="/datenschutz" className="transition-colors hover:text-white">
+          Datenschutz
+        </Link>
+      </nav>
+
       {/* Sponsors strip at bottom */}
       <SponsorsStrip />
     </div>

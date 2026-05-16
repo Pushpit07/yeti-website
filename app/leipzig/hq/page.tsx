@@ -15,7 +15,7 @@ export default function LeipzigHQPage() {
 
     const locationData = locationDataArray?.[0] || {
         location: "Leipzig",
-        hqAddress: "Address to be updated",
+        hqAddress: "Markt 8, 04109 Leipzig",
         emailId: "info@yeti-leipzig.org",
         hqContent: "",
     }
