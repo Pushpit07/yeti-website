@@ -14,7 +14,7 @@ export const CITY_INFO = {
     generation: 8,
     generationSuffix: 'th',
     applicationEmail: 'application@yeti-dresden.org',
-    generalEmail: 'info@yeti-dresden.org',
+    generalEmail: 'info@yeti-fellowship.org',
     phone: CONTACT_INFO.phoneDisplay,
     address: {
       street: 'Leubnitzer Str. 28',

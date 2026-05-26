@@ -264,8 +264,8 @@ export default function HQPage() {
                 </div>
                 <div className="text-sm text-muted-foreground">
                   Want to visit? Drop us a message at{" "}
-                  <a href="mailto:info@yeti-dresden.org" className="text-primary font-semibold hover:underline">
-                    info@yeti-dresden.org
+                  <a href="mailto:info@yeti-fellowship.org" className="text-primary font-semibold hover:underline">
+                    info@yeti-fellowship.org
                   </a>
                 </div>
               </div>

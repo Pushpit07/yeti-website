@@ -42,7 +42,7 @@ export default function LegalNoticePage() {
           <h3 className="text-2xl font-bold mb-4 mt-8">Contact</h3>
           <div className="bg-neutral-50 rounded-lg p-6 mb-8">
             <p className="text-neutral-700 leading-relaxed mb-2"><strong>Phone:</strong> {CONTACT_INFO.phoneDisplay}</p>
-            <p className="text-neutral-700 leading-relaxed"><strong>E-mail:</strong> info@yeti-dresden.org</p>
+            <p className="text-neutral-700 leading-relaxed"><strong>E-mail:</strong> info@yeti-fellowship.org</p>
           </div>
 
           <h3 className="text-2xl font-bold mb-4 mt-8">EU dispute resolution</h3>
