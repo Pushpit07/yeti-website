@@ -112,7 +112,7 @@ export default function DatenschutzPage() {
             <p className="text-neutral-700 leading-relaxed mb-2">Zennerstr. 1</p>
             <p className="text-neutral-700 leading-relaxed mb-4">81379 München</p>
             <p className="text-neutral-700 leading-relaxed mb-2">Telefon: {CONTACT_INFO.phoneDisplay}</p>
-            <p className="text-neutral-700 leading-relaxed">E-Mail: info@yeti-dresden.org</p>
+            <p className="text-neutral-700 leading-relaxed">E-Mail: info@yeti-fellowship.org</p>
           </div>
           <p className="text-neutral-700 leading-relaxed mb-6">
             Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten (z. B. Namen, E-Mail-Adressen o. Ä.) entscheidet.
@@ -399,7 +399,7 @@ export default function DatenschutzPage() {
             <p className="text-neutral-700 leading-relaxed mb-2"><strong>Kontaktadresse:</strong></p>
             <p className="text-neutral-700 leading-relaxed mb-1">Leubnitzer Str. 28</p>
             <p className="text-neutral-700 leading-relaxed mb-3">01069 Dresden</p>
-            <p className="text-neutral-700 leading-relaxed"><strong>E-Mail:</strong> info@yeti-dresden.org</p>
+            <p className="text-neutral-700 leading-relaxed"><strong>E-Mail:</strong> info@yeti-fellowship.org</p>
           </div>
         </div>
       </Section>
