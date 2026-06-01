@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
@@ -175,7 +175,21 @@ function EventCardSkeleton() {
 
 import { trackEvent } from "@/lib/analytics"
 
-function EventCard({ event, index, isPast = false }: { event: Event; index: number; isPast?: boolean }) {
+function EventCard({
+  event,
+  index,
+  isPast = false,
+  isExpanded,
+  onToggle,
+  cardRef,
+}: {
+  event: Event
+  index: number
+  isPast?: boolean
+  isExpanded: boolean
+  onToggle: () => void
+  cardRef?: (el: HTMLElement | null) => void
+}) {
   const hasMapsLink = !!event.googleMapsLink
 
   // Filter links: if isPast, remove 'Register' links
@@ -183,95 +197,135 @@ function EventCard({ event, index, isPast = false }: { event: Event; index: numb
     ? event.links?.filter(l => l.label !== "Register" && l.label !== "Register Now")
     : event.links
 
+  const detailText = event.description || event.excerpt
+
   return (
     <motion.article
-      className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-200 transition-shadow ${isPast ? 'opacity-75 hover:opacity-100' : 'hover:shadow-md'}`}
+      id={`event-${event.slug}`}
+      ref={cardRef}
+      className={`bg-white rounded-2xl overflow-hidden shadow-sm border transition-all scroll-mt-24 ${
+        isExpanded ? 'border-primary shadow-md' : 'border-neutral-200'
+      } ${isPast ? 'opacity-75 hover:opacity-100' : 'hover:shadow-md'}`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+      transition={{ duration: 0.5, delay: index * 0.05, ease: [0.25, 0.4, 0.25, 1] }}
     >
-      {isValidImageUrl(event.image) && (
-        <div className="relative w-full h-32 md:h-36 bg-neutral-200">
-          <Image src={event.image as string} alt={event.title} fill className={`object-cover ${isPast ? 'grayscale' : ''}`} />
-          {isPast && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-              <span className="bg-black/80 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-white/20">
-                Event Finished
+      {/* Collapsed header — always visible, clickable to toggle */}
+      <button
+        type="button"
+        onClick={() => {
+          onToggle()
+          trackEvent('select_content', 'event_list_toggle', event.slug)
+        }}
+        aria-expanded={isExpanded}
+        aria-controls={`event-${event.slug}-details`}
+        className="w-full text-left p-4 md:p-5 flex items-center gap-4 hover:bg-neutral-50/60 transition-colors"
+      >
+        <div className="flex-1 min-w-0 space-y-1.5">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-600">
+            {event.dateFormatted && (
+              <div className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span className="font-medium">{event.dateFormatted}</span>
+              </div>
+            )}
+            {event.location && (
+              <div className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span className="font-medium">{event.location}</span>
+              </div>
+            )}
+            {isPast && (
+              <span className="bg-neutral-200 text-neutral-600 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                Finished
               </span>
-            </div>
-          )}
-        </div>
-      )}
-      <div className="p-4 space-y-2">
-        <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-600">
-          {event.dateFormatted && (
-            <div className="flex items-center gap-1.5">
-              <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="font-medium">{event.dateFormatted}</span>
-            </div>
-          )}
-          {event.location && (
-            <button
-              type="button"
-              disabled={!hasMapsLink}
-              onClick={hasMapsLink ? () => handleMapsClick(event.googleMapsLink!) : undefined}
-              className={`flex items-center gap-1.5 ${hasMapsLink ? "cursor-pointer hover:underline" : "cursor-default"}`}
-            >
-              <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span className="font-medium">{event.location}</span>
-            </button>
-          )}
-        </div>
-        <h2 className="text-xl md:text-2xl font-bold text-black">{event.title}</h2>
-
-        {/* Only show registration details if NOT past */}
-        {!isPast && (event.registrationStartDate || event.registrationEndDate) && (
-          <div className="text-xs text-neutral-600">
-            <span className="font-semibold">Registration:</span>{" "}
-            {event.registrationStartDate && <span>from {event.registrationStartDate}</span>}
-            {event.registrationEndDate && <span> {event.registrationStartDate ? " until " : "until "} {event.registrationEndDate}</span>}
+            )}
           </div>
-        )}
+          <h2 className="text-lg md:text-xl font-bold text-black">{event.title}</h2>
+        </div>
+        <span
+          className={`shrink-0 p-2 rounded-full border transition-all duration-300 ${
+            isExpanded
+              ? 'bg-primary text-white border-primary rotate-180'
+              : 'bg-white text-neutral-400 border-neutral-300'
+          }`}
+          aria-hidden="true"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </button>
 
-        {event.excerpt && <p className="text-sm text-neutral-700 leading-relaxed">{event.excerpt}</p>}
-        {event.sponsoredBy && (
-          <p className="text-xs text-neutral-500">
-            <span className="font-semibold">Sponsored by</span> {event.sponsoredBy}
-          </p>
-        )}
-        <div className="flex flex-wrap gap-2 pt-2">
-          <Link
-            href={`/events/${event.slug}`}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-primary text-white text-sm rounded-full hover:bg-black transition-colors font-medium"
-            onClick={() => trackEvent('select_content', 'event_list', event.slug)}
-          >
-            View details
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
+      {/* Expanded details — animated grid-rows trick (matches Past Events pattern in this file) */}
+      <div
+        id={`event-${event.slug}-details`}
+        className={`grid transition-[grid-template-rows] duration-500 ease-in-out ${
+          isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="border-t border-neutral-200">
+            {isValidImageUrl(event.image) && (
+              <div className="relative w-full h-48 md:h-64 bg-neutral-200">
+                <Image src={event.image as string} alt={event.title} fill className={`object-cover ${isPast ? 'grayscale' : ''}`} />
+              </div>
+            )}
+            <div className="p-4 md:p-6 space-y-3">
+              {!isPast && (event.registrationStartDate || event.registrationEndDate) && (
+                <div className="text-xs text-neutral-600">
+                  <span className="font-semibold">Registration:</span>{" "}
+                  {event.registrationStartDate && <span>from {event.registrationStartDate}</span>}
+                  {event.registrationEndDate && <span> {event.registrationStartDate ? " until " : "until "} {event.registrationEndDate}</span>}
+                </div>
+              )}
 
-          {visibleLinks && visibleLinks.map((link, idx) => (
-            <Link
-              key={idx}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-black text-white text-sm rounded-full hover:bg-primary transition-colors font-medium"
-              onClick={() => trackEvent('click_external_link', 'event_external_link', `${link.label} - ${event.slug}`)}
-            >
-              {link.label}
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          ))}
+              {detailText && <p className="text-sm md:text-base text-neutral-700 leading-relaxed whitespace-pre-line">{detailText}</p>}
+
+              {event.sponsoredBy && (
+                <p className="text-xs text-neutral-500">
+                  <span className="font-semibold">Sponsored by</span> {event.sponsoredBy}
+                </p>
+              )}
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                {hasMapsLink && (
+                  <button
+                    type="button"
+                    onClick={() => handleMapsClick(event.googleMapsLink!)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-neutral-100 text-black text-sm rounded-full hover:bg-neutral-200 transition-colors font-medium"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Open in Maps
+                  </button>
+                )}
+                {visibleLinks && visibleLinks.map((link, idx) => (
+                  <Link
+                    key={idx}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-primary text-white text-sm rounded-full hover:bg-black transition-colors font-medium"
+                    onClick={() => trackEvent('click_external_link', 'event_external_link', `${link.label} - ${event.slug}`)}
+                  >
+                    {link.label}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </motion.article>
@@ -344,8 +398,36 @@ export default function EventsPage() {
   const [showPastEvents, setShowPastEvents] = useState(false)
   const [pastEventsPage, setPastEventsPage] = useState(1)
   const [upcomingEventsPage, setUpcomingEventsPage] = useState(1)
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null)
+  const cardRefs = useRef<Record<string, HTMLElement | null>>({})
   const PAST_EVENTS_PER_PAGE = 3
   const UPCOMING_EVENTS_PER_PAGE = 5
+
+  const expandAndScroll = (slug: string) => {
+    setExpandedSlug(slug)
+    // Wait one frame so the card is in the DOM (and any past-events accordion has time to open)
+    setTimeout(() => {
+      const el = cardRefs.current[slug]
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 80)
+  }
+
+  // Handle deep links like /events#event-some-slug — auto-expand and scroll to that event
+  useEffect(() => {
+    if (loading) return
+    const hash = window.location.hash
+    if (!hash.startsWith('#event-')) return
+    const slug = hash.slice('#event-'.length)
+    if (!slug) return
+    // Make sure the past-events drawer is open if the target is a past event
+    const isPast = sheetEvents.some(e => {
+      if (e.slug !== slug) return false
+      const d = parseFlexibleDate(e.eventDate)
+      return d ? d < new Date(new Date().setHours(0, 0, 0, 0)) : false
+    })
+    if (isPast) setShowPastEvents(true)
+    expandAndScroll(slug)
+  }, [loading, sheetEvents])
 
   // Memoize mapped events to prevent recalculation on every render
   const events = useMemo(() => {
@@ -428,7 +510,19 @@ export default function EventsPage() {
           {/* CALENDAR - Render Always (shows empty grid while loading) */}
           <div className="max-w-5xl mx-auto mb-16">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <EventsCalendar events={events} />
+              <EventsCalendar
+                events={events}
+                onSelectEvent={(slug) => {
+                  // If it's a past event, open the past-events section first
+                  const target = events.find(e => e.slug === slug)
+                  if (target) {
+                    const parsed = parseFlexibleDate(target.date)
+                    if (parsed && parsed < today) setShowPastEvents(true)
+                  }
+                  expandAndScroll(slug)
+                  trackEvent('select_content', 'event_calendar_tooltip', slug)
+                }}
+              />
             </motion.div>
           </div>
 
@@ -451,9 +545,16 @@ export default function EventsPage() {
               <>
                 {upcomingEvents.length > 0 || withoutDate.length > 0 ? (
                   <>
-                    <div className="space-y-8">
+                    <div className="space-y-4">
                       {paginatedUpcomingEvents.map((event, index) => (
-                        <EventCard key={event.slug} event={event} index={index} />
+                        <EventCard
+                          key={event.slug}
+                          event={event}
+                          index={index}
+                          isExpanded={expandedSlug === event.slug}
+                          onToggle={() => setExpandedSlug(expandedSlug === event.slug ? null : event.slug)}
+                          cardRef={(el) => { cardRefs.current[event.slug] = el }}
+                        />
                       ))}
                     </div>
 
@@ -495,9 +596,17 @@ export default function EventsPage() {
 
               <div className={`grid transition-[grid-template-rows] duration-500 ease-in-out ${showPastEvents ? 'grid-rows-[1fr] mt-8' : 'grid-rows-[0fr]'}`}>
                 <div className="overflow-hidden">
-                  <div className="space-y-8">
+                  <div className="space-y-4">
                     {paginatedPastEvents.map((event, index) => (
-                      <EventCard key={event.slug} event={event} index={index} isPast={true} />
+                      <EventCard
+                        key={event.slug}
+                        event={event}
+                        index={index}
+                        isPast={true}
+                        isExpanded={expandedSlug === event.slug}
+                        onToggle={() => setExpandedSlug(expandedSlug === event.slug ? null : event.slug)}
+                        cardRef={(el) => { cardRefs.current[event.slug] = el }}
+                      />
                     ))}
                   </div>
 

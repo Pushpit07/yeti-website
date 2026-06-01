@@ -53,7 +53,13 @@ function parseDate(input?: string): Date | null {
     return null
 }
 
-export function EventsCalendar({ events }: { events: CalendarEvent[] }) {
+export function EventsCalendar({
+    events,
+    onSelectEvent,
+}: {
+    events: CalendarEvent[]
+    onSelectEvent?: (slug: string) => void
+}) {
     const [currentDate, setCurrentDate] = useState(new Date())
 
     // Normalize events
@@ -214,34 +220,53 @@ export function EventsCalendar({ events }: { events: CalendarEvent[] }) {
                                             <div className="hidden lg:block absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-t border-l border-neutral-100"></div>
 
                                             <div className="relative space-y-1 max-h-[240px] overflow-y-auto custom-scrollbar">
-                                                {dayEvents.map((evt) => (
-                                                    <Link
-                                                        key={evt.slug}
-                                                        href={`/events/${evt.slug}`}
-                                                        className="block p-3 rounded-lg hover:bg-neutral-50 transition-colors group/link"
-                                                    >
-                                                        <h3 className="font-bold text-sm text-black group-hover/link:text-primary transition-colors leading-tight mb-1.5">
-                                                            {evt.title}
-                                                        </h3>
+                                                {dayEvents.map((evt) => {
+                                                    const content = (
+                                                        <>
+                                                            <h3 className="font-bold text-sm text-black group-hover/link:text-primary transition-colors leading-tight mb-1.5">
+                                                                {evt.title}
+                                                            </h3>
 
-                                                        <div className="space-y-1.5">
-                                                            {/* Location */}
-                                                            {evt.location && (
-                                                                <div className="flex items-center gap-1.5 text-xs text-neutral-500">
-                                                                    <svg className="w-3.5 h-3.5 flex-shrink-0 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                                                    <span className="truncate">{evt.location}</span>
-                                                                </div>
-                                                            )}
+                                                            <div className="space-y-1.5">
+                                                                {/* Location */}
+                                                                {evt.location && (
+                                                                    <div className="flex items-center gap-1.5 text-xs text-neutral-500">
+                                                                        <svg className="w-3.5 h-3.5 flex-shrink-0 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                                                        <span className="truncate">{evt.location}</span>
+                                                                    </div>
+                                                                )}
 
-                                                            {/* Dates */}
-                                                            {(evt.registrationStartDate || evt.registrationEndDate) && (
-                                                                <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-neutral-100 text-neutral-500 uppercase tracking-wide">
-                                                                    Reg: {evt.registrationStartDate || 'Now'}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </Link>
-                                                ))}
+                                                                {/* Dates */}
+                                                                {(evt.registrationStartDate || evt.registrationEndDate) && (
+                                                                    <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-neutral-100 text-neutral-500 uppercase tracking-wide">
+                                                                        Reg: {evt.registrationStartDate || 'Now'}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </>
+                                                    )
+
+                                                    // If parent provided an inline-expand handler, use a button.
+                                                    // Otherwise fall back to an anchor link to the in-page event (no separate page).
+                                                    return onSelectEvent ? (
+                                                        <button
+                                                            key={evt.slug}
+                                                            type="button"
+                                                            onClick={() => onSelectEvent(evt.slug)}
+                                                            className="block w-full text-left p-3 rounded-lg hover:bg-neutral-50 transition-colors group/link"
+                                                        >
+                                                            {content}
+                                                        </button>
+                                                    ) : (
+                                                        <Link
+                                                            key={evt.slug}
+                                                            href={`#event-${evt.slug}`}
+                                                            className="block p-3 rounded-lg hover:bg-neutral-50 transition-colors group/link"
+                                                        >
+                                                            {content}
+                                                        </Link>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     )}
