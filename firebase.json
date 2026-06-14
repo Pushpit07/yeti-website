@@ -23,6 +23,11 @@
         "source": "/yeti-leipzig",
         "destination": "/leipzig",
         "type": 301
+      },
+      {
+        "source": "/application-leipzig",
+        "destination": "/application/leipzig",
+        "type": 301
       }
     ]
   }
