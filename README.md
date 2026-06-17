@@ -214,15 +214,19 @@ This generates a static export in the `out/` folder. The site is fully static (n
 
 ### Option 1: Firebase Hosting (current setup)
 
-```bash
-# Install Firebase CLI if you don't have it
-npm install -g firebase-tools
+> **Important:** `firebase deploy` does **not** trigger a build. You must run `npm run build` first, otherwise Firebase fails with `Directory 'out' for Hosting does not exist.`
 
-# Login to Firebase
+```bash
+# One-time setup
+npm install -g firebase-tools
 firebase login
 
-# Deploy
+# Every deploy -- build first, then deploy
+npm run build
 firebase deploy
+
+# Or chained
+npm run build && firebase deploy
 ```
 
 This deploys the `out/` folder to Firebase Hosting. Redirect rules are configured in `firebase.json`.
