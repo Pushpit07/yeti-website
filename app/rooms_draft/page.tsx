@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import Image from "next/image"
 import { getCalApi } from "@calcom/embed-react"
 
 type BookingOption = {
@@ -27,7 +28,11 @@ const rooms: Room[] = [
     description:
       "The Board Meeting Room at Villa Möckel is ideal for meetings, workshops, strategy sessions, and creative brainstorming sessions for up to 20 people.",
     features: ["Meetings", "Workshops", "Strategy sessions", "Brainstorming"],
-    images: ["/images/rooms/board-room-1.jpg", "/images/rooms/board-room-2.jpg"],
+    images: [
+      "/images/rooms/board-room-1.jpg",
+      "/images/rooms/board-room-2.jpg",
+      "/images/rooms/board-room-3.jpg",
+    ],
     options: [
       {
         label: "Book 4 Hours",
@@ -48,7 +53,13 @@ const rooms: Room[] = [
     description:
       "The Main Hall at Villa Möckel is ideal for keynotes, pitches, panel discussions, off-site meetings, and larger team events for up to 40 people. The Board Meeting Room from Offer 1 is also included.",
     features: ["Keynotes", "Pitches", "Panel discussions", "Team events"],
-    images: ["/images/rooms/main-hall-1.jpg", "/images/rooms/main-hall-2.jpg"],
+    images: [
+      "/images/rooms/main-hall-1.jpg",
+      "/images/rooms/main-hall-2.jpg",
+      "/images/rooms/main-hall-3.jpg",
+      "/images/rooms/main-hall-4.jpg",
+      "/images/rooms/main-hall-5.jpg",
+    ],
     options: [
       {
         label: "Book 4 Hours",
@@ -72,7 +83,11 @@ const addOns: Room[] = [
     description:
       "Additional meeting rooms can be booked in conjunction with Offer 1 or Offer 2. They are suitable for breakout sessions, small groups, parallel sessions, or confidential discussions.",
     features: ["Breakout sessions", "Small groups", "Parallel sessions", "Confidential discussions"],
-    images: ["/images/rooms/extra-rooms-1.jpg", "/images/rooms/extra-rooms-2.jpg"],
+    images: [
+      "/images/rooms/extra-room-1.jpg",
+      "/images/rooms/extra-room-2.jpg",
+      "/images/rooms/extra-room-3.jpg",
+    ],
     options: [
       {
         label: "Book 4 Hours",
@@ -93,7 +108,7 @@ const addOns: Room[] = [
     description:
       "The BBQ Add-On can be booked in addition to Offer 1 or Offer 2 and is ideal as a closing activity or break during off-site meetings, workshops, and team events.",
     features: ["Closing activity", "Off-sites", "Workshops", "Team events"],
-    images: ["/images/rooms/bbq-1.jpg", "/images/rooms/bbq-2.jpg"],
+    images: [],
     options: [
       {
         label: "Book 4 Hours",
@@ -115,49 +130,72 @@ const CAL_ORIGIN = "https://app.cal.eu"
 function RoomArticle({ room, reverse }: { room: Room; reverse: boolean }) {
   return (
     <article
-      className={`grid md:grid-cols-2 gap-10 md:gap-14 items-center ${
+      className={`grid md:grid-cols-2 gap-6 md:gap-10 items-center ${
         reverse ? "md:[&>*:first-child]:order-2" : ""
       }`}
     >
       {/* Image gallery */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2 aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-900 flex items-center justify-center text-neutral-600">
-          <span className="text-sm">Image: {room.images[0]}</span>
-        </div>
-        <div className="aspect-square rounded-xl overflow-hidden border border-white/10 bg-neutral-900 flex items-center justify-center text-neutral-600">
-          <span className="text-xs">Image: {room.images[1]}</span>
-        </div>
-        <div className="aspect-square rounded-xl overflow-hidden border border-white/10 bg-neutral-900 flex items-center justify-center text-neutral-600">
-          <span className="text-xs">+ more</span>
-        </div>
+        {room.images.length === 0 ? (
+          <div className="col-span-2 aspect-[4/3] rounded-2xl overflow-hidden border border-dashed border-white/15 bg-neutral-900 flex items-center justify-center text-neutral-500">
+            <span className="text-sm">Images coming soon</span>
+          </div>
+        ) : (
+          <>
+            <div className="col-span-2 relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-900">
+              <Image
+                src={room.images[0]}
+                alt={`${room.title} — main`}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+                priority={false}
+              />
+            </div>
+            {room.images.slice(1).map((src, i) => (
+              <div
+                key={src}
+                className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-neutral-900"
+              >
+                <Image
+                  src={src}
+                  alt={`${room.title} — ${i + 2}`}
+                  fill
+                  sizes="(min-width: 768px) 25vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       {/* Info + booking */}
       <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-5">
-          <span className="text-xs font-bold tracking-widest text-primary uppercase">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 mb-3">
+          <span className="text-[11px] font-bold tracking-widest text-primary uppercase">
             {room.capacity}
           </span>
         </div>
 
-        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">{room.title}</h2>
+        <h2 className="text-2xl md:text-4xl font-bold mb-3 tracking-tight">{room.title}</h2>
 
-        <p className="text-base md:text-lg text-neutral-400 leading-relaxed mb-6">
+        <p className="text-sm md:text-base text-neutral-400 leading-relaxed mb-4">
           {room.description}
         </p>
 
-        <ul className="flex flex-wrap gap-2 mb-8">
+        <ul className="flex flex-wrap gap-1.5 mb-5">
           {room.features.map((f) => (
             <li
               key={f}
-              className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-neutral-300"
+              className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-neutral-300"
             >
               {f}
             </li>
           ))}
         </ul>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2.5">
           {room.options.map((opt, i) => (
             <button
               key={opt.namespace}
@@ -165,7 +203,7 @@ function RoomArticle({ room, reverse }: { room: Room; reverse: boolean }) {
               data-cal-link={opt.calLink}
               data-cal-origin={CAL_ORIGIN}
               data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
-              className={`inline-flex items-center gap-3 px-6 py-3 rounded-full font-bold transition-all duration-300 hover:gap-5 ${
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 hover:gap-4 ${
                 i === 0
                   ? "bg-primary text-black hover:bg-primary/90"
                   : "bg-white/5 text-white border border-white/15 hover:bg-white/10"
@@ -210,24 +248,24 @@ export default function RoomsDraftPage() {
   return (
     <div className="font-sans bg-black text-white">
       {/* Hero */}
-      <section className="relative min-h-[60vh] flex flex-col justify-center overflow-hidden">
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-neutral-900 to-black" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full" />
+        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-primary/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full" />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 py-24 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/10 backdrop-blur-md mb-8">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-10 md:pt-20 md:pb-14 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md mb-5">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-xs font-bold tracking-widest text-white uppercase">
               Villa Möckel
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
             Book a <span className="text-primary">Room</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-neutral-300 max-w-2xl mx-auto leading-relaxed">
             Pick a space, pick a slot — host meetings, workshops, off-sites, and large team
             events at our headquarter.
           </p>
@@ -235,16 +273,16 @@ export default function RoomsDraftPage() {
       </section>
 
       {/* Rooms */}
-      <section className="py-16 md:py-24 relative">
+      <section className="pt-8 pb-12 md:pt-12 md:pb-16 relative">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-14 md:mb-20">
+          <div className="mb-8 md:mb-12">
             <span className="text-xs font-bold tracking-widest text-primary uppercase">
               Offers
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold mt-2 tracking-tight">Main Rooms</h2>
+            <h2 className="text-2xl md:text-4xl font-bold mt-1 tracking-tight">Main Rooms</h2>
           </div>
 
-          <div className="space-y-20 md:space-y-28">
+          <div className="space-y-12 md:space-y-16">
             {rooms.map((room, idx) => (
               <RoomArticle key={room.id} room={room} reverse={idx % 2 === 1} />
             ))}
@@ -253,21 +291,21 @@ export default function RoomsDraftPage() {
       </section>
 
       {/* Add-ons */}
-      <section className="py-16 md:py-24 relative border-t border-white/10">
+      <section className="py-12 md:py-16 relative border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-14 md:mb-20">
+          <div className="mb-8 md:mb-12">
             <span className="text-xs font-bold tracking-widest text-primary uppercase">
               Add-ons
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold mt-2 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-bold mt-1 tracking-tight">
               Extend your booking
             </h2>
-            <p className="text-base md:text-lg text-neutral-400 leading-relaxed mt-4 max-w-2xl">
+            <p className="text-sm md:text-base text-neutral-400 leading-relaxed mt-2 max-w-2xl">
               Combine with Offer 1 or Offer 2 — extra breakout rooms and BBQ catering.
             </p>
           </div>
 
-          <div className="space-y-20 md:space-y-28">
+          <div className="space-y-12 md:space-y-16">
             {addOns.map((room, idx) => (
               <RoomArticle key={room.id} room={room} reverse={idx % 2 === 1} />
             ))}
