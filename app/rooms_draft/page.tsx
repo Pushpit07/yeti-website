@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { getCalApi } from "@calcom/embed-react"
 
@@ -15,6 +15,7 @@ type Room = {
   title: string
   capacity: string
   description: string
+  longDescription?: string
   features: string[]
   images: string[]
   options: BookingOption[]
@@ -27,6 +28,19 @@ const rooms: Room[] = [
     capacity: "Up to 20 people",
     description:
       "The Board Meeting Room at Villa Möckel is ideal for meetings, workshops, strategy sessions, and creative brainstorming sessions for up to 20 people.",
+    longDescription: `The price is €120.00 net for bookings under 4.5 hours and €200.00 net for bookings of 4.5 hours or more, plus 19% VAT in each case.
+
+INCLUDED
+- Board meeting room for up to 20 people
+- Projector
+- High-speed Wi-Fi
+- Creative materials such as flip charts, Post-its, and markers
+- Coffee, cocoa, tea, and filtered and sparkling water
+- Use of the fully equipped kitchen
+- Access to the garden and terrace for breaks and informal conversations
+
+ADDRESS AND USEFUL INFORMATION
+Leubnitzer Str. 28, 01069 Dresden. The villa is located about a 7-minute walk from Dresden Central Station. Catering and self-catering are available. Special rates for industry partners are available upon request.`,
     features: ["Meetings", "Workshops", "Strategy sessions", "Brainstorming"],
     images: [
       "/images/rooms/board-room-1.jpg",
@@ -52,6 +66,20 @@ const rooms: Room[] = [
     capacity: "Up to 40 people",
     description:
       "The Main Hall at Villa Möckel is ideal for keynotes, pitches, panel discussions, off-site meetings, and larger team events for up to 40 people. The Board Meeting Room from Offer 1 is also included.",
+    longDescription: `The price is €360.00 (net) for bookings under 5 hours and €700.00 (net) for bookings of 5 hours or more, plus 19% VAT in each case.
+
+INCLUDED
+- Main Hall for up to 40 people
+- Board Meeting Room for up to 20 people
+- Projector or large screen
+- High-speed Wi-Fi
+- Creative materials such as flip charts, Post-its, and markers
+- Coffee, cocoa, tea, and filtered and sparkling water
+- Use of the fully equipped kitchen
+- Access to the garden and terrace for breaks and informal conversations
+
+ADDRESS AND USEFUL INFORMATION
+Leubnitzer Str. 28, 01069 Dresden. The villa is located about a 7-minute walk from Dresden Central Station. Catering and self-catering are available. Special rates for industry partners are available upon request.`,
     features: ["Keynotes", "Pitches", "Panel discussions", "Team events"],
     images: [
       "/images/rooms/main-hall-1.jpg",
@@ -82,6 +110,12 @@ const addOns: Room[] = [
     capacity: "Bookable with Offer 1 or Offer 2",
     description:
       "Additional meeting rooms can be booked in conjunction with Offer 1 or Offer 2. They are suitable for breakout sessions, small groups, parallel sessions, or confidential discussions.",
+    longDescription: `The price (per additional room) is €80.00 net for bookings under 4.5 hours and €140.00 net for bookings of 4.5 hours or more, plus 19% VAT in each case.
+
+INCLUDED
+- Additional meeting rooms for breakout sessions and small groups
+
+Use only in conjunction with Offer 1 or Offer 2.`,
     features: ["Breakout sessions", "Small groups", "Parallel sessions", "Confidential discussions"],
     images: [
       "/images/rooms/extra-room-1.jpg",
@@ -107,6 +141,13 @@ const addOns: Room[] = [
     capacity: "Bookable with Offer 1 or Offer 2",
     description:
       "The BBQ Add-On can be booked in addition to Offer 1 or Offer 2 and is ideal as a closing activity or break during off-site meetings, workshops, and team events.",
+    longDescription: `The price is €50.00 net, plus 19% VAT. For the BBQ Add-On, there is no separate price listed for bookings under 5 hours or 5 hours or more.
+
+INCLUDED
+- Gas grill
+- Terrace
+
+Use only in conjunction with Offer 1 or Offer 2.`,
     features: ["Closing activity", "Off-sites", "Workshops", "Team events"],
     images: [],
     options: [
@@ -128,6 +169,9 @@ const CAL_EMBED_JS_URL = "https://app.cal.eu/embed/embed.js"
 const CAL_ORIGIN = "https://app.cal.eu"
 
 function RoomArticle({ room, reverse }: { room: Room; reverse: boolean }) {
+  const [expanded, setExpanded] = useState(false)
+  const hasMore = Boolean(room.longDescription && room.longDescription.trim().length > 0)
+
   return (
     <article
       className={`grid md:grid-cols-2 gap-6 md:gap-10 items-center ${
@@ -180,11 +224,28 @@ function RoomArticle({ room, reverse }: { room: Room; reverse: boolean }) {
 
         <h2 className="text-2xl md:text-4xl font-bold mb-3 tracking-tight">{room.title}</h2>
 
-        <p className="text-sm md:text-base text-neutral-400 leading-relaxed mb-4">
+        <p className="text-sm md:text-base text-neutral-400 leading-relaxed mb-2">
           {room.description}
         </p>
 
-        <ul className="flex flex-wrap gap-1.5 mb-5">
+        {hasMore && expanded && (
+          <p className="text-sm md:text-base text-neutral-400 leading-relaxed mb-2 whitespace-pre-line">
+            {room.longDescription}
+          </p>
+        )}
+
+        {hasMore && (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="text-xs font-bold tracking-widest text-primary uppercase hover:underline mb-4"
+            aria-expanded={expanded}
+          >
+            {expanded ? "Read less" : "Read more"}
+          </button>
+        )}
+
+        <ul className="flex flex-wrap gap-1.5 mb-5 mt-2">
           {room.features.map((f) => (
             <li
               key={f}
