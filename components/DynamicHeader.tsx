@@ -49,7 +49,10 @@ export function DynamicHeader() {
               { label: "Our Speakers", href: "/contributors/fireside-chats" }
             ]
           },
+
+          { label: "Book a room", href: "/rooms" },
           { label: "Events", href: "/events" }
+
         ],
         footer: [
           { label: "Legal Notice", href: "/legal-notice" },
