@@ -1,0 +1,1 @@
+Don't run npm run build after every change you make. It takes a lot of time.
